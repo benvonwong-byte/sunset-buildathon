@@ -325,10 +325,11 @@ export function parseIcs(text, { from, to }) {
         endMs: durationMs != null && durationMs > 0 ? s + durationMs : null,
         allDay: start.allDay,
         url,
-        location: props.LOCATION ? unescapeText(props.LOCATION.value).replace(/\n/g, ", ") : null,
+        location: props.LOCATION ? stripHtml(unescapeText(props.LOCATION.value)).replace(/\n+/g, ", ").replace(/^-\s*|\s+-\s*$/g, "").trim() || null : null,
         description,
         lat,
         lng,
+        organizer: props.ORGANIZER?.params?.CN ? unescapeText(props.ORGANIZER.params.CN) : null,
       });
     }
   }

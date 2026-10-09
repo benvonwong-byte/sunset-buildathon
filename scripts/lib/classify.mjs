@@ -3,8 +3,9 @@
 // Events from an org's own feed take the org's first domain instead.
 
 const RULES = {
+  // Activities only: a yoga class on the dunes is yoga, not dune work.
   "ocean-parks": [
-    "beach", "ocean", "dune", "dunes", "cleanup", "clean-up", "clean up", "habitat", "restoration",
+    "cleanup", "clean-up", "clean up", "beach cleanup", "habitat", "restoration", "revegetation",
     "native plant", "tree planting", "plant trees", "stewardship", "birding", "bird walk", "nature walk",
     "naturalist", "tide pool", "wildlife", "park volunteer", "volunteer day", "trail", "whale",
   ],

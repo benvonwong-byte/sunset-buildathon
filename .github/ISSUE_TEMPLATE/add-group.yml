@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks. We read calendars, not posters, so the most useful thing is a link to wherever the group keeps its events: a public Google Calendar, Luma, Meetup, Eventbrite, a Squarespace or WordPress events page, or any `.ics` feed. If the group only posts on Instagram or flyers, say so; helping set up a free calendar is a buildathon task.
+        Thanks. The calendar fills itself from feeds, so the most useful thing is a link to wherever the group keeps its events: a public Google Calendar, Luma, Meetup, Eventbrite, a Squarespace or WordPress events page, or any `.ics` feed. If the group only posts on Instagram or flyers, say so; helping set up a free calendar is a buildathon task.
   - type: input
     id: name
     attributes:

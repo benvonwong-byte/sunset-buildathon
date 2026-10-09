@@ -7,8 +7,9 @@
 //      Meetup, Squarespace, WordPress, JSON-LD...). A feed's `scope` says
 //      how to treat locations: "local" keeps events unless they are clearly
 //      elsewhere, "filter" keeps only events with positive Sunset evidence.
-//      Optional: `skip` (regex of titles to drop) and `maxPerDay` (for
-//      calendars that list every daily session).
+//      Optional: `skip` (regex of titles to drop), `only` (regex of titles
+//      to keep, for school calendars full of drills and minimum days) and
+//      `maxPerDay` (for calendars that list every daily session).
 //   2. Aggregators (scripts/lib/aggregators.mjs): Luma, Eventbrite, Meetup,
 //      the public library and others, filtered to the district box.
 //
@@ -19,9 +20,9 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
-import { get, sleep } from "./lib/http.mjs";
+import { get, sleep, UA } from "./lib/http.mjs";
 import { parseByFormat } from "./lib/parsers.mjs";
-import { inBox, hoodFor, sunsetByText } from "./lib/geo.mjs";
+import { inDistrict, hoodFor, sunsetByText } from "./lib/geo.mjs";
 import { classify } from "./lib/classify.mjs";
 import { openGeocoder } from "./lib/geocode.mjs";
 import { toPacificIso, pacificDayKey, parseLooseDate, partsIn } from "./lib/time.mjs";
@@ -37,7 +38,7 @@ const TOTAL_CAP = 3000;
 const GEOCODE_BUDGET = Number(process.env.GEOCODE_BUDGET ?? 150);
 
 // Which copy wins when two sources list the same event.
-const PRIORITY = { org: 0, sfpl: 1, recpark: 2, luma: 3, eventbrite: 4, meetup: 5, funcheap: 6 };
+const PRIORITY = { org: 0, sfpl: 1, sfgov: 1, feed: 2, recpark: 2, luma: 3, eventbrite: 4, meetup: 5, dothebay: 6, funcheap: 7 };
 const SOURCE_LABELS = {
   org: "Group calendar",
   sfpl: "SF Public Library",
@@ -46,6 +47,8 @@ const SOURCE_LABELS = {
   eventbrite: "Eventbrite",
   meetup: "Meetup",
   funcheap: "Funcheap",
+  dothebay: "DoTheBay",
+  sfgov: "SF.gov",
 };
 
 const now = Date.now();
@@ -54,9 +57,14 @@ const to = now + HORIZON_DAYS * 86400 * 1000;
 const geo = openGeocoder(join(ROOT, "data", "geocache.json"));
 
 const ONLINE_RE = /^(online|virtual|zoom|google meet|livestream|webinar)\b|zoom\.us|meet\.google/i;
+// Electoral campaign work stays off a neighborhood calendar whichever side
+// it is on. Candidate forums and voter registration stay.
+const CAMPAIGN_RE =
+  /\b(canvass?(ing)? (in|for|with|on)|canvass(ing)?|phone ?bank(ing)?|text ?bank(ing)?|door ?knock(ing)?|lit(erature)? drop|get out the vote|gotv|day of action)\b|\b(yes|no) on (prop(osition)? ?)?[a-z0-9]{1,2}\b|\b(yes|no) on (prop(osition)?|measure)\b/i;
 const norm = (s) =>
   String(s ?? "")
     .toLowerCase()
+    .replace(/\(.*?\)/g, " ")
     .normalize("NFKD")
     .replace(/[^a-z0-9 ]+/g, " ")
     .replace(/\b(the|a|an|and|of|at|in|sf|san francisco)\b/g, " ")
@@ -68,7 +76,11 @@ function matchOrg(...names) {
   for (const n of names) {
     const k = norm(n);
     if (k.length < 5) continue;
-    const hit = ORG_INDEX.find((x) => x.key === k) ?? ORG_INDEX.find((x) => k.includes(x.key) || (k.length > 8 && x.key.includes(k)));
+    // Exact name, or text that contains a group's whole name. Never the
+    // reverse: "Golden Gate Park" is not the Golden Gate Park Band.
+    const hit =
+      ORG_INDEX.find((x) => x.key === k) ??
+      ORG_INDEX.filter((x) => ` ${k} `.includes(` ${x.key} `)).sort((a, b) => b.key.length - a.key.length)[0];
     if (hit) return hit.org;
   }
   return null;
@@ -98,137 +110,229 @@ async function placeOrgInstance(inst, org, scope) {
     if (g) ({ lat, lng } = g);
     else if (textSays === true) return { keep: true, lat: org.lat ?? null, lng: org.lng ?? null, approx: true };
   }
-  if (Number.isFinite(lat)) return { keep: inBox(lat, lng), lat, lng };
+  if (Number.isFinite(lat)) return { keep: inDistrict(lat, lng), lat, lng };
   if (!location && scope === "local") return { keep: true, lat: org.lat ?? null, lng: org.lng ?? null, approx: true };
   return { keep: scope === "local" && sunsetByText(location) !== false, lat: org.lat ?? null, lng: org.lng ?? null, approx: true };
 }
 
 function venueFrom(location, fallback) {
   if (!location) return fallback ?? null;
-  const first = location.split(",")[0].trim();
+  const first = location.split(/,(?![^(]*\))/)[0].trim();
   return /^\d/.test(first) ? fallback ?? first : first;
 }
 
 const sources = [];
 const all = [];
 
-// --- 1. Org feeds --------------------------------------------------------
-for (const org of ORGS) {
-  for (const feed of org.feeds ?? []) {
-    if (feed.disabled) continue;
-    const scope = feed.scope ?? (inBox(org.lat, org.lng) ? "local" : "filter");
-    const label = `${org.name} (${feed.format})`;
-    try {
-      const text = await get(feed.url);
-      const instances = parseByFormat(feed.format, text, feed, { from, to });
-      const skip = feed.skip ? new RegExp(feed.skip, "i") : null;
-      const perDay = {};
-      let kept = 0;
-      instances.sort((a, b) => a.startMs - b.startMs);
-      for (const inst of instances) {
-        if (!inst.title || !Number.isFinite(inst.startMs)) continue;
-        if (inst.startMs < from || inst.startMs > to) continue;
-        if (skip && skip.test(inst.title)) continue;
-        const dk = pacificDayKey(inst.startMs);
-        if ((perDay[dk] = (perDay[dk] ?? 0) + 1) > (feed.maxPerDay ?? Infinity)) continue;
-        const place = await placeOrgInstance(inst, org, scope);
-        if (!place.keep) continue;
-        kept++;
-        all.push({
-          id: idFor("org", org.id, inst.uid ?? inst.url ?? inst.title, inst.startMs),
-          title: inst.title.trim(),
-          startMs: inst.startMs,
-          endMs: inst.endMs ?? null,
-          allDay: !!inst.allDay,
-          url: inst.url || org.eventsPage || org.url,
-          venue: place.online ? "Online" : venueFrom(inst.location, org.name),
-          address: place.online ? null : inst.location ?? org.address ?? null,
-          lat: place.lat ?? null,
-          lng: place.lng ?? null,
-          approxLocation: place.approx || undefined,
-          online: place.online || undefined,
-          org: org.name,
-          orgId: org.id,
-          source: "org",
-          sourceLabel: `${org.name} calendar`,
-          domain: pickDomain(org, inst.title, inst.description),
-          description: inst.description ?? null,
-          image: inst.image ?? null,
-        });
-      }
-      sources.push({ id: `${org.id}:${feed.format}`, label, kind: "org", ok: true, count: kept });
-      console.log(`fetch-events: ${label}: ${kept} in window and in the Sunset (${instances.length} parsed)`);
-    } catch (err) {
-      sources.push({ id: `${org.id}:${feed.format}`, label, kind: "org", ok: false, count: 0, error: String(err.message ?? err) });
-      console.warn(`fetch-events: ${label} failed (${err.message ?? err})`);
+// --- 1. Group feeds and citywide feeds -----------------------------------
+// data/feeds.json lists citywide calendars (Rec & Park, cleanup crews,
+// nature roundups) that are not groups in the directory. They always run
+// with scope "filter", and an event is credited to a directory group when
+// its organizer or venue matches one.
+const CITYWIDE = existsSync(join(ROOT, "data", "feeds.json"))
+  ? JSON.parse(readFileSync(join(ROOT, "data", "feeds.json"), "utf8"))
+  : [];
+const jobs = [
+  ...ORGS.flatMap((org) => (org.feeds ?? []).filter((f) => !f.disabled).map((feed) => ({ org, feed }))),
+  ...CITYWIDE.filter((f) => !f.disabled).map((feed) => ({ org: null, feed: { ...feed, scope: "filter" } })),
+];
+
+// Fetch and parse one feed. Most are one GET; a few need more:
+//   tribe (WordPress REST)  follows next_rest_url until past the horizon
+//   mobilize                 follows `next`, 100 events a page
+//   mahina                   is a POST
+//   any format with `follow` crawls the links on the page that match the
+//                            regex (Cal Academy's NightLife pages) and
+//                            parses each one
+const JSON_FORMATS = new Set(["squarespace", "tribe", "mobilize", "fullcalendar", "mahina"]);
+async function readFeed(feed, window) {
+  const accept = JSON_FORMATS.has(feed.format) ? "application/json" : "*/*";
+  if (feed.format === "tribe" && /wp-json\/tribe/.test(feed.url)) {
+    const url = new URL(feed.url);
+    if (!url.searchParams.has("per_page")) url.searchParams.set("per_page", "50");
+    if (!url.searchParams.has("start_date")) url.searchParams.set("start_date", new Date(from).toISOString().slice(0, 10));
+    const events = [];
+    let next = url.href;
+    for (let page = 0; next && page < 20; page++) {
+      const data = JSON.parse(await get(next, { accept }));
+      events.push(...(data.events ?? []));
+      const last = data.events?.at(-1);
+      if (!last || Date.parse(last.utc_start_date?.replace(" ", "T") + "Z") > to) break;
+      next = data.next_rest_url ?? null;
+      await sleep(200);
     }
-    await sleep(150);
+    return parseByFormat("tribe", JSON.stringify({ events }), feed, window);
   }
+  if (feed.format === "mobilize") {
+    const url = new URL(feed.url);
+    url.searchParams.set("per_page", "100");
+    if (!url.searchParams.has("timeslot_start")) url.searchParams.set("timeslot_start", "gte_now");
+    const data = [];
+    let next = url.href;
+    for (let page = 0; next && page < 10; page++) {
+      const body = JSON.parse(await get(next, { accept }));
+      data.push(...(body.data ?? []));
+      next = body.next ?? null;
+      await sleep(200);
+    }
+    return parseByFormat("mobilize", JSON.stringify({ data }), feed, window);
+  }
+  if (feed.format === "mahina") {
+    const res = await fetch(feed.url, {
+      method: "POST",
+      headers: { "User-Agent": UA, "Content-Type": "application/json", Accept: accept },
+      body: "{}",
+      signal: AbortSignal.timeout(25000),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return parseByFormat("mahina", await res.text(), feed, window);
+  }
+  const text = await get(feed.url, { accept });
+  if (!feed.follow) return parseByFormat(feed.format, text, feed, window);
+  const re = new RegExp(feed.follow);
+  const links = [...new Set([...text.matchAll(/href="([^"#]+)"/g)].map((m) => new URL(m[1], feed.url).href))]
+    .filter((u) => re.test(u))
+    .slice(0, 15);
+  const out = [];
+  for (const link of links) {
+    try {
+      out.push(...parseByFormat(feed.format, await get(link), { ...feed, url: link }, window));
+    } catch (err) {
+      console.warn(`fetch-events: ${link} failed (${err.message})`);
+    }
+    await sleep(300);
+  }
+  return out;
+}
+
+for (const { org, feed } of jobs) {
+  const scope = feed.scope ?? (inDistrict(org?.lat, org?.lng) ? "local" : "filter");
+  const name = org?.name ?? feed.name;
+  const label = `${name} (${feed.format})`;
+  const sourceId = org ? `${org.id}:${feed.format}` : `feed:${feed.id ?? feed.name}`;
+  try {
+    const instances = await readFeed(feed, { from, to });
+    const skip = feed.skip ? new RegExp(feed.skip, "i") : null;
+    const only = feed.only ? new RegExp(feed.only, "i") : null;
+    const perDay = {};
+    let kept = 0;
+    instances.sort((a, b) => a.startMs - b.startMs);
+    for (const inst of instances) {
+      if (!inst.title || !Number.isFinite(inst.startMs)) continue;
+      if (inst.startMs < from || inst.startMs > to) continue;
+      if ((skip && skip.test(inst.title)) || CAMPAIGN_RE.test(inst.title)) continue;
+      if (only && !only.test(inst.title)) continue;
+      const dk = pacificDayKey(inst.startMs);
+      if ((perDay[dk] = (perDay[dk] ?? 0) + 1) > (feed.maxPerDay ?? Infinity)) continue;
+      const place = await placeOrgInstance(inst, org ?? {}, scope);
+      if (!place.keep) continue;
+      const host = org ?? matchOrg(inst.organizer, venueFrom(inst.location, null));
+      kept++;
+      all.push({
+        id: idFor(org ? "org" : "feed", org?.id ?? feed.name, inst.uid ?? inst.url ?? inst.title, inst.startMs),
+        title: inst.title.trim(),
+        startMs: inst.startMs,
+        endMs: inst.endMs ?? null,
+        allDay: !!inst.allDay,
+        url: inst.url || org?.eventsPage || org?.url || feed.page || feed.url,
+        venue: place.online ? "Online" : venueFrom(inst.location, org?.name),
+        address: place.online ? null : inst.location ?? org?.address ?? null,
+        lat: place.lat ?? null,
+        lng: place.lng ?? null,
+        approxLocation: place.approx || undefined,
+        online: place.online || undefined,
+        org: host?.name ?? inst.organizer ?? null,
+        orgId: host?.id ?? null,
+        source: org ? "org" : "feed",
+        sourceLabel: `${name} calendar`,
+        domain: feed.domain ?? pickDomain(host, inst.title, inst.description),
+        description: inst.description ?? null,
+        image: inst.image ?? null,
+      });
+    }
+    sources.push({ id: sourceId, label, kind: org ? "org" : "feed", ok: true, count: kept });
+    console.log(`fetch-events: ${label}: ${kept} in window and in the Sunset (${instances.length} parsed)`);
+  } catch (err) {
+    sources.push({ id: sourceId, label, kind: org ? "org" : "feed", ok: false, count: 0, error: String(err.message ?? err) });
+    console.warn(`fetch-events: ${label} failed (${err.message ?? err})`);
+  }
+  await sleep(150);
 }
 
 // --- 2. Aggregators ------------------------------------------------------
-let aggregators = {};
+// Each source runs in parallel and never throws; see scripts/lib/aggregators.mjs
+// and docs/aggregators.md for the endpoints.
+let bySource = {};
 try {
-  aggregators = await import("./lib/aggregators.mjs");
+  const { fetchAll, DEFAULT_SOURCES } = await import("./lib/aggregators.mjs");
+  const only = process.env.SOURCES ? process.env.SOURCES.split(",") : DEFAULT_SOURCES;
+  ({ bySource } = await fetchAll({ days: HORIZON_DAYS }, only));
 } catch (err) {
-  console.warn(`fetch-events: no aggregators module (${err.message})`);
+  console.warn(`fetch-events: aggregators failed to load (${err.message})`);
 }
-for (const [name, fn] of Object.entries(aggregators)) {
-  if (!/^fetch[A-Z]/.test(name) || typeof fn !== "function") continue;
-  const label = name.replace(/^fetch/, "");
-  try {
-    const list = (await fn({ days: HORIZON_DAYS })) ?? [];
-    let kept = 0;
-    for (const e of list) {
-      const startMs = parseLooseDate(e.start);
-      if (!e.title || !startMs || startMs < from || startMs > to) continue;
-      let { lat, lng } = e;
-      if (!Number.isFinite(lat)) {
-        lat = null;
-        lng = null;
-      }
-      const where = [e.venue, e.address].filter(Boolean).join(", ");
-      if (lat != null ? !inBox(lat, lng) : sunsetByText(where) !== true) continue;
-      const org = matchOrg(e.org, e.venue);
-      const source = e.source ?? label.toLowerCase();
-      kept++;
-      all.push({
-        id: idFor(source, e.url, startMs),
-        title: String(e.title).trim(),
-        startMs,
-        endMs: parseLooseDate(e.end) ?? null,
-        allDay: !!e.allDay,
-        url: e.url,
-        venue: e.venue ?? null,
-        address: e.address ?? null,
-        lat,
-        lng,
-        org: org?.name ?? e.org ?? null,
-        orgId: org?.id ?? null,
-        source,
-        sourceLabel: SOURCE_LABELS[source] ?? label,
-        domain: pickDomain(org, e.title, e.description),
-        description: e.description ?? null,
-        image: e.image ?? null,
-        free: e.free ?? undefined,
-      });
+for (const [name, { events: list }] of Object.entries(bySource)) {
+  const label = SOURCE_LABELS[name] ?? name;
+  let kept = 0;
+  for (const e of list) {
+    const startMs = parseLooseDate(e.start);
+    if (!e.title || !startMs || startMs < from || startMs > to || CAMPAIGN_RE.test(e.title)) continue;
+    let { lat, lng } = e;
+    if (!Number.isFinite(lat)) {
+      lat = null;
+      lng = null;
     }
-    sources.push({ id: label.toLowerCase(), label, kind: "aggregator", ok: true, count: kept });
-    console.log(`fetch-events: aggregator ${label}: ${kept} in window and in the Sunset (${list.length} returned)`);
-  } catch (err) {
-    sources.push({ id: label.toLowerCase(), label, kind: "aggregator", ok: false, count: 0, error: String(err.message ?? err) });
-    console.warn(`fetch-events: aggregator ${label} failed (${err.message ?? err})`);
+    const where = [e.venue, e.address].filter(Boolean).join(", ");
+    if (lat != null ? !inDistrict(lat, lng) : sunsetByText(where) !== true) continue;
+    const org = matchOrg(e.org, e.venue);
+    const source = e.source ?? name;
+    kept++;
+    all.push({
+      id: idFor(source, e.url, startMs),
+      title: String(e.title).trim(),
+      startMs,
+      endMs: parseLooseDate(e.end) ?? null,
+      allDay: !!e.allDay,
+      url: e.url,
+      venue: e.venue ?? null,
+      address: e.address ?? null,
+      lat,
+      lng,
+      org: org?.name ?? e.org ?? null,
+      orgId: org?.id ?? null,
+      source,
+      sourceLabel: SOURCE_LABELS[source] ?? label,
+      domain: pickDomain(org, e.title, e.description),
+      description: e.description ?? null,
+      image: e.image ?? null,
+      free: e.free ?? undefined,
+    });
   }
+  // An empty list from a source that normally has events usually means it
+  // blocked us; the footer shows it as not loaded.
+  sources.push({ id: name, label, kind: "aggregator", ok: list.length > 0, count: kept });
+  console.log(`fetch-events: aggregator ${label}: ${kept} in the Sunset (${list.length} returned)`);
 }
 
 // --- 3. Merge duplicates across sources ----------------------------------
 all.sort((a, b) => a.startMs - b.startMs || (PRIORITY[a.source] ?? 9) - (PRIORITY[b.source] ?? 9));
 const byKey = new Map();
+const byDay = new Map();
 const merged = [];
 for (const e of all) {
   const key = norm(e.title).slice(0, 48) + "|" + pacificDayKey(e.startMs);
   const twins = byKey.get(key) ?? [];
-  const twin = twins.find((t) => Math.abs(t.startMs - e.startMs) <= 90 * 60000);
+  let twin = twins.find((t) => Math.abs(t.startMs - e.startMs) <= 90 * 60000);
+  // "Scaregrove" and "Scaregrove Halloween Event" at the same time and place
+  if (!twin) {
+    const t1 = norm(e.title);
+    twin = (byDay.get(pacificDayKey(e.startMs)) ?? []).find((t) => {
+      if (Math.abs(t.startMs - e.startMs) > 30 * 60000) return false;
+      const t2 = norm(t.title);
+      const [a, b] = t1.length < t2.length ? [t1, t2] : [t2, t1];
+      const near = t.lat == null || e.lat == null || (Math.abs(t.lat - e.lat) < 0.003 && Math.abs(t.lng - e.lng) < 0.003);
+      return a.length >= 6 && near && new RegExp(`^${a}\\b|\\b${a}$`).test(b) && !/\bvolunteer/.test(b.replace(a, ""));
+    });
+  }
   if (twin) {
     const eWins = (PRIORITY[e.source] ?? 9) < (PRIORITY[twin.source] ?? 9);
     const winner = { ...(eWins ? e : twin) };
@@ -250,6 +354,9 @@ for (const e of all) {
   }
   twins.push(e);
   byKey.set(key, twins);
+  const dk = pacificDayKey(e.startMs);
+  if (!byDay.has(dk)) byDay.set(dk, []);
+  byDay.get(dk).push(e);
   merged.push(e);
 }
 
@@ -263,7 +370,8 @@ for (const e of merged) {
   if (perOrgDay[k] > PER_ORG_PER_DAY) continue;
   const { startMs, endMs, ...rest } = e;
   for (const f of ["title", "venue", "address", "org", "description"]) {
-    if (rest[f]) rest[f] = decodeEntities(rest[f]).replace(/\s+\u2014\s+|\u2014/g, ", ").trim();
+    // Decode only. Titles and descriptions are the organizers' own words.
+    if (rest[f]) rest[f] = decodeEntities(rest[f]).trim();
   }
   // Feeds that post all-day events as midnight starts
   const p = partsIn(startMs);

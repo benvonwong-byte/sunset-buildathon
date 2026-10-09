@@ -3,17 +3,17 @@
 // fields, known categories, neighborhoods and kinds, unique ids, https
 // links, and feed formats the fetcher can read.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { HOODS, inBox } from "./lib/geo.mjs";
+import { HOODS, inDistrict } from "./lib/geo.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const orgs = JSON.parse(readFileSync(join(ROOT, "data/orgs.json"), "utf8"));
 const domains = new Set(JSON.parse(readFileSync(join(ROOT, "data/domains.json"), "utf8")).map((d) => d.id));
 const hoods = new Set(HOODS.map((h) => h.id));
 const KINDS = new Set(["nonprofit", "civic", "government", "business", "faith", "school", "informal", "venue", "market", "media"]);
-const FORMATS = new Set(["ics", "luma", "meetup", "tockify", "civicplus", "squarespace", "tribe", "mobilize", "rss", "rss-future", "jsonld", "eventbrite"]);
+const FORMATS = new Set(["ics", "luma", "meetup", "tockify", "civicplus", "squarespace", "tribe", "mobilize", "rss", "rss-future", "jsonld", "eventbrite", "mahina", "fullcalendar"]);
 
 const errors = [];
 const warnings = [];
@@ -34,19 +34,34 @@ for (const [i, o] of orgs.entries()) {
   if (!KINDS.has(o.kind)) errors.push(`${at}: unknown kind "${o.kind}"`);
   for (const k of ["eventsPage", "instagram"]) if (o[k] != null && !isHttp(o[k])) errors.push(`${at}: ${k} must be http(s) or null`);
   if ((o.lat == null) !== (o.lng == null)) errors.push(`${at}: lat and lng go together`);
-  if (o.lat != null && !inBox(o.lat, o.lng) && o.hood !== "sunset-wide") warnings.push(`${at}: coordinates fall outside the district box`);
+  if (o.lat != null && !inDistrict(o.lat, o.lng) && o.hood !== "sunset-wide") warnings.push(`${at}: coordinates fall outside the district`);
   for (const f of o.feeds ?? []) {
     if (!FORMATS.has(f.format)) errors.push(`${at}: unknown feed format "${f.format}"`);
     if (!isHttp(f.url)) errors.push(`${at}: feed url must be http(s)`);
     if (f.scope && !["local", "filter"].includes(f.scope)) errors.push(`${at}: feed scope must be "local" or "filter"`);
-    if (f.skip) {
+    for (const k of ["skip", "only", "follow"]) {
+      if (!f[k]) continue;
       try {
-        new RegExp(f.skip, "i");
+        new RegExp(f[k], "i");
       } catch {
-        errors.push(`${at}: feed skip is not a valid regex`);
+        errors.push(`${at}: feed ${k} is not a valid regex`);
       }
     }
   }
+}
+
+// Citywide calendars (always filtered to the Sunset)
+const feedsPath = join(ROOT, "data/feeds.json");
+const citywide = existsSync(feedsPath) ? JSON.parse(readFileSync(feedsPath, "utf8")) : [];
+const feedIds = new Set();
+for (const [i, f] of citywide.entries()) {
+  const at = `feeds[${i}] ${f.id ?? f.name ?? "?"}`;
+  if (!f.id || feedIds.has(f.id)) errors.push(`${at}: needs a unique id`);
+  feedIds.add(f.id);
+  if (!f.name) errors.push(`${at}: missing name`);
+  if (!FORMATS.has(f.format)) errors.push(`${at}: unknown feed format "${f.format}"`);
+  if (!isHttp(f.url)) errors.push(`${at}: url must be http(s)`);
+  if (f.domain && !domains.has(f.domain)) errors.push(`${at}: unknown domain "${f.domain}"`);
 }
 
 for (const w of warnings) console.warn("check-data: warning: " + w);
@@ -54,4 +69,4 @@ if (errors.length) {
   console.error(`check-data: ${errors.length} error(s)\n` + errors.map((e) => "  " + e).join("\n"));
   process.exit(1);
 }
-console.log(`check-data: ${orgs.length} groups valid (${orgs.filter((o) => o.feeds?.length).length} with feeds)`);
+console.log(`check-data: ${orgs.length} groups valid (${orgs.filter((o) => o.feeds?.length).length} with feeds), ${citywide.length} citywide feeds`);

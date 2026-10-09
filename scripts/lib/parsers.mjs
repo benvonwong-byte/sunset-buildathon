@@ -54,6 +54,7 @@ export function parseTribe(text, src) {
       lat: v.geo_lat ? Number(v.geo_lat) : null,
       lng: v.geo_lng ? Number(v.geo_lng) : null,
       image: e.image?.url || null,
+      organizer: stripHtml([].concat(e.organizer ?? [])[0]?.organizer ?? "") || null,
     };
   });
 }
@@ -79,6 +80,7 @@ export function parseMobilize(text) {
         lat: loc.location?.latitude ?? null,
         lng: loc.location?.longitude ?? null,
         image: e.featured_image_url || null,
+        organizer: e.sponsor?.name ?? null,
       });
     }
   }
@@ -142,6 +144,7 @@ export function parseJsonLd(html, src) {
         lat: geo.latitude != null ? Number(geo.latitude) : null,
         lng: geo.longitude != null ? Number(geo.longitude) : null,
         image: [].concat(node.image ?? [])[0]?.url ?? [].concat(node.image ?? [])[0] ?? null,
+        organizer: [].concat(node.organizer ?? [])[0]?.name ?? null,
       });
     }
     for (const k of ["@graph", "itemListElement", "item", "event", "events", "subEvent"]) if (node[k]) visit(node[k]);
@@ -155,6 +158,52 @@ export function parseJsonLd(html, src) {
     }
   }
   return out.filter((e) => e.startMs);
+}
+
+// Mahina, a Shopify events app (Black Bird Bookstore, Sealevel): POST {}
+// returns { events: [...] } with UTC times and no per-event URL.
+export function parseMahina(text, src) {
+  const out = [];
+  for (const e of JSON.parse(text).events ?? []) {
+    const sessions = (e.sessions ?? []).filter((s) => s?.startDate);
+    for (const s of sessions.length ? sessions : [e]) {
+      const online = e.location?.medium === "online";
+      out.push({
+        title: stripHtml(e.title),
+        startMs: Date.parse(s.startDate),
+        endMs: s.endDate ? Date.parse(s.endDate) : null,
+        allDay: false,
+        url: src.page ? `${src.page}#?event-id=${e.id}` : src.url,
+        location: online ? "Online" : e.location?.name || null,
+        description: clip(e.description),
+        lat: null,
+        lng: null,
+        image: e.image || null,
+        free: e.tickets?.priceType === "free" ? true : null,
+      });
+    }
+  }
+  return out;
+}
+
+// FullCalendar-style JSON: [{ title, start, end, allDay, url, location }].
+// `naiveLocal` reads the times as Pacific wall-clock even when the feed
+// stamps them +00:00 (the SF Zoo does).
+export function parseFullCalendar(text, src) {
+  const list = JSON.parse(text);
+  const when = (v) => (v && src.naiveLocal ? parseLooseDate(String(v).replace(/([+-]\d{2}:?\d{2}|Z)$/, "")) : parseLooseDate(v));
+  return (Array.isArray(list) ? list : list.events ?? []).map((e) => ({
+    title: stripHtml(e.title),
+    startMs: when(e.start),
+    endMs: when(e.end),
+    allDay: !!e.allDay,
+    url: e.url || src.url,
+    location: e.location ? stripHtml(e.location) : null,
+    description: clip(e.content || e.description),
+    lat: null,
+    lng: null,
+    image: e.featured_image || e.image || null,
+  }));
 }
 
 export function parseByFormat(format, text, src, window) {
@@ -178,6 +227,10 @@ export function parseByFormat(format, text, src, window) {
     case "jsonld":
     case "eventbrite":
       return parseJsonLd(text, src);
+    case "mahina":
+      return parseMahina(text, src);
+    case "fullcalendar":
+      return parseFullCalendar(text, src);
     default:
       if (text.trimStart().startsWith("BEGIN:VCALENDAR")) return parseIcs(text, window);
       throw new Error(`no parser for format "${format}"`);

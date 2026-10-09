@@ -10,10 +10,11 @@
   "scripts": {
     "fetch": "node scripts/fetch-events.mjs",
     "geocode": "node scripts/geocode-orgs.mjs",
-    "gate": "node scripts/check-voice.mjs && node scripts/check-data.mjs",
+    "gate": "node scripts/check-voice.mjs && node scripts/check-data.mjs && node --test tests/*.test.mjs",
     "build": "node scripts/check-voice.mjs && node scripts/check-data.mjs && node scripts/build.mjs",
     "dev": "node scripts/build.mjs && node scripts/serve.mjs dist 4321",
     "all": "npm run geocode && npm run fetch && npm run tasks && npm run build",
-    "tasks": "node scripts/needs-feed.mjs"
+    "tasks": "node scripts/needs-feed.mjs",
+    "test": "node --test tests/*.test.mjs"
   }
 }

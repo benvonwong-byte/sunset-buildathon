@@ -11,7 +11,7 @@
 
 // Lincoln Way to Sloat Blvd, Stanyan St to the Great Highway, plus the
 // south half of Golden Gate Park, Stern Grove and the Zoo.
-export const BOX = { south: 37.73, north: 37.7725, west: -122.514, east: -122.452 };
+export const BOX = { south: 37.728, north: 37.7725, west: -122.514, east: -122.452 };
 
 export function inBox(lat, lng, box = BOX) {
   return (
@@ -58,10 +58,11 @@ const lincolnLat = (lng) => 37.766 + (lng + 122.4665) * 0.0453;
 const taravalLat = (lng) => 37.743 + (lng + 122.4755) * 0.0404;
 
 export function hoodFor(lat, lng) {
-  if (!inBox(lat, lng)) return null;
+  if (!inDistrict(lat, lng)) return null;
   if (lat > lincolnLat(lng) + 0.0002) return "golden-gate-park";
   if (lng < avenueLng(48.8, lat)) return "ocean-beach";
-  if (lat < taravalLat(lng) - 0.0002) return "parkside";
+  // Taraval is the Parkside's main street, so its frontage counts as Parkside.
+  if (lat < taravalLat(lng) + 0.0003) return "parkside";
   if (lng > avenueLng(19, lat) + 0.0003) {
     const southOfLawton = lat < streetLat(4, lng) - 0.0004;
     return southOfLawton && lng < avenueLng(12, lat) ? "golden-gate-heights" : "inner-sunset";
@@ -79,12 +80,17 @@ export const LANDMARKS = [
   [/\b(san francisco|sf) botanical garden\b|\bstrybing\b|\bgardens of golden gate park\b/i, 37.76736, -122.46968],
   [/\bjapanese tea garden\b/i, 37.77029, -122.47012],
   [/\bhall of flowers\b|\bcounty fair building\b/i, 37.7664, -122.468],
-  [/\bstow lake\b/i, 37.76899, -122.47285],
+  [/\bstow lake\b|\bblue heron lake\b/i, 37.76899, -122.47285],
+  [/\bpolo field\b/i, 37.7686, -122.493],
   [/\bkezar stadium\b/i, 37.76687, -122.45601],
   [/\bkezar pavilion\b/i, 37.76751, -122.45389],
   [/\b(national )?aids memorial grove\b/i, 37.76967, -122.46222],
   [/\bspreckels temple\b|\bmusic concourse\b|\bgolden gate (park )?bandshell\b/i, 37.76988, -122.46859],
   [/\bbeach chalet\b/i, 37.76947, -122.51022],
+  // Generic "Ocean Beach": the Sunset stretch, at Judah.
+  [/\bocean beach\b/i, 37.7604, -122.5108],
+  [/\bmount sutro\b|\bmt\.? sutro\b/i, 37.7578, -122.4562],
+  [/\bgarden for the environment\b/i, 37.7586, -122.4638],
   [/\bgrandview park\b/i, 37.75497, -122.47237],
   [/\bpine lake\b/i, 37.73649, -122.48807],
   [/\bsunset (rec(reation)? center|playground)\b/i, 37.7571, -122.48687],
@@ -141,29 +147,59 @@ const NUMBERED_AVE = /\b([5-9]|[1-4]\d)(?:st|nd|rd|th)\s+(?:ave|avenue)\b/i;
 // Every San Francisco ZIP except 94122 and 94116.
 const OTHER_SF_ZIPS = /\b941(0[2-9]|1[0-5789]|2[0134-9]|3[0-4]|58)\b/;
 
+// Other Bay Area places that show up in feeds from groups with several
+// branches. Moraga and Richmond are left out on purpose: both are also
+// Sunset or San Francisco names.
+const ELSEWHERE =
+  /\b(oakland|berkeley|alameda|emeryville|el cerrito|albany|san leandro|hayward|fremont|union city|walnut creek|pleasant hill|concord|lafayette|orinda|danville|san ramon|dublin|pleasanton|livermore|daly city|colma|pacifica|south san francisco|san bruno|millbrae|burlingame|san mateo|belmont|san carlos|redwood city|menlo park|palo alto|mountain view|sunnyvale|santa clara|san jose|cupertino|sausalito|mill valley|san rafael|novato|larkspur|corte madera|tiburon|petaluma|napa|sonoma|santa cruz|boulder creek|half moon bay|rosemead|los angeles)\b/i;
+
 // Returns true, false, or null when the text says nothing either way.
 export function sunsetByText(text) {
   if (!text) return null;
   const s = String(text);
+  if (ELSEWHERE.test(s) && !/\b941(22|16)\b/.test(s)) return false;
   if (/\b941(22|16)\b/.test(s)) return true;
   if (landmark(s)) return true;
   if (/\binner sunset\b|\bouter sunset\b|\bsunset district\b|\bparkside\b|golden gate heights/i.test(s)) return true;
   const g = gridGeocode(s);
-  if (g && inBox(g.lat, g.lng)) return true;
+  if (g && inDistrict(g.lat, g.lng)) return true;
   if (OTHER_SF_ZIPS.test(s)) return false;
   if (SUNSET_STREETS.test(s) && /san francisco|\bsf\b/i.test(s) && !NUMBERED_AVE.test(s)) return true;
   return null;
 }
 
-// The outline drawn on the map. Approximate, and labeled as such.
+// The district: JFK Drive (so the south half of Golden Gate Park), Stanyan
+// St, UCSF Parnassus and Mount Sutro, the Golden Gate Heights edge, Sloat
+// Blvd with a notch for the Zoo, and the beach. Every keep-or-drop decision
+// runs through inDistrict(); BOX is only a coarse prefilter for searches.
 export const OUTLINE = [
-  [37.7725, -122.5108],
-  [37.7725, -122.4535],
-  [37.7655, -122.4535],
-  [37.7585, -122.4575],
-  [37.7495, -122.4655],
-  [37.7405, -122.4715],
-  [37.7335, -122.4745],
-  [37.7305, -122.5045],
-  [37.7352, -122.5085],
+  [37.7712, -122.5125],
+  [37.7712, -122.495],
+  [37.7722, -122.47],
+  [37.7722, -122.4535],
+  [37.7662, -122.4535],
+  [37.7652, -122.4565],
+  [37.7605, -122.456],
+  [37.757, -122.4545],
+  [37.755, -122.461],
+  [37.75, -122.465],
+  [37.744, -122.4688],
+  [37.74, -122.4705],
+  [37.733, -122.4735],
+  [37.7333, -122.49],
+  [37.7333, -122.4975],
+  [37.7282, -122.4985],
+  [37.7282, -122.5075],
+  [37.735, -122.5118],
 ];
+
+export function inDistrict(lat, lng) {
+  if (!inBox(lat, lng)) return false;
+  let inside = false;
+  for (let i = 0, j = OUTLINE.length - 1; i < OUTLINE.length; j = i++) {
+    const [yi, xi] = OUTLINE[i];
+    const [yj, xj] = OUTLINE[j];
+    if (yi > lat !== yj > lat && lng < ((xj - xi) * (lat - yi)) / (yj - yi) + xi) inside = !inside;
+  }
+  return inside;
+}

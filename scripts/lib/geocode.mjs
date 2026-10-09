@@ -10,6 +10,17 @@ import { landmark, gridGeocode } from "./geo.mjs";
 const RETRY_AFTER_MS = 30 * 86400000;
 const SF_VIEWBOX = "-122.52,37.81,-122.35,37.70";
 
+const GENERIC = new Set(
+  "the and of at park street st ave avenue blvd boulevard way center centre church school san francisco sf lawn field room hall library branch building garden gardens cafe house main north south east west upper lower inner outer".split(" ")
+);
+function significantWords(text) {
+  return String(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length >= 3 && !GENERIC.has(w) && !/^\d+$/.test(w));
+}
+
 export function openGeocoder(cachePath) {
   const cache = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, "utf8")) : {};
   let lastNominatim = 0;
@@ -44,7 +55,14 @@ export function openGeocoder(cachePath) {
     });
     if (!res.ok) return null;
     const hit = (await res.json())[0];
-    return hit ? { lat: Number(hit.lat), lng: Number(hit.lon) } : null;
+    if (!hit) return null;
+    // Free-text search happily matches part of a name ("Sloat Pleasant Hill"
+    // lands on Sloat Blvd). Every distinctive word of the place has to show
+    // up in the answer, or it is not the place.
+    const words = significantWords(q.split(",")[0]);
+    const found = String(hit.display_name).toLowerCase();
+    if (!words.length || !words.every((w) => found.includes(w))) return null;
+    return { lat: Number(hit.lat), lng: Number(hit.lon) };
   }
 
   async function geocode(raw, { budget = Infinity } = {}) {

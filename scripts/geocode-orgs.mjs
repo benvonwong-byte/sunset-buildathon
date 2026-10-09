@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { openGeocoder } from "./lib/geocode.mjs";
-import { inBox, hoodFor } from "./lib/geo.mjs";
+import { inDistrict, hoodFor, landmark } from "./lib/geo.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PATH = join(ROOT, "data/orgs.json");
@@ -17,7 +17,8 @@ const geo = openGeocoder(join(ROOT, "data/geocache.json"));
 let filled = 0;
 for (const o of orgs) {
   if (!o.address || (o.lat != null && o.lng != null)) continue;
-  const hit = await geo.geocode(o.address);
+  // A named place (Stern Grove, the AIDS Memorial Grove) beats a vague address.
+  const hit = landmark(o.name) ?? (await geo.geocode(o.address));
   if (!hit) {
     console.warn(`geocode-orgs: no match for ${o.name} (${o.address})`);
     continue;
@@ -25,9 +26,11 @@ for (const o of orgs) {
   o.lat = Math.round(hit.lat * 1e5) / 1e5;
   o.lng = Math.round(hit.lng * 1e5) / 1e5;
   filled++;
-  if (!inBox(o.lat, o.lng)) console.warn(`geocode-orgs: ${o.name} lands outside the district (${o.lat}, ${o.lng})`);
+  if (!inDistrict(o.lat, o.lng)) console.warn(`geocode-orgs: ${o.name} lands outside the district (${o.lat}, ${o.lng})`);
   else if (o.hood !== hoodFor(o.lat, o.lng) && o.hood !== "sunset-wide") {
-    console.log(`geocode-orgs: ${o.name}: listed as ${o.hood}, coordinates say ${hoodFor(o.lat, o.lng)}`);
+    // The map and the directory label from the same rule.
+    console.log(`geocode-orgs: ${o.name}: ${o.hood} -> ${hoodFor(o.lat, o.lng)} (from coordinates)`);
+    o.hood = hoodFor(o.lat, o.lng);
   }
 }
 geo.save();

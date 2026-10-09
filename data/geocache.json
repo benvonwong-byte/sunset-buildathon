@@ -2,171 +2,521 @@
  "1090 quintara st, san francisco, ca 94116": {
   "lat": 37.748661542244,
   "lng": -122.477013997062,
-  "at": 1791585618960
+  "at": 1791589141885
  },
- "1199 9th ave, san francisco, ca 94122": {
-  "lat": 37.766419898233,
-  "lng": -122.466501982376,
-  "at": 1791585625440
+ "1150 vicente st, san francisco, ca 94116": {
+  "lat": 37.739216286567,
+  "lng": -122.47919445856,
+  "at": 1791589152136
+ },
+ "1200 taraval st, san francisco, ca 94116": {
+  "lat": 37.742963030905,
+  "lng": -122.47898135076,
+  "at": 1791589150784
  },
  "1231 9th ave, san francisco, ca 94122": {
   "lat": 37.765300260627,
   "lng": -122.466469990342,
-  "at": 1791585622425
+  "at": 1791589146148
  },
  "1250 quintara st, san francisco, ca 94116": {
   "lat": 37.748584298157,
   "lng": -122.47877346836,
-  "at": 1791585619130
+  "at": 1791589142557
+ },
+ "1280 5th ave, san francisco, ca 94122 (st. john of god)": {
+  "lat": 37.764593827135,
+  "lng": -122.46198398663,
+  "at": 1791589142340
+ },
+ "1288 15th ave, san francisco, ca 94122": {
+  "lat": 37.763988718342,
+  "lng": -122.472734223493,
+  "at": 1791589151369
+ },
+ "1290 5th ave, san francisco, ca 94122": {
+  "lat": 37.76442245346,
+  "lng": -122.461972090598,
+  "at": 1791589154715
+ },
+ "1305 18th ave, san francisco, ca 94122": {
+  "lat": 37.763478922266,
+  "lng": -122.476117501116,
+  "at": 1791589155084
  },
  "1315 8th ave": {
   "lat": 37.763773959653,
   "lng": -122.46529595343,
-  "at": 1791585622622
+  "at": 1791589148267
+ },
+ "1329 7th ave, san francisco, ca 94122": {
+  "lat": 37.763571329673,
+  "lng": -122.464205496924,
+  "at": 1791589153198
+ },
+ "1337 irving st, san francisco, ca 94122": {
+  "lat": 37.763732651004,
+  "lng": -122.471936729424,
+  "at": 1791589154890
+ },
+ "1342 irving st, san francisco, ca 94122": {
+  "lat": 37.76383733003,
+  "lng": -122.472163253407,
+  "at": 1791589159171
+ },
+ "1350 lawton st, san francisco, ca 94122": {
+  "lat": 37.758000791249,
+  "lng": -122.477266760404,
+  "at": 1791589144915
+ },
+ "1351 24th ave, san francisco, ca 94122": {
+  "lat": 37.762373992705,
+  "lng": -122.482488584881,
+  "at": 1791589149781
+ },
+ "1370 19th ave, san francisco, ca 94122": {
+  "lat": 37.762260678561,
+  "lng": -122.476944068736,
+  "at": 1791589149589
+ },
+ "1370 19th ave, san francisco, ca 94122 (nineteenth avenue baptist church)": {
+  "lat": 37.762260678561,
+  "lng": -122.476944068736,
+  "at": 1791589148066
  },
  "1400 judah st, san francisco, ca 94122": {
   "lat": 37.761750031217,
   "lng": -122.477164371136,
-  "at": 1791585630687
+  "at": 1791589155278
  },
- "1590 7th ave": {
-  "lat": 37.75874143565,
-  "lng": -122.463723617392,
-  "at": 1791585620379
+ "1400 judah st, san francisco, ca 94122 (wah mei school)": {
+  "lat": 37.761750031217,
+  "lng": -122.477164371136,
+  "at": 1791589143027
+ },
+ "1400 noriega st, san francisco, ca 94122 (also 1430 and 1450 noriega st)": {
+  "lat": 37.754200051329,
+  "lng": -122.478692363813,
+  "at": 1791589149334
+ },
+ "1453 36th ave, san francisco, ca 94122": {
+  "lat": 37.759906089355,
+  "lng": -122.49521608687,
+  "at": 1791589145653
+ },
+ "1532 taraval st, san francisco, ca 94116": {
+  "lat": 37.742807766348,
+  "lng": -122.48250048832,
+  "at": 1791589150998
+ },
+ "1555 39th ave, san francisco, ca 94122": {
+  "lat": 37.757862998387,
+  "lng": -122.498293589245,
+  "at": 1791589147843
+ },
+ "1555 irving st, san francisco, ca 94122": {
+  "lat": 37.763620210047,
+  "lng": -122.474492311122,
+  "at": 1791589146382
+ },
+ "1570 31st ave, san francisco, ca 94122": {
+  "lat": 37.757960557574,
+  "lng": -122.489557793885,
+  "at": 1791589149121
+ },
+ "1600 irving st, san francisco, ca 94122": {
+  "lat": 37.763710027899,
+  "lng": -122.47506142096,
+  "at": 1791589155706
+ },
+ "1716 taraval st, san francisco, ca 94116": {
+  "lat": 37.742720398754,
+  "lng": -122.484491567195,
+  "at": 1791589160576
+ },
+ "1722 irving st, san francisco, ca 94122": {
+  "lat": 37.763653904992,
+  "lng": -122.476336308877,
+  "at": 1791589149981
+ },
+ "1725 irving st, san francisco, ca 94122 (jefferson elementary)": {
+  "lat": 37.763538664095,
+  "lng": -122.476346922525,
+  "at": 1791589160991
+ },
+ "1736 9th ave, san francisco, ca 94122": {
+  "lat": 37.755881873987,
+  "lng": -122.465669585539,
+  "at": 1791589155880
+ },
+ "1740 sloat blvd, san francisco, ca 94132": {
+  "lat": 37.734118071009,
+  "lng": -122.492190209689,
+  "at": 1791589145122
+ },
+ "1750 29th ave, san francisco, ca 94122": {
+  "lat": 37.754687343682,
+  "lng": -122.487175847379,
+  "at": 1791589144389
+ },
+ "1800 31st ave, san francisco, ca 94122": {
+  "lat": 37.75361993498,
+  "lng": -122.489247697312,
+  "at": 1791589141665
+ },
+ "1801 vicente st, san francisco, ca 94116": {
+  "lat": 37.73879255761,
+  "lng": -122.486209269977,
+  "at": 1791589144140
+ },
+ "1811 34th ave, san francisco, ca 94122": {
+  "lat": 37.753292486881,
+  "lng": -122.492603766123,
+  "at": 1791589152325
+ },
+ "1990 41st ave, san francisco, ca 94116 (satellite at 1351 24th ave)": {
+  "lat": 37.749675009531,
+  "lng": -122.499725581897,
+  "at": 1791589156098
+ },
+ "1994 37th ave, san francisco, ca 94116, usa": {
+  "lat": 37.749793812094,
+  "lng": -122.495436605232,
+  "at": 1791589218020
  },
  "207 skyline blvd, san francisco, ca 94132": {
   "lat": 37.732233791868,
   "lng": -122.498261134053,
-  "at": 1791585625179
+  "at": 1791589151179
+ },
+ "2162 24th ave, san francisco, ca 94116": {
+  "lat": 37.747246797617,
+  "lng": -122.481286480466,
+  "at": 1791589140514
+ },
+ "2290 14th ave, san francisco, ca 94116": {
+  "lat": 37.745362046533,
+  "lng": -122.470306536704,
+  "at": 1791589147659
+ },
+ "2345 24th ave, san francisco, ca 94116": {
+  "lat": 37.743833739964,
+  "lng": -122.481194137716,
+  "at": 1791589153407
+ },
+ "2540 taraval st, san francisco, ca 94116": {
+  "lat": 37.742333429566,
+  "lng": -122.493291030916,
+  "at": 1791589145881
+ },
+ "2548 judah st, san francisco, ca 94122": {
+  "lat": 37.761215126585,
+  "lng": -122.489310511191,
+  "at": 1791589140698
+ },
+ "2550 irving st, san francisco, ca 94122": {
+  "lat": 37.763264300281,
+  "lng": -122.485176483088,
+  "at": 1791589139681
  },
  "2555 17th ave, san francisco, ca 94116": {
   "lat": 37.740258558642,
   "lng": -122.473423549097,
-  "at": 1791585626900
+  "at": 1791589154302
+ },
+ "2559 40th ave, san francisco, ca 94116": {
+  "lat": 37.739098692405,
+  "lng": -122.498054533056,
+  "at": 1791589154478
+ },
+ "2645 lincoln way, san francisco, ca 94122": {
+  "lat": 37.764941157679,
+  "lng": -122.486313423703,
+  "at": 1791589151572
+ },
+ "2650 sloat blvd, san francisco, ca 94116 (sunday start point)": {
+  "lat": 37.735614215075,
+  "lng": -122.502579183795,
+  "at": 1791589151762
  },
  "2700 45th ave, san francisco, ca 94116": {
   "lat": 37.736174882601,
   "lng": -122.503080763375,
-  "at": 1791585630515
+  "at": 1791589160375
+ },
+ "2700 45th ave, san francisco, ca 94116 (events at united irish cultural center)": {
+  "lat": 37.736174882601,
+  "lng": -122.503080763375,
+  "at": 1791589142141
+ },
+ "2700 45th ave, san francisco, ca 94116 (practice at united irish cultural center)": {
+  "lat": 37.736174882601,
+  "lng": -122.503080763375,
+  "at": 1791589148442
+ },
+ "2700 sloat blvd": {
+  "lat": 37.735608610023,
+  "lng": -122.50318329497,
+  "at": 1791589153760
+ },
+ "2800 taraval st, san francisco, ca 94116": {
+  "lat": 37.742205930272,
+  "lng": -122.496125459112,
+  "at": 1791589148620
+ },
+ "2901 irving st, san francisco, ca 94122": {
+  "lat": 37.762982554312,
+  "lng": -122.488978241675,
+  "at": 1791589160197
+ },
+ "300 bowling green dr, san francisco, ca 94118": {
+  "lat": 37.769216885542,
+  "lng": -122.459699585748,
+  "at": 1791589153577
+ },
+ "3004 taraval st, san francisco, ca 94116": {
+  "lat": 37.742108172379,
+  "lng": -122.49830436283,
+  "at": 1791589144716
  },
  "3010 noriega st, san francisco, ca 94122": {
   "lat": 37.753439906888,
   "lng": -122.495931281419,
-  "at": 1791585628552
+  "at": 1791589156279
  },
  "3133 taraval st, san francisco, ca 94116": {
   "lat": 37.741933002655,
   "lng": -122.4996324034,
-  "at": 1791585626538
+  "at": 1791589153000
+ },
+ "3151 ortega st, san francisco, ca 94122": {
+  "lat": 37.751393373086,
+  "lng": -122.497241146543,
+  "at": 1791589140321
  },
  "3201 ulloa st, san francisco, ca 94116": {
   "lat": 37.740461617806,
   "lng": -122.490630300096,
-  "at": 1791585619493
+  "at": 1791589142809
  },
- "3223a ortega st (west sunset playground), san francisco, ca 94116; second site 1555 irving st, san francisco, ca 94122": {
+ "3223 ortega st, san francisco, ca 94122": {
   "lat": 37.751357017039,
   "lng": -122.498046671635,
-  "at": 1791585627530
+  "at": 1791589150170
+ },
+ "3638 lawton st, san francisco, ca 94122 (education building at 3635 lawton st)": {
+  "lat": 37.756920283128,
+  "lng": -122.501811486033,
+  "at": 1791589155517
  },
  "3639 taraval st, san francisco, ca 94116": {
   "lat": 37.741688048616,
   "lng": -122.505047326697,
-  "at": 1791585630341
+  "at": 1791589159869
  },
- "37th ave between ortega st and quintara st": {
-  "lat": null,
-  "lng": null,
-  "at": 1791585628376
+ "3649 lawton st, san francisco, ca 94122": {
+  "lat": 37.756801716977,
+  "lng": -122.501898520891,
+  "at": 1791589159343
+ },
+ "3805 noriega st, san francisco, ca 94122": {
+  "lat": 37.752949858385,
+  "lng": -122.504439153054,
+  "at": 1791589145422
  },
  "3918 judah st, san francisco, ca 94122": {
   "lat": 37.76056556467,
   "lng": -122.504031679696,
-  "at": 1791585628738
+  "at": 1791589156832
+ },
+ "3925 noriega st, san francisco, ca 94122 (pantry at 3010 noriega st)": {
+  "lat": 37.7528936612,
+  "lng": -122.50570091709,
+  "at": 1791589156658
  },
  "3930 judah st": {
   "lat": 37.760560588624,
   "lng": -122.504145218946,
-  "at": 1791585624964
+  "at": 1791589150399
+ },
+ "401 taraval st, san francisco, ca 94116": {
+  "lat": 37.743228615938,
+  "lng": -122.470303363093,
+  "at": 1791589151955
+ },
+ "4037 judah st, san francisco, ca 94122": {
+  "lat": 37.760396304225,
+  "lng": -122.505265494259,
+  "at": 1791589141420
+ },
+ "4045 judah st, san francisco, ca 94122": {
+  "lat": 37.760392913296,
+  "lng": -122.505341112682,
+  "at": 1791589160800
+ },
+ "4331 irving st, san francisco, ca 94122": {
+  "lat": 37.762306834472,
+  "lng": -122.50426811791,
+  "at": 1791589152838
+ },
+ "438 judah st, san francisco, ca 94122": {
+  "lat": 37.76225592271,
+  "lng": -122.466609128172,
+  "at": 1791589143956
+ },
+ "4540 irving st, san francisco, ca 94122": {
+  "lat": 37.762322448521,
+  "lng": -122.506513441993,
+  "at": 1791589159635
  },
  "4541 irving st, san francisco, ca 94122": {
   "lat": 37.762208033496,
   "lng": -122.506505403983,
-  "at": 1791585618397
+  "at": 1791589140976
  },
- "50 hagiwara tea garden dr, san francisco, ca 94118": {
-  "lat": 37.770880208843,
-  "lng": -122.468423536681,
-  "at": 1791585619304
+ "647 irving st, san francisco, ca 94122": {
+  "lat": 37.764051528897,
+  "lng": -122.464676056872,
+  "at": 1791589152491
  },
- "55 music concourse dr, san francisco, ca 94118": {
-  "lat": 37.770275915537,
-  "lng": -122.466649539562,
-  "at": 1791585618783
- },
- "75 hagiwara tea garden dr, san francisco, ca 94118": {
-  "lat": 37.77052694572,
-  "lng": -122.468696260163,
-  "at": 1791585623912
+ "800 irving st, san francisco, ca 94122, usa": {
+  "lat": 37.764091036047,
+  "lng": -122.466387399459,
+  "at": 1791589216849
  },
  "850 judah st, san francisco, ca 94122": {
   "lat": 37.762061389778,
   "lng": -122.471018086601,
-  "at": 1791585626704
+  "at": 1791589154032
  },
- "ca": {
-  "lat": 37.8074477,
-  "lng": -122.4759589,
-  "at": 1791585887727
+ "850 judah st, san francisco, ca 94122 (st. anne of the sunset)": {
+  "lat": 37.762061389778,
+  "lng": -122.471018086601,
+  "at": 1791589152664
  },
- "fort funston, skyline blvd at john muir dr": {
+ "earthfire arts studio, 438 judah st, sf, san francisco": {
+  "lat": 37.76225592271,
+  "lng": -122.466609128172,
+  "at": 1791589185122
+ },
+ "golden gate park, san francisco, ca 94122": {
+  "lat": 37.7681783,
+  "lng": -122.4927581,
+  "at": 1791589147412
+ },
+ "https://luma.com/event/evt-gi9mq8ywa2etovl": {
   "lat": null,
   "lng": null,
-  "at": 1791585621245
+  "at": 1791589192786
  },
- "irving st between 9th and 10th ave, san francisco, ca 94122": {
+ "incarnation episcopal church, 1750 29th ave, san francisco, ca 94122": {
+  "lat": 37.754687343682,
+  "lng": -122.487175847379,
+  "at": 1791589156482
+ },
+ "leaping lemur café": {
+  "lat": 37.7332167,
+  "lng": -122.5032653,
+  "at": 1791589200666
+ },
+ "legion of honor": {
+  "lat": 37.7845556,
+  "lng": -122.500962,
+  "at": 1791589183051
+ },
+ "library": {
   "lat": null,
   "lng": null,
-  "at": 1791585623643
- },
- "nancy pelosi dr and bowling green dr, golden gate park": {
-  "lat": null,
-  "lng": null,
-  "at": 1791585624787
+  "at": 1791589173217
  },
  "noriega sunset lounge": {
   "lat": null,
   "lng": null,
-  "at": 1791585883214
+  "at": 1791589187969
  },
- "ocean beach, san francisco, ca, usa": {
-  "lat": 37.7561513,
-  "lng": -122.510185,
-  "at": 1791585888991
- },
- "sigmund stern grove, 19th ave and sloat blvd, san francisco, ca 94132": {
+ "on zoom": {
   "lat": null,
   "lng": null,
-  "at": 1791585627332
+  "at": 1791589203118
  },
- "sloat blvd at the great highway, san francisco, ca 94132": {
+ "ortega branch library, 3223 ortega st": {
+  "lat": 37.751357017039,
+  "lng": -122.498046671635,
+  "at": 1791589150604
+ },
+ "outer sunset farmer's market & mercantile, 1994 37th ave, san francisco, ca 94116, usa": {
+  "lat": 37.749793812094,
+  "lng": -122.495436605232,
+  "at": 1791589216374
+ },
+ "outside leaping lemur café": {
   "lat": null,
   "lng": null,
-  "at": 1791585626355
+  "at": 1791589200082
  },
- "sunset dunes, former upper great highway from lincoln way to sloat blvd": {
+ "playfield lawn": {
+  "lat": 37.7346015,
+  "lng": -122.5029259,
+  "at": 1791589198407
+ },
+ "redwood christian park, 15000 two bar road, boulder creek, ca, 95006": {
   "lat": null,
   "lng": null,
-  "at": 1791585620200
+  "at": 1791589214842
+ },
+ "rotating locations": {
+  "lat": null,
+  "lng": null,
+  "at": 1791589178133
+ },
+ "san fran dhammaram temple, 2645 lincoln way, san francisco, 94122": {
+  "lat": 37.764941157679,
+  "lng": -122.486313423703,
+  "at": 1791589195710
+ },
+ "seventh avenue presbyterian church, 1329 seventh avenue, san francisco, ca 94122": {
+  "lat": 37.763571329673,
+  "lng": -122.464205496924,
+  "at": 1791589202357
+ },
+ "shirley chisholm village, 1360 43rd ave, san francisco, ca 94122": {
+  "lat": 37.761304265476,
+  "lng": -122.502692343471,
+  "at": 1791589141215
+ },
+ "sloat boulevard, sf, 2700 sloat blvd, san francisco, 94116": {
+  "lat": 37.735608610023,
+  "lng": -122.50318329497,
+  "at": 1791589205340
+ },
+ "sloat novato, 2000 novato blvd., novato, 94947": {
+  "lat": null,
+  "lng": null,
+  "at": 1791589206196
+ },
+ "sloat pleasant hill": {
+  "lat": null,
+  "lng": null,
+  "at": 1791589205175
  },
  "sutro native plant nursery, 476 johnstone dr": {
   "lat": 37.7570521,
   "lng": -122.4561657,
-  "at": 1791585630167
+  "at": 1791589158982
+ },
+ "the episcopal church of the incarnation, 1750 29th ave, san francisco, ca 94122, usa": {
+  "lat": 37.754687343682,
+  "lng": -122.487175847379,
+  "at": 1791589187174
  },
  "the riptide, 3639 taraval st, san francisco, ca 94116, usa": {
   "lat": 37.741688048616,
   "lng": -122.505047326697,
-  "at": 1791585890579
+  "at": 1791589219648
+ },
+ "united irish cultural center, 2700 45th ave, san francisco, ca 94116, usa": {
+  "lat": 37.736174882601,
+  "lng": -122.503080763375,
+  "at": 1791589178678
  }
 }

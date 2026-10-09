@@ -1,10 +1,10 @@
 # Working in this repo
 
-The Sunset Calendar (sunset.dearcrisis.com): a static site plus a Node fetcher, no framework, no dependencies. Read README.md first.
+Sunset Events (sunset.dearcrisis.com): a static site plus a Node fetcher, no framework, no dependencies. Read README.md first.
 
 ## Rules that the build enforces
 
-- `npm run gate` must pass. It runs `scripts/check-voice.mjs` (em dashes, the verb "carry" in any form, stock machine-writing words) over the group blurbs, the page copy, the scripts and the docs, and `scripts/check-data.mjs` over `data/orgs.json`.
+- `npm run gate` must pass. It runs `scripts/check-voice.mjs` (em dashes, banned verbs and stock machine-writing words; the list is in the script) over the group blurbs, the page copy, the scripts and the docs, and `scripts/check-data.mjs` over `data/orgs.json`.
 - Adding a new prose field to `data/orgs.json`? Add its name to `ORG_FIELDS` in `scripts/check-voice.mjs` in the same commit, or the gate never reads it.
 - Adding a feed format? Add a parser in `scripts/lib/parsers.mjs`, then the format name to `FORMATS` in `scripts/check-data.mjs`.
 
