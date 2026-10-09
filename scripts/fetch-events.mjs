@@ -93,6 +93,12 @@ function pickDomain(org, title, description) {
   return org.domains.includes(guess) ? guess : org.domains[0];
 }
 
+// Words that say what kind of thing an event is, not which one it is.
+const STOP = new Set(
+  "the and for with from your our its sunset event night day free tour tours class classes workshop meeting open community group session program series talk walk".split(" ")
+);
+const words = (t) => new Set(norm(t).split(" ").filter((w) => w.length >= 3 && !STOP.has(w)));
+
 const idFor = (...parts) => createHash("sha1").update(parts.join("|")).digest("hex").slice(0, 12);
 
 // Decide where an org-feed instance happens and whether it is in the Sunset.
@@ -362,6 +368,19 @@ for (const e of all) {
       const near = t.lat == null || e.lat == null || (Math.abs(t.lat - e.lat) < 0.003 && Math.abs(t.lng - e.lng) < 0.003);
       return a.length >= 6 && near && new RegExp(`^${a}\\b|\\b${a}$`).test(b) && !/\bvolunteer/.test(b.replace(a, ""));
     });
+  }
+  // One show, three names: "DJ Damon 80s nite" and "80s Nite: Friday I'm in
+  // Love" from the same group at the same time are the same night out.
+  if (!twin && e.orgId) {
+    const w1 = words(e.title);
+    twin = (byDay.get(pacificDayKey(e.startMs)) ?? []).find(
+      (t) => {
+        if (t.orgId !== e.orgId || Math.abs(t.startMs - e.startMs) > 15 * 60000) return false;
+        const w2 = words(t.title);
+        const shared = [...w2].filter((w) => w1.has(w)).length;
+        return shared >= 2 && shared >= Math.min(w1.size, w2.size) / 2;
+      }
+    );
   }
   if (twin) {
     const eWins = (PRIORITY[e.source] ?? 9) < (PRIORITY[twin.source] ?? 9);
