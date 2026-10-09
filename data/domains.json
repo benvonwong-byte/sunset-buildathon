@@ -1,0 +1,50 @@
+[
+  {
+    "id": "ocean-parks",
+    "label": "Ocean & Parks",
+    "color": "#1E4E96",
+    "blurb": "Beach cleanups, dune and habitat work, tree planting, park stewardship and nature walks."
+  },
+  {
+    "id": "resilience",
+    "label": "Resilience & Mutual Aid",
+    "color": "#C2201F",
+    "blurb": "Disaster preparedness, food pantries, mutual aid and climate adaptation."
+  },
+  {
+    "id": "food-land",
+    "label": "Food & Gardens",
+    "color": "#3D7A3D",
+    "blurb": "Farmers markets, co-ops, community gardens and compost."
+  },
+  {
+    "id": "art-culture",
+    "label": "Arts & Culture",
+    "color": "#C77E2F",
+    "blurb": "Museums, music, readings, film, galleries, markets and festivals."
+  },
+  {
+    "id": "neighbors",
+    "label": "Neighbors & Families",
+    "color": "#B03A66",
+    "blurb": "Kids, teens, seniors, newcomers, faith communities and block-level gatherings."
+  },
+  {
+    "id": "civic",
+    "label": "Civic Life & Streets",
+    "color": "#1F7A7A",
+    "blurb": "Neighborhood associations, merchants, city meetings, streets and transit."
+  },
+  {
+    "id": "learning",
+    "label": "Learning & Libraries",
+    "color": "#5B6670",
+    "blurb": "Library programs, classes, talks and science."
+  },
+  {
+    "id": "wellbeing",
+    "label": "Body, Mind & Spirit",
+    "color": "#7A5C9E",
+    "blurb": "Yoga, meditation, runs, surf, sport, health and spiritual practice."
+  }
+]

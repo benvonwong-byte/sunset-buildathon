@@ -1,0 +1,776 @@
+[
+  {
+    "id": "black-bird-bookstore-cafe",
+    "name": "Black Bird Bookstore & Cafe",
+    "url": "https://blackbirdsf.com/",
+    "what": "Bookstore and cafe on Irving at 46th Ave with a garden, art shows, storytimes, book clubs, open mics and live music.",
+    "plugIn": "Bring kids to Saturday 9:30am storytime, read at the Poetry and Prose Open Mic, or join a book club or the After Hours Reading Club.",
+    "kind": "business",
+    "domains": [
+      "art-culture",
+      "learning",
+      "neighbors"
+    ],
+    "hood": "outer-sunset",
+    "address": "4541 Irving St, San Francisco, CA 94122",
+    "lat": 37.76221,
+    "lng": -122.50651,
+    "eventsPage": "https://blackbirdsf.com/pages/events",
+    "instagram": "https://www.instagram.com/blackbirdbooksf/",
+    "feeds": [],
+    "evidence": "https://blackbirdsf.com/pages/events (Storytime 2026-10-10, Poetry & Prose Open Mic 2026-10-14)"
+  },
+  {
+    "id": "california-academy-of-sciences",
+    "name": "California Academy of Sciences",
+    "url": "https://www.calacademy.org/",
+    "what": "Natural history museum with an aquarium, planetarium and rainforest dome on the Music Concourse in Golden Gate Park.",
+    "plugIn": "Go to NightLife, the adults-only evening held most Thursdays, or check the daily calendar for planetarium shows and talks.",
+    "kind": "nonprofit",
+    "domains": [
+      "learning",
+      "art-culture",
+      "ocean-parks"
+    ],
+    "hood": "golden-gate-park",
+    "address": "55 Music Concourse Dr, San Francisco, CA 94118",
+    "lat": 37.76988,
+    "lng": -122.46859,
+    "eventsPage": "https://www.calacademy.org/nightlife",
+    "instagram": "https://www.instagram.com/casnightlife/",
+    "feeds": [
+      {
+        "format": "jsonld",
+        "url": "https://www.calacademy.org/nightlife/nightlife-october-15"
+      }
+    ],
+    "evidence": "https://www.calacademy.org/nightlife/nightlife-october-15 (NightLife, 2026-10-15)"
+  },
+  {
+    "id": "california-native-plant-society-yerba-buena-chapter",
+    "name": "California Native Plant Society, Yerba Buena Chapter",
+    "url": "https://cnps-yerbabuena.org/",
+    "what": "Volunteer-run chapter of the California Native Plant Society that holds restoration workdays, field trips, talks and plant sales in San Francisco.",
+    "plugIn": "Join a Wednesday Natural Areas workday with Rec and Park staff, which has met at Grandview Park, or help on the Sunset Boulevard native plant blocks.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "learning"
+    ],
+    "hood": "sunset-wide",
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "eventsPage": "https://cnps-yerbabuena.org/calendar/restoration-parties/",
+    "instagram": null,
+    "feeds": [
+      {
+        "format": "meetup",
+        "url": "https://www.meetup.com/California-Native-Plant-Society-Bay-Area-Meetup-Group/events/ical/"
+      }
+    ],
+    "evidence": "https://natureinthecity.org/events/cnps-natural-areas-workday-partner-workday (CNPS workday at Grandview Park, 14th Avenue, 2026-08-12); Meetup feed with October 2026 workdays"
+  },
+  {
+    "id": "christ-church-lutheran",
+    "name": "Christ Church Lutheran",
+    "url": "https://www.christchurchlutheran.org/",
+    "what": "ELCA Lutheran congregation on Quintara Street since 1912, with hybrid Sunday worship, children's programs and a building open to neighborhood groups.",
+    "plugIn": "Join Sunday worship at 10 am in person or on Zoom, or ask about using the building for a community group.",
+    "kind": "faith",
+    "domains": [
+      "neighbors",
+      "wellbeing"
+    ],
+    "hood": "parkside",
+    "address": "1090 Quintara St, San Francisco, CA 94116",
+    "lat": 37.74866,
+    "lng": -122.47701,
+    "eventsPage": null,
+    "instagram": "https://www.instagram.com/christchurchlutheransf/",
+    "feeds": [],
+    "evidence": "https://www.christchurchlutheran.org/ (Saturday Fun & Games paused as of September 2026)"
+  },
+  {
+    "id": "congregation-ner-tamid",
+    "name": "Congregation Ner Tamid",
+    "url": "https://nertamidsf.org/",
+    "what": "Egalitarian Conservative synagogue on Quintara Street with Shabbat services, holiday observances, classes and a community and culture club.",
+    "plugIn": "Attend Saturday morning Shabbat services in person at 9:30 am or Friday night services online; visitors are invited.",
+    "kind": "faith",
+    "domains": [
+      "neighbors",
+      "wellbeing",
+      "learning"
+    ],
+    "hood": "parkside",
+    "address": "1250 Quintara St, San Francisco, CA 94116",
+    "lat": 37.74858,
+    "lng": -122.47877,
+    "eventsPage": "https://nertamidsf.org/events/",
+    "instagram": null,
+    "feeds": [
+      {
+        "format": "tribe",
+        "url": "https://nertamidsf.org/wp-json/tribe/events/v1/events"
+      }
+    ],
+    "evidence": "https://nertamidsf.org/ (Shemini Atzeret services 10/2 and 10/3/2026)"
+  },
+  {
+    "id": "de-young-museum",
+    "name": "de Young Museum",
+    "url": "https://www.famsf.org/",
+    "what": "Fine Arts Museums of San Francisco art museum in Golden Gate Park, with galleries, a free observation tower and a sculpture garden.",
+    "plugIn": "Come to Free Saturdays, Family Art Making and Sketching in the Galleries, or a Late Night Editions evening.",
+    "kind": "nonprofit",
+    "domains": [
+      "art-culture",
+      "learning"
+    ],
+    "hood": "golden-gate-park",
+    "address": "50 Hagiwara Tea Garden Dr, San Francisco, CA 94118",
+    "lat": 37.77088,
+    "lng": -122.46842,
+    "eventsPage": "https://www.famsf.org/calendar",
+    "instagram": "https://www.instagram.com/deyoungmuseum/",
+    "feeds": [],
+    "evidence": "https://www.famsf.org/calendar (Late Night Editions: Halloween Eve, 2026-10-30; Holiday Artisan Fair, Dec 4 to 5, 2026)"
+  },
+  {
+    "id": "dharma-treasury-temple",
+    "name": "Dharma Treasury Temple",
+    "url": "https://www.chanpureland.org/location.html",
+    "what": "Bodhi Light International Buddhist temple in a former Lutheran church on Ulloa Street, practicing Chan and Pure Land; events are free and open to all.",
+    "plugIn": "Come to weekend meditation and Dharma talks, or to exhibits such as the Buddha relics collection.",
+    "kind": "faith",
+    "domains": [
+      "wellbeing",
+      "art-culture"
+    ],
+    "hood": "parkside",
+    "address": "3201 Ulloa St, San Francisco, CA 94116",
+    "lat": 37.74046,
+    "lng": -122.49063,
+    "eventsPage": "https://www.chanpureland.org/calendar.html",
+    "instagram": "https://www.instagram.com/bodhilightintl/",
+    "feeds": [
+      {
+        "format": "ics",
+        "url": "https://calendar.google.com/calendar/ical/5b2a3328102798be4bf5b4ef7251ae9cd50d44c2b49dc32b48e7e1a440e64e75%40group.calendar.google.com/public/basic.ics"
+      }
+    ],
+    "evidence": "https://www.chanpureland.org/relics.html (relics exhibit at Dharma Treasury Temple Feb 17-22, 2026)"
+  },
+  {
+    "id": "friends-of-sunset-dunes",
+    "name": "Friends of Sunset Dunes",
+    "url": "https://sunsetdunes.org/",
+    "what": "Outer Sunset nonprofit that runs free events, cleanups and dune planting days at Sunset Dunes, the park on the former Upper Great Highway.",
+    "plugIn": "Join a monthly Sunday community cleanup or a dune revegetation morning, or come to the Sundays at the Beach music and fitness events.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "art-culture",
+      "wellbeing"
+    ],
+    "hood": "ocean-beach",
+    "address": "Sunset Dunes, former Upper Great Highway from Lincoln Way to Sloat Blvd",
+    "lat": 37.75069,
+    "lng": -122.50851,
+    "eventsPage": "https://sunsetdunes.org/events",
+    "instagram": "https://www.instagram.com/sunsetdunespark/",
+    "feeds": [
+      {
+        "format": "squarespace",
+        "url": "https://sunsetdunes.org/events?format=json"
+      }
+    ],
+    "evidence": "https://sunsetdunes.org/events (events listed Oct to Dec 2026); https://sunsetdunes.org/get-involved"
+  },
+  {
+    "id": "garden-for-the-environment",
+    "name": "Garden for the Environment",
+    "url": "https://www.gardenfortheenvironment.org/",
+    "what": "Public teaching garden in the Inner Sunset that runs composting, food growing and native plant workshops, youth field trips and volunteer shifts.",
+    "plugIn": "Take the free urban composting workshop or the fall gardening series, or drop in for a Wednesday or Saturday volunteer shift, 10am to 3pm.",
+    "kind": "nonprofit",
+    "domains": [
+      "food-land",
+      "learning",
+      "ocean-parks"
+    ],
+    "hood": "inner-sunset",
+    "address": "1590 7th Ave",
+    "lat": 37.75874,
+    "lng": -122.46372,
+    "eventsPage": "https://www.gardenfortheenvironment.org/workshops",
+    "instagram": "https://www.instagram.com/gardenfortheenvironment/",
+    "feeds": [
+      {
+        "format": "eventbrite",
+        "url": "https://www.eventbrite.com/o/garden-for-the-environment-924286027"
+      }
+    ],
+    "evidence": "https://www.gardenfortheenvironment.org/ (fall 2026 workshops); https://www.gardenfortheenvironment.org/volunteer"
+  },
+  {
+    "id": "golden-gate-bird-alliance",
+    "name": "Golden Gate Bird Alliance",
+    "url": "https://goldengatebirdalliance.org/",
+    "what": "Bay Area bird conservation nonprofit, formerly Golden Gate Audubon, that runs free birding field trips, classes and habitat restoration.",
+    "plugIn": "Join the free first-Sunday Birding in the Garden walk at the SF Botanical Garden, or a Bird Curious walk for new birders; registration opens monthly.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "learning"
+    ],
+    "hood": "golden-gate-park",
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "eventsPage": "https://goldengatebirdalliance.org/field-trips-info/",
+    "instagram": "https://www.instagram.com/goldengatebirdalliance/",
+    "feeds": [],
+    "evidence": "https://goldengatebirdalliance.app.neoncrm.com/np/clients/goldengatebirdalliance/event.jsp?event=20263 (Bird Curious walk at SF Botanical Garden, 2026-10-11); gggp.org feed lists Birding in the Garden with GGBA on 2026-11-01 and 2026-12-06"
+  },
+  {
+    "id": "golden-gate-national-parks-conservancy-fort-funston-habitat-",
+    "name": "Golden Gate National Parks Conservancy (Fort Funston Habitat Stewards)",
+    "url": "https://www.parksconservancy.org/",
+    "what": "Nonprofit partner of the Golden Gate National Recreation Area that runs habitat restoration volunteer programs, including the San Francisco Habitat Stewards at Fort Funston.",
+    "plugIn": "Register for a free Habitat Stewards workday restoring native dune and scrub habitat at Fort Funston, Lands End and the Presidio.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks"
+    ],
+    "hood": "ocean-beach",
+    "address": "Fort Funston, Skyline Blvd at John Muir Dr",
+    "lat": null,
+    "lng": null,
+    "eventsPage": "https://www.parksconservancy.org/events",
+    "instagram": "https://www.instagram.com/parksconservancy/",
+    "feeds": [],
+    "evidence": "https://presidio.gov/explore/events/san-francisco-habitat-stewards-wednesday-2/2026-11-25/ (Habitat Stewards for Fort Funston, Lands End and the Presidio, session dated 2026-11-25)"
+  },
+  {
+    "id": "green-apple-books-on-the-park",
+    "name": "Green Apple Books on the Park",
+    "url": "https://greenapplebooks.com/",
+    "what": "Independent bookstore on 9th Avenue that hosts author readings, book launches and poetry nights in the Inner Sunset.",
+    "plugIn": "RSVP for a free evening author event at the 9th Ave store, usually 7pm on weeknights.",
+    "kind": "business",
+    "domains": [
+      "art-culture",
+      "learning"
+    ],
+    "hood": "inner-sunset",
+    "address": "1231 9th Ave, San Francisco, CA 94122",
+    "lat": 37.7653,
+    "lng": -122.46647,
+    "eventsPage": "https://greenapplebooks.com/events",
+    "instagram": "https://www.instagram.com/greenapplebooks",
+    "feeds": [
+      {
+        "format": "jsonld",
+        "url": "https://greenapplebooks.com/events"
+      }
+    ],
+    "evidence": "https://greenapplebooks.com/event/2026-10-15/9th-ave-benjamin-gucciardi-cintia-santana"
+  },
+  {
+    "id": "inner-sunset-farmers-market-pcfma",
+    "name": "Inner Sunset Farmers' Market (PCFMA)",
+    "url": "https://www.pcfma.org/innersunset",
+    "what": "Year-round certified farmers market run by the Pacific Coast Farmers' Market Association with the Inner Sunset Park Neighbors.",
+    "plugIn": "Shop Sundays 9am to 1pm in the lot between 8th and 9th Avenues off Irving Street.",
+    "kind": "market",
+    "domains": [
+      "food-land"
+    ],
+    "hood": "inner-sunset",
+    "address": "1315 8th Ave",
+    "lat": 37.76377,
+    "lng": -122.4653,
+    "eventsPage": null,
+    "instagram": "https://www.instagram.com/innersunsetfarmersmarket/",
+    "feeds": [],
+    "evidence": "https://www.pcfma.org/innersunset (market blog posts dated 2026-08-17 and 2026-09-30)"
+  },
+  {
+    "id": "inner-sunset-flea",
+    "name": "Inner Sunset Flea",
+    "url": "https://isflea.com/",
+    "what": "Monthly street flea market on Irving St between 9th and 10th Ave with vintage goods, artists, makers, food and music.",
+    "plugIn": "Shop or sell at the flea, second Sunday April to November, 10am to 4pm. Remaining 2026 dates: October 11 and November 8.",
+    "kind": "market",
+    "domains": [
+      "art-culture",
+      "neighbors"
+    ],
+    "hood": "inner-sunset",
+    "address": "Irving St between 9th and 10th Ave, San Francisco, CA 94122",
+    "lat": 37.76405,
+    "lng": -122.46741,
+    "eventsPage": "https://isflea.com/",
+    "instagram": "https://www.instagram.com/innersunsetflea/",
+    "feeds": [],
+    "evidence": "https://isflea.com/ (2026 dates April 12 to November 8)"
+  },
+  {
+    "id": "japanese-tea-garden",
+    "name": "Japanese Tea Garden",
+    "url": "https://gggp.org/japanese-tea-garden/",
+    "what": "Historic Japanese garden from the 1894 Midwinter Fair, with a tea house, gift shop, ponds and pagoda, run by Gardens of Golden Gate Park.",
+    "plugIn": "Visit the garden and tea house; seasonal programs are posted on the Gardens of Golden Gate Park calendar.",
+    "kind": "venue",
+    "domains": [
+      "art-culture",
+      "ocean-parks"
+    ],
+    "hood": "golden-gate-park",
+    "address": "75 Hagiwara Tea Garden Dr, San Francisco, CA 94118",
+    "lat": 37.77053,
+    "lng": -122.4687,
+    "eventsPage": "https://gggp.org/events-calendar/",
+    "instagram": "https://www.instagram.com/japaneseteagardensf/",
+    "feeds": [],
+    "evidence": "https://gggp.org/japanese-tea-garden/ (hours and tea house info, 2026 site)"
+  },
+  {
+    "id": "national-aids-memorial-grove",
+    "name": "National AIDS Memorial Grove",
+    "url": "https://www.aidsmemorial.org/",
+    "what": "Nonprofit that cares for the National AIDS Memorial Grove, a memorial garden in the de Laveaga Dell at the east end of Golden Gate Park.",
+    "plugIn": "Join a Saturday Community Volunteer Workday in the Grove, 8:30am to 12:30pm, held monthly from March to October.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "neighbors"
+    ],
+    "hood": "golden-gate-park",
+    "address": "Nancy Pelosi Dr and Bowling Green Dr, Golden Gate Park",
+    "lat": null,
+    "lng": null,
+    "eventsPage": "https://www.aidsmemorial.org/volunteer-workdays",
+    "instagram": "https://www.instagram.com/nationalaidsmemorial/",
+    "feeds": [],
+    "evidence": "https://www.aidsmemorial.org/volunteer-workdays (2026 workday dates through 2026-10-17)"
+  },
+  {
+    "id": "nature-in-the-city",
+    "name": "Nature in the City",
+    "url": "https://natureinthecity.org/",
+    "what": "Nonprofit that restores habitat for the Green Hairstreak butterfly in Golden Gate Heights and runs nature walks and native plant workdays across the city.",
+    "plugIn": "Join a Green Hairstreak Corridor planting workday on the Golden Gate Heights blocks around 12th to 15th Avenue between Noriega and Quintara.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "learning"
+    ],
+    "hood": "golden-gate-heights",
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "eventsPage": "https://natureinthecity.org/events",
+    "instagram": "https://www.instagram.com/natureinthecity/",
+    "feeds": [
+      {
+        "format": "squarespace",
+        "url": "https://natureinthecity.org/events?format=json"
+      }
+    ],
+    "evidence": "https://natureinthecity.org/events (Green Hairstreak Corridor workdays Oct to Dec 2026)"
+  },
+  {
+    "id": "other-avenues-food-store-cooperative",
+    "name": "Other Avenues Food Store Cooperative",
+    "url": "https://otheravenues.coop/",
+    "what": "Worker-owned grocery co-op on Judah Street since 1974, selling organic produce, bulk foods and goods from local farms and makers.",
+    "plugIn": "Shop the store, and check its newsletter and Instagram for the clothing swaps and food workshops it hosts.",
+    "kind": "business",
+    "domains": [
+      "food-land"
+    ],
+    "hood": "outer-sunset",
+    "address": "3930 Judah St",
+    "lat": 37.76056,
+    "lng": -122.50415,
+    "eventsPage": null,
+    "instagram": "https://www.instagram.com/otheravenues/",
+    "feeds": [],
+    "evidence": "https://otheravenues.coop/ (live store site with Instagram posts on swaps and workshops; Tribe events endpoint exists but lists 0 events)"
+  },
+  {
+    "id": "pomeroy-recreation-rehabilitation-center",
+    "name": "Pomeroy Recreation & Rehabilitation Center",
+    "url": "https://www.prrcsf.org/",
+    "what": "Day center next to the SF Zoo for children and adults with developmental disabilities or brain injuries, with classes, recreation, job training and a pool.",
+    "plugIn": "Volunteer through the online portal, book swim lessons or therapeutic swim at the pool, or attend fundraising events.",
+    "kind": "nonprofit",
+    "domains": [
+      "neighbors",
+      "wellbeing"
+    ],
+    "hood": "parkside",
+    "address": "207 Skyline Blvd, San Francisco, CA 94132",
+    "lat": 37.73223,
+    "lng": -122.49826,
+    "eventsPage": "https://www.prrcsf.org/events",
+    "instagram": "https://www.instagram.com/pomeroycenter/",
+    "feeds": [
+      {
+        "format": "squarespace",
+        "url": "https://www.prrcsf.org/events?format=json"
+      }
+    ],
+    "evidence": "https://www.prrcsf.org/events?format=json (events dated 2026-03-13 and 2026-05-29)"
+  },
+  {
+    "id": "san-francisco-botanical-garden-gardens-of-golden-gate-park",
+    "name": "San Francisco Botanical Garden (Gardens of Golden Gate Park)",
+    "url": "https://gggp.org/",
+    "what": "Nonprofit that runs the 55-acre botanical garden at 9th Ave and Lincoln, plus the Japanese Tea Garden and Conservatory of Flowers.",
+    "plugIn": "Join a birding walk, plant sale, forest bathing session or Ask A Master Gardener table, or visit on a free day.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "learning",
+      "art-culture"
+    ],
+    "hood": "golden-gate-park",
+    "address": "1199 9th Ave, San Francisco, CA 94122",
+    "lat": 37.76642,
+    "lng": -122.4665,
+    "eventsPage": "https://gggp.org/events-calendar/",
+    "instagram": "https://www.instagram.com/sfbotanicalgarden/",
+    "feeds": [
+      {
+        "format": "tribe",
+        "url": "https://gggp.org/wp-json/tribe/events/v1/events?per_page=50&start_date=2026-10-09"
+      },
+      {
+        "format": "ics",
+        "url": "https://gggp.org/events-calendar/?ical=1"
+      },
+      {
+        "format": "tribe",
+        "url": "https://gggp.org/wp-json/tribe/events/v1/events"
+      },
+      {
+        "format": "ics",
+        "url": "https://gggp.org/events/?ical=1"
+      }
+    ],
+    "evidence": "https://gggp.org/events-calendar/ (October Plant Sale 2026-10-10, Free Day 2026-10-13)"
+  },
+  {
+    "id": "san-francisco-zoo-gardens",
+    "name": "San Francisco Zoo & Gardens",
+    "url": "https://www.sfzoo.org/",
+    "what": "City zoo at Sloat Blvd and the Great Highway with animal exhibits, gardens, education programs and seasonal events.",
+    "plugIn": "Come on an SF Resident Free Day (first Wednesday of the month), Sunset Fridays on the Playfield Lawn, Boo at the Zoo or ZooLights.",
+    "kind": "nonprofit",
+    "domains": [
+      "learning",
+      "ocean-parks",
+      "neighbors"
+    ],
+    "hood": "parkside",
+    "address": "Sloat Blvd at the Great Highway, San Francisco, CA 94132",
+    "lat": 37.7359,
+    "lng": -122.50735,
+    "eventsPage": "https://www.sfzoo.org/visit-the-zoo/calendar-of-events/",
+    "instagram": "https://www.instagram.com/sfzoo/",
+    "feeds": [],
+    "evidence": "https://www.sfzoo.org/wp-json/custom/v1/calendar-events (SF Resident Free Day 2026-11-04, ZooLights 2026-11-06)"
+  },
+  {
+    "id": "self-help-for-the-elderly-chi-sing-community-center",
+    "name": "Self-Help for the Elderly: Chi Sing Community Center",
+    "url": "https://www.selfhelpelderly.org/locations",
+    "what": "Senior activity center on Taraval Street run by Self-Help for the Elderly, with daily lunches, classes and social activities in Chinese and English.",
+    "plugIn": "Adults 60 and over can drop in for lunch and activities; the monthly menu and calendar are posted as a PDF on the locations page.",
+    "kind": "nonprofit",
+    "domains": [
+      "neighbors",
+      "wellbeing"
+    ],
+    "hood": "parkside",
+    "address": "3133 Taraval St, San Francisco, CA 94116",
+    "lat": 37.74193,
+    "lng": -122.49963,
+    "eventsPage": "https://www.selfhelpelderly.org/wp-content/uploads/calendars/chi-sing.pdf",
+    "instagram": "https://www.instagram.com/selfhelpelderly/",
+    "feeds": [],
+    "evidence": "https://www.selfhelpelderly.org/wp-content/uploads/calendars/chi-sing.pdf (October 2026 menu) ; https://www.selfhelpelderly.org/locations"
+  },
+  {
+    "id": "st-anne-of-the-sunset",
+    "name": "St. Anne of the Sunset",
+    "url": "https://www.stanne-sf.org/",
+    "what": "Catholic parish at Judah and Funston with Mass in English and Chinese, a parish school, Chinese school and an Earth care ministry.",
+    "plugIn": "Attend Sunday Mass at 8, 10 or 12 (Chinese), or rent Moriarty Hall on Funston Avenue for a community event.",
+    "kind": "faith",
+    "domains": [
+      "neighbors",
+      "wellbeing"
+    ],
+    "hood": "inner-sunset",
+    "address": "850 Judah St, San Francisco, CA 94122",
+    "lat": 37.76206,
+    "lng": -122.47102,
+    "eventsPage": null,
+    "instagram": "https://www.instagram.com/stanneofthesunset/",
+    "feeds": [],
+    "evidence": "https://www.stanne-sf.org/ (Advent wreath pickup Nov 29, copyright 2026)"
+  },
+  {
+    "id": "st-cecilia-catholic-church",
+    "name": "St. Cecilia Catholic Church",
+    "url": "https://www.stcecilia.com/",
+    "what": "Catholic parish at 17th Avenue and Vicente with daily Mass, adoration, a parish school, coffee and donuts fellowship and an annual festival.",
+    "plugIn": "Attend Mass, stay for coffee and donuts after Sunday Mass, or come to the parish festival.",
+    "kind": "faith",
+    "domains": [
+      "neighbors",
+      "wellbeing"
+    ],
+    "hood": "parkside",
+    "address": "2555 17th Ave, San Francisco, CA 94116",
+    "lat": 37.74026,
+    "lng": -122.47342,
+    "eventsPage": "https://www.stcecilia.com/events",
+    "instagram": null,
+    "feeds": [],
+    "evidence": "https://www.stcecilia.com/ (Bulletin 2026, Festival 2025 pages; calendar showing October 2026)"
+  },
+  {
+    "id": "stern-grove-festival",
+    "name": "Stern Grove Festival",
+    "url": "https://www.sterngrove.org/",
+    "what": "Nonprofit that puts on free Sunday afternoon concerts each summer in the Stern Grove amphitheater at 19th Ave and Sloat.",
+    "plugIn": "Picnic at a free summer concert; some shows use a free ticket lottery that opens a few weeks ahead. The 90th season is summer 2027.",
+    "kind": "nonprofit",
+    "domains": [
+      "art-culture"
+    ],
+    "hood": "parkside",
+    "address": "Sigmund Stern Grove, 19th Ave and Sloat Blvd, San Francisco, CA 94132",
+    "lat": 37.73609,
+    "lng": -122.4786,
+    "eventsPage": "https://www.sterngrove.org/lineup2026",
+    "instagram": "https://www.instagram.com/sterngrovefestival/",
+    "feeds": [],
+    "evidence": "https://www.sterngrove.org/lineup2026 (2026 season, June 14 to August 16)"
+  },
+  {
+    "id": "sunset-family-resource-center",
+    "name": "Sunset Family Resource Center",
+    "url": "https://www.sf.gov/department-san-francisco-department-of-early-childhood/wah-mei-ortega-street",
+    "what": "Free family center run by Wah Mei, Sunset Youth Services and Gum Moon: playgroups, parenting classes, a diaper bank and referrals in English and Cantonese.",
+    "plugIn": "Bring children 0 to 5 to a playgroup, join the Triple P parenting series or a parent support group, or pick up diapers and formula.",
+    "kind": "nonprofit",
+    "domains": [
+      "neighbors",
+      "learning"
+    ],
+    "hood": "outer-sunset",
+    "address": "3223A Ortega St (West Sunset Playground), San Francisco, CA 94116; second site 1555 Irving St, San Francisco, CA 94122",
+    "lat": 37.7571,
+    "lng": -122.48687,
+    "eventsPage": null,
+    "instagram": null,
+    "feeds": [],
+    "evidence": "https://www.sf.gov/department-san-francisco-department-of-early-childhood/wah-mei-ortega-street ; https://www.sf.gov/department-san-francisco-department-of-early-childhood/wah-mei-irving-street ; https://richmondsunsetnews.com/2026/02/08/sunset-youth-services-offers-a-pathway-to-stability-and-growth/"
+  },
+  {
+    "id": "sunset-mercantile-outer-sunset-farmers-market-and-mercantile",
+    "name": "Sunset Mercantile (Outer Sunset Farmers Market and Mercantile)",
+    "url": "https://sunsetmercantilesf.com/",
+    "what": "Local producer of neighborhood markets that runs the Sunday Outer Sunset Farmers Market, the Inner Sunset Flea and Secondhand Saturdays.",
+    "plugIn": "Shop the farmers market on 37th Avenue from Ortega to Quintara, Sundays 9am to 2pm, or the third-Saturday secondhand market on the same block.",
+    "kind": "market",
+    "domains": [
+      "food-land",
+      "neighbors"
+    ],
+    "hood": "outer-sunset",
+    "address": "37th Ave between Ortega St and Quintara St",
+    "lat": 37.74972,
+    "lng": -122.49543,
+    "eventsPage": "https://sunsetmercantilesf.com/calendar-pg/",
+    "instagram": "https://www.instagram.com/sunsetmercantile/",
+    "feeds": [],
+    "evidence": "https://sunsetmercantilesf.com/ (Diwali 2026 market Nov 8, Dia de los Muertos Nov 1 2026, flea and secondhand markets April to Nov 2026)"
+  },
+  {
+    "id": "sunset-ministry",
+    "name": "Sunset Ministry",
+    "url": "https://www.sunsetministry.com/",
+    "what": "Christian church on Noriega Street with Sunday worship, home groups, youth and college ministries.",
+    "plugIn": "Attend Sunday worship at 10 am or join a home group; the church posts a weekly bulletin online.",
+    "kind": "faith",
+    "domains": [
+      "neighbors",
+      "wellbeing"
+    ],
+    "hood": "outer-sunset",
+    "address": "3010 Noriega St, San Francisco, CA 94122",
+    "lat": 37.75344,
+    "lng": -122.49593,
+    "eventsPage": "https://www.sunsetministry.com/calendar",
+    "instagram": "https://www.instagram.com/sunsetministrysf/",
+    "feeds": [],
+    "evidence": "https://www.sunsetministry.com/ (bulletin dated 10.04.26). Note: calendar page embeds a Styled Calendar backed by a private Google Calendar whose last event is 2024-12-31, so no usable feed."
+  },
+  {
+    "id": "sunset-youth-services",
+    "name": "Sunset Youth Services",
+    "url": "https://www.sunsetyouthservices.org/",
+    "what": "Youth and family nonprofit on Judah Street running digital arts and music programs, case management, justice services, parenting classes and grief circles.",
+    "plugIn": "Young people 14 to 24 can drop in on weekday afternoons; parents can join parenting classes or the weekly family pantry and diaper bank.",
+    "kind": "nonprofit",
+    "domains": [
+      "neighbors",
+      "art-culture"
+    ],
+    "hood": "outer-sunset",
+    "address": "3918 Judah St, San Francisco, CA 94122",
+    "lat": 37.76057,
+    "lng": -122.50403,
+    "eventsPage": null,
+    "instagram": null,
+    "feeds": [],
+    "evidence": "https://missionlocal.org/2026/04/sf-sunset-youth-services/ ; https://richmondsunsetnews.com/2026/02/08/sunset-youth-services-offers-a-pathway-to-stability-and-growth/"
+  },
+  {
+    "id": "surfrider-foundation-san-francisco-chapter",
+    "name": "Surfrider Foundation San Francisco Chapter",
+    "url": "https://sf.surfrider.org/",
+    "what": "Local Surfrider chapter that runs Ocean Beach cleanups, dune revegetation, beach water testing and campaigns on coastal erosion and Sunset Dunes.",
+    "plugIn": "Join the first-Sunday Ocean Beach cleanup, a Saturday dune revegetation shift, or the monthly chapter meeting on the first Wednesday.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "resilience"
+    ],
+    "hood": "ocean-beach",
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "eventsPage": "https://sf.surfrider.org/calendar",
+    "instagram": "https://www.instagram.com/surfridersf/",
+    "feeds": [
+      {
+        "format": "ics",
+        "url": "https://calendar.google.com/calendar/ical/c_9f778c5beae16f17c8900e46aeee00d2b4e3df1f4836a4dc8c86d3f693207fce%40group.calendar.google.com/public/basic.ics"
+      }
+    ],
+    "evidence": "https://sf.surfrider.org/calendar (Google Calendar with Nov and Dec 2026 events); https://sf.surfrider.org/ (2026 legislation, No on Prop G campaign)"
+  },
+  {
+    "id": "sutro-stewards",
+    "name": "Sutro Stewards",
+    "url": "https://www.sutrostewards.org/",
+    "what": "Nonprofit that cares for the Mount Sutro Open Space Reserve above UCSF Parnassus, with trail work, habitat restoration and a native plant nursery.",
+    "plugIn": "Join a Wednesday or Thursday Conservation Volunteer shift, a first-Saturday trail day, a bird walk, or the nursery plant sale.",
+    "kind": "nonprofit",
+    "domains": [
+      "ocean-parks",
+      "wellbeing"
+    ],
+    "hood": "inner-sunset",
+    "address": "Sutro Native Plant Nursery, 476 Johnstone Dr",
+    "lat": 37.75705,
+    "lng": -122.45617,
+    "eventsPage": "https://www.sutrostewards.org/events",
+    "instagram": "https://www.instagram.com/sutro.stewards/",
+    "feeds": [],
+    "evidence": "https://www.sutrostewards.org/events (October and November 2026 calendar); plant sale 2026-10-10 on homepage"
+  },
+  {
+    "id": "the-riptide",
+    "name": "The Riptide",
+    "url": "https://riptidesf.com/",
+    "what": "Bar near Ocean Beach on Taraval with live bands, DJs, karaoke and a weekly open mic, never a cover charge.",
+    "plugIn": "Sign up for the weekly open mic (sign-up from 7pm, music at 8) or catch a free live band.",
+    "kind": "venue",
+    "domains": [
+      "art-culture"
+    ],
+    "hood": "outer-sunset",
+    "address": "3639 Taraval St, San Francisco, CA 94116",
+    "lat": 37.74169,
+    "lng": -122.50505,
+    "eventsPage": "https://riptidesf.com/",
+    "instagram": null,
+    "feeds": [
+      {
+        "format": "ics",
+        "url": "https://calendar.google.com/calendar/ical/riptidesf%40gmail.com/public/basic.ics"
+      }
+    ],
+    "evidence": "https://calendar.google.com/calendar/ical/riptidesf%40gmail.com/public/basic.ics (Live Evil 2026-10-25); riptidesf.com promotes TideFest 2026"
+  },
+  {
+    "id": "united-irish-cultural-center",
+    "name": "United Irish Cultural Center",
+    "url": "https://irishcentersf.org/",
+    "what": "Irish cultural center near Sloat Boulevard with a library, Irish language and genealogy classes, music, dance, yoga and community events.",
+    "plugIn": "Sign up for Irish language or genealogy classes, come to yoga or a music night, or volunteer at an event.",
+    "kind": "nonprofit",
+    "domains": [
+      "art-culture",
+      "learning",
+      "neighbors"
+    ],
+    "hood": "parkside",
+    "address": "2700 45th Ave, San Francisco, CA 94116",
+    "lat": 37.73617,
+    "lng": -122.50308,
+    "eventsPage": "https://irishcentersf.org/events/",
+    "instagram": "https://www.instagram.com/irishcentersf/",
+    "feeds": [
+      {
+        "format": "tribe",
+        "url": "https://irishcentersf.org/events/?ical=1"
+      },
+      {
+        "format": "tribe",
+        "url": "https://irishcentersf.org/wp-json/tribe/events/v1/events"
+      },
+      {
+        "format": "eventbrite",
+        "url": "https://www.eventbrite.com/o/united-irish-cultural-center-39010272693"
+      }
+    ],
+    "evidence": "https://irishcentersf.org/wp-json/tribe/events/v1/events (events dated Oct 2026)"
+  },
+  {
+    "id": "wah-mei-school",
+    "name": "Wah Mei School",
+    "url": "https://www.wahmei.org/",
+    "what": "Bilingual Chinese and English early care and after-school program in the Inner Sunset, which also runs Sunset community events and candidate forums.",
+    "plugIn": "Enroll a child in preschool, after-school or summer camp, or come to its public events such as the Sunset Night Market and Autumn Moon Festival.",
+    "kind": "nonprofit",
+    "domains": [
+      "learning",
+      "neighbors",
+      "art-culture"
+    ],
+    "hood": "inner-sunset",
+    "address": "1400 Judah St, San Francisco, CA 94122",
+    "lat": 37.76175,
+    "lng": -122.47716,
+    "eventsPage": "https://www.wahmei.org/events",
+    "instagram": "https://www.instagram.com/wahmeischool/",
+    "feeds": [
+      {
+        "format": "squarespace",
+        "url": "https://www.wahmei.org/event-calendar?format=json"
+      }
+    ],
+    "evidence": "https://www.wahmei.org/events (Sunset Night Market 2026-02-27, Spring Gala 2026-05-15)"
+  }
+]

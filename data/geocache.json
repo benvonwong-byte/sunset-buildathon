@@ -1,0 +1,172 @@
+{
+ "1090 quintara st, san francisco, ca 94116": {
+  "lat": 37.748661542244,
+  "lng": -122.477013997062,
+  "at": 1791585618960
+ },
+ "1199 9th ave, san francisco, ca 94122": {
+  "lat": 37.766419898233,
+  "lng": -122.466501982376,
+  "at": 1791585625440
+ },
+ "1231 9th ave, san francisco, ca 94122": {
+  "lat": 37.765300260627,
+  "lng": -122.466469990342,
+  "at": 1791585622425
+ },
+ "1250 quintara st, san francisco, ca 94116": {
+  "lat": 37.748584298157,
+  "lng": -122.47877346836,
+  "at": 1791585619130
+ },
+ "1315 8th ave": {
+  "lat": 37.763773959653,
+  "lng": -122.46529595343,
+  "at": 1791585622622
+ },
+ "1400 judah st, san francisco, ca 94122": {
+  "lat": 37.761750031217,
+  "lng": -122.477164371136,
+  "at": 1791585630687
+ },
+ "1590 7th ave": {
+  "lat": 37.75874143565,
+  "lng": -122.463723617392,
+  "at": 1791585620379
+ },
+ "207 skyline blvd, san francisco, ca 94132": {
+  "lat": 37.732233791868,
+  "lng": -122.498261134053,
+  "at": 1791585625179
+ },
+ "2555 17th ave, san francisco, ca 94116": {
+  "lat": 37.740258558642,
+  "lng": -122.473423549097,
+  "at": 1791585626900
+ },
+ "2700 45th ave, san francisco, ca 94116": {
+  "lat": 37.736174882601,
+  "lng": -122.503080763375,
+  "at": 1791585630515
+ },
+ "3010 noriega st, san francisco, ca 94122": {
+  "lat": 37.753439906888,
+  "lng": -122.495931281419,
+  "at": 1791585628552
+ },
+ "3133 taraval st, san francisco, ca 94116": {
+  "lat": 37.741933002655,
+  "lng": -122.4996324034,
+  "at": 1791585626538
+ },
+ "3201 ulloa st, san francisco, ca 94116": {
+  "lat": 37.740461617806,
+  "lng": -122.490630300096,
+  "at": 1791585619493
+ },
+ "3223a ortega st (west sunset playground), san francisco, ca 94116; second site 1555 irving st, san francisco, ca 94122": {
+  "lat": 37.751357017039,
+  "lng": -122.498046671635,
+  "at": 1791585627530
+ },
+ "3639 taraval st, san francisco, ca 94116": {
+  "lat": 37.741688048616,
+  "lng": -122.505047326697,
+  "at": 1791585630341
+ },
+ "37th ave between ortega st and quintara st": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585628376
+ },
+ "3918 judah st, san francisco, ca 94122": {
+  "lat": 37.76056556467,
+  "lng": -122.504031679696,
+  "at": 1791585628738
+ },
+ "3930 judah st": {
+  "lat": 37.760560588624,
+  "lng": -122.504145218946,
+  "at": 1791585624964
+ },
+ "4541 irving st, san francisco, ca 94122": {
+  "lat": 37.762208033496,
+  "lng": -122.506505403983,
+  "at": 1791585618397
+ },
+ "50 hagiwara tea garden dr, san francisco, ca 94118": {
+  "lat": 37.770880208843,
+  "lng": -122.468423536681,
+  "at": 1791585619304
+ },
+ "55 music concourse dr, san francisco, ca 94118": {
+  "lat": 37.770275915537,
+  "lng": -122.466649539562,
+  "at": 1791585618783
+ },
+ "75 hagiwara tea garden dr, san francisco, ca 94118": {
+  "lat": 37.77052694572,
+  "lng": -122.468696260163,
+  "at": 1791585623912
+ },
+ "850 judah st, san francisco, ca 94122": {
+  "lat": 37.762061389778,
+  "lng": -122.471018086601,
+  "at": 1791585626704
+ },
+ "ca": {
+  "lat": 37.8074477,
+  "lng": -122.4759589,
+  "at": 1791585887727
+ },
+ "fort funston, skyline blvd at john muir dr": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585621245
+ },
+ "irving st between 9th and 10th ave, san francisco, ca 94122": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585623643
+ },
+ "nancy pelosi dr and bowling green dr, golden gate park": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585624787
+ },
+ "noriega sunset lounge": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585883214
+ },
+ "ocean beach, san francisco, ca, usa": {
+  "lat": 37.7561513,
+  "lng": -122.510185,
+  "at": 1791585888991
+ },
+ "sigmund stern grove, 19th ave and sloat blvd, san francisco, ca 94132": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585627332
+ },
+ "sloat blvd at the great highway, san francisco, ca 94132": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585626355
+ },
+ "sunset dunes, former upper great highway from lincoln way to sloat blvd": {
+  "lat": null,
+  "lng": null,
+  "at": 1791585620200
+ },
+ "sutro native plant nursery, 476 johnstone dr": {
+  "lat": 37.7570521,
+  "lng": -122.4561657,
+  "at": 1791585630167
+ },
+ "the riptide, 3639 taraval st, san francisco, ca 94116, usa": {
+  "lat": 37.741688048616,
+  "lng": -122.505047326697,
+  "at": 1791585890579
+ }
+}

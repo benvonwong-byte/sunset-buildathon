@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Sunset Calendar | Dear Crisis</title>
+  <meta name="description" content="Every public event we can find in San Francisco's Inner and Outer Sunset, gathered each morning from neighborhood groups, the library, Luma, Eventbrite and Meetup. Plus a directory of the groups doing the work.">
+  <!--ROBOTS-->
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="canonical" href="https://sunset.dearcrisis.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dear Crisis">
+  <meta property="og:title" content="The Sunset Calendar">
+  <meta property="og:description" content="Every public event we can find in the Inner and Outer Sunset, refreshed every morning, plus the groups behind them.">
+  <meta property="og:url" content="https://sunset.dearcrisis.com/">
+  <meta property="og:image" content="https://sunset.dearcrisis.com/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" type="text/calendar" title="Sunset events (ICS)" href="sunset.ics">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=__VERSION__">
+  <!--JSONLD-->
+</head>
+<body>
+  <header class="wrap masthead">
+    <div class="ears">
+      <a class="brand" href="https://www.dearcrisis.com"><img src="assets/pigeon.png" alt="" width="34" height="22">Dear Crisis</a>
+      <span class="ear-r">San Francisco · Inner &amp; Outer Sunset</span>
+    </div>
+    <p class="kicker">The neighborhood listings desk</p>
+    <h1 class="nameplate">The Sunset Calendar</h1>
+    <p class="deck">Every public event we can find between Lincoln Way and Sloat, Stanyan and the ocean, gathered each morning from neighborhood groups, the library, Luma, Eventbrite and Meetup.</p>
+    <div class="dateline" id="dateline">
+      <span id="dl-updated">Loading the listings</span>
+    </div>
+  </header>
+
+  <div class="bar" id="bar">
+    <div class="wrap">
+      <div class="bar-row top">
+        <div class="tabs" role="tablist" aria-label="Views">
+          <button class="tab" role="tab" id="tab-agenda" data-view="agenda" aria-controls="view-agenda">Agenda</button>
+          <button class="tab" role="tab" id="tab-calendar" data-view="calendar" aria-controls="view-calendar">Calendar</button>
+          <button class="tab" role="tab" id="tab-map" data-view="map" aria-controls="view-map">Map</button>
+          <button class="tab" role="tab" id="tab-groups" data-view="groups" aria-controls="view-groups">Groups</button>
+        </div>
+        <div class="bar-row bar-actions">
+          <button class="btn ghost" id="open-subscribe" title="Subscribe in your calendar app">&#128197;<span class="label"> Subscribe</span></button>
+          <button class="btn" id="open-add" title="Add your group's calendar">+<span class="label"> Add your group</span></button>
+        </div>
+      </div>
+      <div class="bar-row" style="margin-top:8px">
+        <label class="sr-only" for="search">Search</label>
+        <input class="search" id="search" type="search" placeholder="Search events and groups: name, place, group, topic" autocomplete="off">
+        <label class="sr-only" for="hood">Neighborhood</label>
+        <select class="select" id="hood"></select>
+      </div>
+      <div class="chips" id="day-chips" role="group" aria-label="Filter by day"></div>
+      <div class="chips" id="cat-chips" role="group" aria-label="Filter by kind of event"></div>
+      <div class="filter-note" id="filter-note" hidden></div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="view" id="view-agenda" role="tabpanel" aria-labelledby="tab-agenda"></section>
+    <section class="view" id="view-calendar" role="tabpanel" aria-labelledby="tab-calendar" hidden></section>
+    <section class="view" id="view-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+      <div class="map-controls">
+        <label><input type="checkbox" id="map-events" checked> Events</label>
+        <select class="select" id="map-range" aria-label="Which events to map">
+          <option value="7">Next 7 days</option>
+          <option value="1">Today</option>
+          <option value="30">Next 30 days</option>
+          <option value="all">All upcoming</option>
+        </select>
+        <label><input type="checkbox" id="map-orgs" checked> Groups</label>
+      </div>
+      <div id="map" role="region" aria-label="Map of events and groups"></div>
+      <div class="legend" id="legend"></div>
+      <p class="map-note" id="map-note"></p>
+    </section>
+    <section class="view" id="view-groups" role="tabpanel" aria-labelledby="tab-groups" hidden></section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-cols">
+      <div>
+        <h2>How this calendar works</h2>
+        <p>A script reads the public calendars of the groups in the directory, the San Francisco Public Library, and the Luma, Eventbrite and Meetup listings for this part of the city, every morning. It keeps the events whose address falls inside the Sunset and merges the ones listed in more than one place. Times are Pacific. Dates and rooms change, so check the organizer's page before you head out.</p>
+        <p>The code is open, and a buildathon is welcome to it: <a href="https://github.com/benvonwong-byte/sunset-buildathon">github.com/benvonwong-byte/sunset-buildathon</a>. If your group posts events somewhere we can read, <button class="manicule" id="foot-add">tell us where</button>.</p>
+        <p class="kbd-hint">Keys: 1 to 4 switch views, / searches, j and k move through events, Enter opens one, Esc closes.</p>
+      </div>
+      <div>
+        <h2>Sources in this edition</h2>
+        <ul class="sources" id="sources"></ul>
+      </div>
+    </div>
+    <div class="wrap fine">A <a href="https://www.dearcrisis.com">Dear Crisis</a> project. Also: <a href="https://events.dearcrisis.com">NYC events</a>.</div>
+  </footer>
+
+  <dialog id="event-dialog" aria-labelledby="ev-title">
+    <div class="dlg-head">
+      <p class="kicker" id="ev-kicker"></p>
+      <div class="dlg-nav">
+        <button class="icon-btn" id="ev-prev" aria-label="Previous event">&larr;</button>
+        <button class="icon-btn" id="ev-next" aria-label="Next event">&rarr;</button>
+        <button class="icon-btn" id="ev-close" aria-label="Close">&times;</button>
+      </div>
+    </div>
+    <div class="dlg-body" id="ev-body"></div>
+  </dialog>
+
+  <dialog id="subscribe-dialog" aria-labelledby="sub-title">
+    <div class="dlg-head">
+      <p class="kicker">Subscribe</p>
+      <button class="icon-btn" data-close aria-label="Close">&times;</button>
+    </div>
+    <div class="dlg-body">
+      <h2 id="sub-title">Put the Sunset in your calendar</h2>
+      <p>Subscribe once and new events show up on their own. Your calendar app checks the feed every few hours.</p>
+      <label class="kicker" for="sub-cat" style="display:block">Which events</label>
+      <select class="select" id="sub-cat"></select>
+      <input class="feed-url" id="sub-url" readonly aria-label="Feed address">
+      <div class="actions">
+        <a class="btn" id="sub-webcal" href="#">Apple and Outlook</a>
+        <a class="btn ghost" id="sub-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
+        <button class="btn ghost" id="sub-copy">Copy address</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="add-dialog" aria-labelledby="add-title">
+    <div class="dlg-head">
+      <p class="kicker">Add your group</p>
+      <button class="icon-btn" data-close aria-label="Close">&times;</button>
+    </div>
+    <div class="dlg-body">
+      <h2 id="add-title">Get your events on this calendar</h2>
+      <p>We read calendars, not posters. If your group keeps its events in any of these, send us the link and they will show up here every day without anyone retyping them:</p>
+      <p>Google Calendar (a public calendar), Luma, Meetup, Eventbrite, a Squarespace or WordPress events page, or any feed that ends in <code>.ics</code>.</p>
+      <p>Only on Instagram or a flyer? Tell us anyway. Helping groups like yours set up a free calendar is part of the buildathon.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/benvonwong-byte/sunset-buildathon/issues/new?template=add-group.yml" target="_blank" rel="noopener">Open a request</a>
+        <a class="btn ghost" href="mailto:hi@vonwong.com?subject=Sunset%20calendar%3A%20add%20our%20group">Email us</a>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><div class="wrap"><p class="empty">This calendar needs JavaScript. The raw listings are at <a href="data/events.json">data/events.json</a> and the calendar feed at <a href="sunset.ics">sunset.ics</a>.</p></div></noscript>
+  <script type="module" src="app.js?v=__VERSION__"></script>
+</body>
+</html>
