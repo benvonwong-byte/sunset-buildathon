@@ -124,6 +124,29 @@ function venueFrom(location, fallback) {
 const sources = [];
 const all = [];
 
+// When a source fails (a site down for the morning, or one that blocks
+// GitHub's servers), reuse its still-upcoming events from the last good
+// read, for up to KEEP_DAYS. The footer says which sources this happened to.
+const KEEP_DAYS = 14;
+const PREV = existsSync(OUT) ? JSON.parse(readFileSync(OUT, "utf8")) : null;
+function lastGoodOf(id) {
+  const s = PREV?.sources?.find((x) => x.id === id);
+  return s?.lastGood ?? (s?.ok ? PREV.fetchedAt : null);
+}
+function reuse(id) {
+  const lastGood = lastGoodOf(id);
+  if (!lastGood || now - Date.parse(lastGood) > KEEP_DAYS * 86400000) return [];
+  return (PREV.events ?? [])
+    .filter((e) => e.feedId === id && Date.parse(e.start) > now)
+    .map((e) => ({ ...e, startMs: Date.parse(e.start), endMs: e.end ? Date.parse(e.end) : null }));
+}
+function failed(entry) {
+  const old = reuse(entry.id);
+  all.push(...old);
+  sources.push({ ...entry, ok: false, count: old.length, lastGood: lastGoodOf(entry.id) });
+  if (old.length) console.warn(`fetch-events: ${entry.label}: reusing ${old.length} events from ${lastGoodOf(entry.id)}`);
+}
+
 // --- 1. Group feeds and citywide feeds -----------------------------------
 // data/feeds.json lists citywide calendars (Rec & Park, cleanup crews,
 // nature roundups) that are not groups in the directory. They always run
@@ -229,6 +252,7 @@ for (const { org, feed } of jobs) {
       const host = org ?? matchOrg(inst.organizer, venueFrom(inst.location, null));
       kept++;
       all.push({
+        feedId: sourceId,
         id: idFor(org ? "org" : "feed", org?.id ?? feed.name, inst.uid ?? inst.url ?? inst.title, inst.startMs),
         title: inst.title.trim(),
         startMs: inst.startMs,
@@ -250,11 +274,11 @@ for (const { org, feed } of jobs) {
         image: inst.image ?? null,
       });
     }
-    sources.push({ id: sourceId, label, kind: org ? "org" : "feed", ok: true, count: kept });
+    sources.push({ id: sourceId, label, kind: org ? "org" : "feed", ok: true, count: kept, lastGood: new Date().toISOString() });
     console.log(`fetch-events: ${label}: ${kept} in window and in the Sunset (${instances.length} parsed)`);
   } catch (err) {
-    sources.push({ id: sourceId, label, kind: org ? "org" : "feed", ok: false, count: 0, error: String(err.message ?? err) });
     console.warn(`fetch-events: ${label} failed (${err.message ?? err})`);
+    failed({ id: sourceId, label, kind: org ? "org" : "feed", error: String(err.message ?? err) });
   }
   await sleep(150);
 }
@@ -272,6 +296,13 @@ try {
 }
 for (const [name, { events: list }] of Object.entries(bySource)) {
   const label = SOURCE_LABELS[name] ?? name;
+  // An empty list from a source that normally has events means it blocked
+  // us or broke; treat it as a failure so the last good read is reused.
+  if (!list.length) {
+    failed({ id: name, label, kind: "aggregator", error: "returned nothing" });
+    console.log(`fetch-events: aggregator ${label}: returned nothing`);
+    continue;
+  }
   let kept = 0;
   for (const e of list) {
     const startMs = parseLooseDate(e.start);
@@ -287,6 +318,7 @@ for (const [name, { events: list }] of Object.entries(bySource)) {
     const source = e.source ?? name;
     kept++;
     all.push({
+      feedId: name,
       id: idFor(source, e.url, startMs),
       title: String(e.title).trim(),
       startMs,
@@ -307,9 +339,7 @@ for (const [name, { events: list }] of Object.entries(bySource)) {
       free: e.free ?? undefined,
     });
   }
-  // An empty list from a source that normally has events usually means it
-  // blocked us; the footer shows it as not loaded.
-  sources.push({ id: name, label, kind: "aggregator", ok: list.length > 0, count: kept });
+  sources.push({ id: name, label, kind: "aggregator", ok: true, count: kept, lastGood: new Date().toISOString() });
   console.log(`fetch-events: aggregator ${label}: ${kept} in the Sunset (${list.length} returned)`);
 }
 

@@ -609,16 +609,21 @@ function closeMapSheet() {
 }
 
 // ---------- Footer ----------
+const shortStamp = new Intl.DateTimeFormat("en-US", { timeZone: TZ, month: "short", day: "numeric" });
+function stale(s) {
+  if (!s.count || !s.lastGood) return "did not load this morning";
+  return `${s.count} events from the ${esc(shortStamp.format(new Date(s.lastGood)))} read (did not load this morning)`;
+}
 function renderSources() {
   const agg = DATA.sources.filter((s) => s.kind === "aggregator" || s.kind === "feed");
   const groups = DATA.sources.filter((s) => s.kind === "org");
   const ok = groups.filter((s) => s.ok);
   const items = [
     `<li>Group calendars: ${ok.length} of ${groups.length} read</li>`,
-    ...agg.map((s) => `<li class="${s.ok ? "" : "bad"}">${esc(s.label.replace(/ \((\w|-)+\)$/, ""))}: ${s.ok ? `${s.count} events` : "did not load this morning"}</li>`),
+    ...agg.map((s) => `<li class="${s.ok ? "" : "bad"}">${esc(s.label.replace(/ \((\w|-)+\)$/, ""))}: ${s.ok ? `${s.count} events` : stale(s)}</li>`),
   ];
   const failing = groups.filter((s) => !s.ok);
-  if (failing.length) items.push(`<li class="bad">Did not load: ${failing.map((s) => esc(s.label.replace(/ \(.*\)$/, ""))).join(", ")}</li>`);
+  if (failing.length) items.push(`<li class="bad">Did not load this morning: ${failing.map((s) => esc(s.label.replace(/ \(.*\)$/, ""))).join(", ")}</li>`);
   if (DATA.fetchedAt) items.push(`<li>Updated ${esc(stampFmt.format(new Date(DATA.fetchedAt)))}</li>`);
   $("#sources").innerHTML = items.join("");
 }
