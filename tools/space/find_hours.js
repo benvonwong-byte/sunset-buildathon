@@ -26,9 +26,19 @@ const PLACE_BUDGET_MS = 120000;
 const PAGE_TIMEOUT = 25000;
 const LINK_HINT = [[/hours?|horario/i, 4], [/visit|location|find-?us|directions|store-?info/i, 3], [/contact|info/i, 2], [/about/i, 1]];
 // Not the business's own site: reviews, maps, social networks, directories, licensing lookups.
-const SKIP_HOST = /(^|\.)(yelp|google|goo\.gl|facebook|fb|instagram|twitter|x|tiktok|youtube|groupon|99designs|dca\.ca|locality|nextdoor|tripadvisor|doordash|ubereats|grubhub|postmates|seamless|opentable|resy|bbb|yellowpages|mapquest|foursquare|linkedin)\.(com|org|gov|co|me|net)$/i;
+const SKIP_HOST = /(^|\.)(yelp|google|goo\.gl|facebook|fb|instagram|twitter|x|tiktok|youtube|groupon|99designs|dca\.ca|locality|nextdoor|tripadvisor|doordash|ubereats|grubhub|postmates|seamless|opentable|resy|bbb|yellowpages|mapquest|foursquare|linkedin|wheree|mapcarta|cylex|chamberofcommerce|manta|zaubee)\.(com|org|gov|co|me|net)$/i;
 const BIO_HOST = /(^|\.)(linktr\.ee|linkin\.bio|bio\.site|beacons\.ai|lnk\.bio|campsite\.bio)$/i;
-const ORDER_HOST = /(^|\.)(toasttab\.com|square\.site|squareup\.com|chownow\.com|clover\.com|popmenu\.com|bentobox\.com|getbento\.com|order\.online|menufy\.com|olo\.com)$/i;
+// Online ordering pages for one store, which list its hours; not the platforms' own sites.
+const ORDER_PAGE = u => {
+  const h = u.hostname.replace(/^www\./, ''), p = u.pathname;
+  if (/privacy|terms|legal|login|sign-?up|careers|blog|support/i.test(p)) return false;
+  return (/^(order\.)?toasttab\.com$/.test(h) && p.length > 1)
+    || /\.square\.site$/.test(h)
+    || (h === 'squareup.com' && p.startsWith('/store/'))
+    || /^(direct|ordering)\.chownow\.com$/.test(h)
+    || (h.endsWith('clover.com') && p.includes('online-ordering'))
+    || /\.(popmenu|getbento)\.com$/.test(h);
+};
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const hostOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
@@ -124,10 +134,10 @@ async function readPageInner(page, u, json) {
   return d;
 }
 
-function hoursFrom(d, near) {
+function hoursFrom(d, near, houseNumber) {
   let hit = fromSquarespace(d.sq);
   if (hit) return { ...hit, src: 'squarespace' };
-  hit = fromJsonLd(d.ld);
+  hit = fromJsonLd(d.ld, houseNumber);
   if (hit) return { ...hit, src: 'json-ld' };
   const per = d.micro.length ? fromOhStrings(d.micro) : null;
   if (per) return { oh: toOsm(per), snippet: 'schema.org microdata', src: 'microdata' };
@@ -145,6 +155,7 @@ async function readSite(browser, page, startUrl, rec, nd) {
   if (!(await allowed(browser, url))) return { blocked: true };
   const site = hostOf(url), seen = new Set(), found = { verified: null, hit: null, extra: [] };
   const near = [];
+  const houseNumber = ((rec.addr || '').match(/^(\d+)/) || [])[1];
   const addrText = (rec.addr || '').toLowerCase().match(/^\d+[a-z]?\s+[a-z0-9]+/);
   if (addrText) near.push(addrText[0]);
   const check = text => {
@@ -155,7 +166,7 @@ async function readSite(browser, page, startUrl, rec, nd) {
     seen.add(u.replace(/#.*$/, ''));
     const d = await readPage(page, u);
     check(d.text);
-    if (!found.hit) { const h = hoursFrom(d, near); if (h) found.hit = { ...h, url: u }; }
+    if (!found.hit) { const h = hoursFrom(d, near, houseNumber); if (h) found.hit = { ...h, url: u }; }
     return d;
   }
   const first = await visit(url);
@@ -169,7 +180,7 @@ async function readSite(browser, page, startUrl, rec, nd) {
     let u; try { u = new URL(l.h); } catch { continue; }
     if (!/^https?:$/.test(u.protocol)) continue;
     u.hash = '';
-    if (ORDER_HOST.test(u.hostname)) { if (!found.extra.includes(u.href)) found.extra.push(u.href); continue; }
+    if (ORDER_PAGE(u)) { if (!found.extra.includes(u.href)) found.extra.push(u.href); continue; }
     if (hostOf(u.href) !== site || seen.has(u.href) || cand.some(c => c.u === u.href)) continue;
     let score = 0;
     for (const [re, w] of LINK_HINT) if (re.test(u.pathname) || re.test(l.t)) score = Math.max(score, w);
@@ -208,8 +219,12 @@ async function findPlace(browser, rec) {
       // A location page whose address names this place's street ("irvingstreet.example.com").
       const street = ((rec.addr || '').toLowerCase().match(/^\d+[a-z]?\s+([a-z]{5,})/) || [])[1];
       const viaUrl = street && r.hit && r.hit.url.toLowerCase().includes(street) ? 'url' : null;
-      const verified = r.verified || viaUrl || (src.startsWith('osm') ? 'osm' : null);
-      if (r.hit && verified) return { status: 'hours', ...r.hit, verified, tried };
+      // An OpenStreetMap link vouches for its own site, not for pages it links out to.
+      const verified = r.verified || viaUrl || (/^osm:[a-z:]+$/.test(src) && hostOf(r.hit ? r.hit.url : '') === hostOf(url) ? 'osm' : null);
+      // Platforms fill a blank schedule with Monday to Friday 9 to 5; from page data alone
+      // that is more likely the default than the owner's hours.
+      const template = r.hit && r.hit.src === 'page data' && /^Mo 09:00-17:00; Tu 09:00-17:00; We 09:00-17:00; Th 09:00-17:00; Fr 09:00-17:00; Sa off; Su off$/.test(r.hit.oh);
+      if (r.hit && verified && !template) return { status: 'hours', ...r.hit, verified, tried };
       if (r.hit && !fallback) fallback = { status: 'unverified', ...r.hit, verified: 'name', tried };
     }
     if (fallback) return fallback;

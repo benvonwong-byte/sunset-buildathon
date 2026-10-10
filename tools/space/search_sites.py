@@ -58,6 +58,8 @@ for i, c in enumerate(todo, 1):
     for u in results:
         host = re.sub(r"^www\.", "", urllib.parse.urlparse(u).hostname or "")
         flat = host.split(".")[0].replace("-", "")
+        if re.search(r"(^|\.)(wheree|mapcarta|cylex|yelp|yellowpages|chamberofcommerce|manta)\.", host):
+            continue  # directory pages, not the business's own site
         if sum(1 for t in toks if t in flat) >= need and not any(k["url"].startswith(f"https://{host}") for k in keep):
             keep.append({"url": u, "src": "search"})
     if keep:

@@ -101,6 +101,8 @@ function normText(t) {
   return t.toLowerCase().replace(/[\u2013\u2014\u2012\u2212]/g, '-').replace(/\u00a0/g, ' ').replace(/\s*\n\s*/g, ' | ').replace(/[ \t]+/g, ' ')
     // "Mon.:" and "Tues." as written on many sites
     .replace(/(?<![a-z])(mon|tues?|wed|thu(?:rs?)?|fri|sat|sun)\.(?=\s|-|:|,)/g, '$1')
+    // "Saturday · today" and "Monday (today)" in hours widgets
+    .replace(/(?<![a-z])(monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun)\s*(?:[·•\-|(]\s*)?today\)?/g, '$1')
     // "open 7 days a week", "seven days" and "everyday" mean daily
     .replace(/(?<![a-z])(?:open\s+)?(?:7|seven)\s+days(?:\s+a\s+week)?(?![a-z])/g, 'daily');
 }
@@ -204,11 +206,15 @@ function* walk(n) {
   else if (n && typeof n === 'object') { yield n; for (const v of Object.values(n)) yield* walk(v); }
 }
 
-function fromJsonLd(texts) {
+// houseNumber: skip entries whose own address is a different building (a hospital's page
+// listing its clinics carries the hospital's hours).
+function fromJsonLd(texts, houseNumber) {
   for (const t of texts) {
     let data;
     try { data = JSON.parse(t); } catch { continue; }
     for (const n of walk(data)) {
+      const street = n.address && (typeof n.address === 'string' ? n.address : n.address.streetAddress);
+      if (houseNumber && street && !new RegExp(`(^|\\D)${houseNumber}(\\D|$)`).test(String(street))) continue;
       let per = null;
       if (n.openingHoursSpecification) per = specToPer(n.openingHoursSpecification);
       if (!per && n.openingHours) per = fromOhStrings(n.openingHours);

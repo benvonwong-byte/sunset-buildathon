@@ -11,6 +11,7 @@ const cases = [
   ['sunset false positive', 'Sunset District favorite since 1987. Sun 12pm-6pm'],
   ['dotted days', 'HOURS Mon.: Closed | Tues. - Sat.: 11am - 7pm | Sun.: 12 - 5pm'],
   ['seven days', 'We are open 7 days a week, 8am - 8pm'],
+  ['today marker', 'monday | 5:00 am - 11:00 pm | tuesday | 5:00 am - 11:00 pm | wednesday | 5:00 am - 11:00 pm | thursday | 5:00 am - 11:00 pm | friday | 5:00 am - 11:00 pm | saturday · today | 6:00 am - 11:00 pm | sunday | 6:00 am - 11:00 pm'],
   ['bare twelve', 'Hours | tuesday 10:00-5:00 | wednesday 10:00-5:00 | thursday 10:00-5:00 | friday 12:00- 5:00 | saturday 10:00-4:00'],
   ['dot and brunch', '4001 Judah Street\nDinner\nMonday . 5:00pm - 9:00pm (Special)\nTuesday . 5:00pm - 9:00pm\nWednesday . 5:00pm - 9:00pm\nThursday . 5:00pm - 9:00pm\nFriday . 5:00pm - 9:30pm\nSaturday . 4:30pm - 9:30pm\nSunday . 4:30pm - 9:00pm\nMAKE DINNER RESERVATION\nBrunch\nSaturday . 9:30am - 2:00pm\nSunday . 9:30am - 2:00pm'],
 ];
@@ -29,3 +30,4 @@ console.log('json keyed', JSON.stringify(fromAnyJson([{ site: { hours: { monday:
 console.log('json list', JSON.stringify(fromAnyJson([{ location: { business_hours: [{ day: 'MONDAY', start: '07:00', end: '15:00' }, { day: 'TUESDAY', start: '07:00', end: '15:00' }, { day: 'WEDNESDAY', start: '07:00', end: '15:00' }, { day: 'THURSDAY', start: '07:00', end: '15:00' }, { day: 'FRIDAY', start: '07:00', end: '15:00' }, { day: 'SATURDAY', start: '08:00:00', end: '16:00:00' }] } }])?.oh));
 console.log('json wix', JSON.stringify(fromAnyJson([{ businessSchedule: { periods: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'].map(d => ({ openDay: d, openTime: '10:00', closeDay: d, closeTime: '18:00' })) } }])?.oh));
 console.log('json noise', JSON.stringify(fromAnyJson([{ shipping: { monday: true, tuesday: true, wednesday: true, thursday: true, friday: true } }])?.oh ?? null));
+console.log('jsonld other address', JSON.stringify(fromJsonLd([JSON.stringify({ '@type': 'Hospital', address: { streetAddress: '845 Jackson St' }, openingHours: ['Mo-Su 09:00-17:00'] })], '2407') ?? null));
