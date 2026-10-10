@@ -320,6 +320,12 @@ for (const [name, { events: list }] of Object.entries(bySource)) {
     }
     const where = [e.venue, e.address].filter(Boolean).join(", ");
     if (namesElsewhere(where)) continue;
+    // A street address with no pin: place it, rather than trust a ZIP code
+    // (94116 is half Outer Sunset, half Parkside).
+    if (lat == null && /\d+\s+\w/.test(e.address ?? "")) {
+      const g = await geo.geocode(e.address, { budget: GEOCODE_BUDGET });
+      if (g) ({ lat, lng } = g);
+    }
     if (lat != null ? !inDistrict(lat, lng) : sunsetByText(where) !== true) continue;
     const org = matchOrg(e.org, e.venue);
     const source = e.source ?? name;

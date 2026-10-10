@@ -263,4 +263,16 @@ dialog .close:hover { background: var(--line); }
   .tabbar .view-tab, .tabbar .view-out { flex-direction: column; gap: 2px; padding: 6px 0 4px; font-size: 11px; font-weight: 700; color: var(--muted); border-radius: 12px; justify-content: center; }
   .tabbar .view-tab[aria-selected="true"] { color: var(--ink); background: var(--well); }
 }
+/* Small phones: both site links, the calendar icon and Add on one line. */
+@media (max-width: 400px) {
+  .topbar-in { gap: 8px; padding: 0 12px; }
+  .sites { gap: 10px; }
+  .site-link span { font-size: 18px; }
+  .ghost-btn { padding: 6px; }
+  .pill-btn { padding: 6px 11px; font-size: 13px; }
+}
+@media (max-width: 340px) {
+  .site-link span { font-size: 16px; }
+  .sites { gap: 8px; }
+}
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }

@@ -9,9 +9,10 @@
 // meters of them, which is enough to place "37th Ave between Ortega and
 // Quintara" or "Irving & 9th" without a geocoding service.
 
-// Lincoln Way to Sloat Blvd, Stanyan St to the Great Highway, plus the
-// south half of Golden Gate Park, Stern Grove and the Zoo.
-export const BOX = { south: 37.728, north: 37.7725, west: -122.514, east: -122.452 };
+// The Inner and Outer Sunset only: Lincoln Way to Taraval, the edge of
+// UCSF and Mount Sutro to the beach. Golden Gate Park, Golden Gate Heights
+// and Parkside are outside.
+export const BOX = { south: 37.741, north: 37.7672, west: -122.5135, east: -122.454 };
 
 export function inBox(lat, lng, box = BOX) {
   return (
@@ -27,10 +28,6 @@ export function inBox(lat, lng, box = BOX) {
 export const HOODS = [
   { id: "inner-sunset", label: "Inner Sunset" },
   { id: "outer-sunset", label: "Outer Sunset" },
-  { id: "golden-gate-heights", label: "Golden Gate Heights" },
-  { id: "parkside", label: "Parkside" },
-  { id: "golden-gate-park", label: "Golden Gate Park" },
-  { id: "ocean-beach", label: "Ocean Beach & Sunset Dunes" },
   { id: "sunset-wide", label: "Sunset-wide" },
 ];
 
@@ -59,15 +56,9 @@ const taravalLat = (lng) => 37.743 + (lng + 122.4755) * 0.0404;
 
 export function hoodFor(lat, lng) {
   if (!inDistrict(lat, lng)) return null;
-  if (lat > lincolnLat(lng) + 0.0002) return "golden-gate-park";
-  if (lng < avenueLng(48.8, lat)) return "ocean-beach";
-  // Taraval is the Parkside's main street, so its frontage counts as Parkside.
-  if (lat < taravalLat(lng) + 0.0003) return "parkside";
-  if (lng > avenueLng(19, lat) + 0.0003) {
-    const southOfLawton = lat < streetLat(4, lng) - 0.0004;
-    return southOfLawton && lng < avenueLng(12, lat) ? "golden-gate-heights" : "inner-sunset";
-  }
-  return "outer-sunset";
+  // 19th Avenue divides the Inner Sunset from the Outer Sunset. The beach
+  // and Sunset Dunes count as the Outer Sunset's shoreline.
+  return lng > avenueLng(19, lat) ? "inner-sunset" : "outer-sunset";
 }
 
 // Named places the geocoders handle badly. Coordinates from OpenStreetMap.
@@ -139,12 +130,14 @@ export function gridGeocode(text) {
 }
 
 // ---- Text tests for events without coordinates ----------------------------
+// Irving through Santiago; Taraval and everything south of it is Parkside.
 const SUNSET_STREETS = new RegExp(
-  `\\b(${STREETS.slice(1).join("|")}|lincoln way|sloat|great (?:hwy|highway)|la playa|sunset blvd|sunset boulevard|kezar|parnassus|sunset dunes|ocean beach)\\b`,
+  `\\b(${STREETS.slice(1, 12).join("|")}|lincoln way|great (?:hwy|highway)|la playa|sunset blvd|sunset boulevard|parnassus|sunset dunes|ocean beach)\\b`,
   "i"
 );
 const NUMBERED_AVE = /\b([5-9]|[1-4]\d)(?:st|nd|rd|th)\s+(?:ave|avenue)\b/i;
-// Every San Francisco ZIP except 94122 and 94116.
+// Every San Francisco ZIP except 94122 and 94116 (94116 is left to the
+// other tests: part of it is the Outer Sunset, most of it is Parkside).
 const OTHER_SF_ZIPS = /\b941(0[2-9]|1[0-5789]|2[0134-9]|3[0-4]|58)\b/;
 
 // Other Bay Area places that show up in feeds from groups with several
@@ -157,7 +150,7 @@ const ELSEWHERE =
 // in the Sunset, even when a platform rounds its pin to a point inside the
 // outline (Luma does this for hidden addresses).
 const OTHER_HOODS =
-  /\b(west portal|st\.? francis wood|forest hill|cole valley|haight|lakeshore|stonestown|laguna honda|mt\.? davidson|mount davidson|ingleside|miraloma|balboa terrace|noe valley|mission district|tenderloin|north beach|inner richmond|outer richmond|richmond district)\b/i;
+  /\b(parkside|golden gate heights|stern grove|(?:san francisco|sf) zoo|lake merced|west portal|st\.? francis wood|forest hill|cole valley|haight|lakeshore|stonestown|laguna honda|mt\.? davidson|mount davidson|ingleside|miraloma|balboa terrace|noe valley|mission district|tenderloin|north beach|inner richmond|outer richmond|richmond district)\b/i;
 
 // True when the text names another neighborhood or city outright. Used as a
 // veto even when a listing has coordinates. ZIP codes are not used here:
@@ -165,17 +158,20 @@ const OTHER_HOODS =
 export function namesElsewhere(text) {
   if (!text) return false;
   const s = String(text);
-  return (ELSEWHERE.test(s) || OTHER_HOODS.test(s)) && !/\b941(22|16)\b/.test(s);
+  return (ELSEWHERE.test(s) || OTHER_HOODS.test(s)) && !/\b94122\b/.test(s);
 }
 
 // Returns true, false, or null when the text says nothing either way.
 export function sunsetByText(text) {
   if (!text) return null;
   const s = String(text);
-  if ((ELSEWHERE.test(s) || OTHER_HOODS.test(s)) && !/\b941(22|16)\b/.test(s)) return false;
-  if (/\b941(22|16)\b/.test(s)) return true;
-  if (landmark(s)) return true;
-  if (/\binner sunset\b|\bouter sunset\b|\bsunset district\b|\bparkside\b|golden gate heights/i.test(s)) return true;
+  if (namesElsewhere(s)) return false;
+  const lm = landmark(s);
+  if (lm) return inDistrict(lm.lat, lm.lng);
+  // 94122 is the Inner and Outer Sunset; 94116 is mostly Parkside, so it
+  // proves nothing on its own.
+  if (/\b94122\b/.test(s)) return true;
+  if (/\binner sunset\b|\bouter sunset\b/i.test(s)) return true;
   const g = gridGeocode(s);
   if (g && inDistrict(g.lat, g.lng)) return true;
   if (OTHER_SF_ZIPS.test(s)) return false;
@@ -183,29 +179,23 @@ export function sunsetByText(text) {
   return null;
 }
 
-// The district: JFK Drive (so the south half of Golden Gate Park), Stanyan
-// St, UCSF Parnassus and Mount Sutro, the Golden Gate Heights edge, Sloat
-// Blvd with a notch for the Zoo, and the beach. Every keep-or-drop decision
-// runs through inDistrict(); BOX is only a coarse prefilter for searches.
+// The district: Lincoln Way (Golden Gate Park is outside), the edge of UCSF
+// Parnassus and Mount Sutro, Lawton St east of 19th Ave (Golden Gate Heights
+// is outside), 19th Ave, Taraval St (Parkside, including Taraval itself, is
+// outside) and the beach. Corners come from the street-grid model above.
+// Every keep-or-drop decision runs through inDistrict(); BOX is only a
+// coarse prefilter for searches.
 export const OUTLINE = [
-  [37.7712, -122.5125],
-  [37.7712, -122.495],
-  [37.7722, -122.47],
-  [37.7722, -122.4535],
-  [37.7662, -122.4535],
-  [37.7652, -122.4565],
-  [37.7605, -122.456],
-  [37.757, -122.4545],
-  [37.755, -122.461],
-  [37.75, -122.465],
-  [37.744, -122.4688],
-  [37.74, -122.4705],
-  [37.733, -122.4735],
-  [37.7333, -122.49],
-  [37.7333, -122.4975],
-  [37.7282, -122.4985],
-  [37.7282, -122.5075],
-  [37.735, -122.5118],
+  [37.7642, -122.513],
+  [37.7667, -122.4575],
+  [37.76, -122.4555],
+  [37.7565, -122.4545],
+  [37.7552, -122.4605],
+  [37.757, -122.4655],
+  [37.758, -122.4692],
+  [37.7578, -122.4766],
+  [37.7433, -122.4756],
+  [37.7418, -122.513],
 ];
 
 export function inDistrict(lat, lng) {

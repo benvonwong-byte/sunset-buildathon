@@ -86,28 +86,33 @@ test("grid geocoder places intersections and block descriptions", () => {
   const g = gridGeocode("Irving St between 9th and 10th Ave");
   assert.ok(Math.abs(g.lat - 37.7639) < 0.0004 && Math.abs(g.lng + 122.4673) < 0.0006);
   assert.equal(hoodFor(...Object.values(gridGeocode("Noriega St & 45th Ave"))), "outer-sunset");
-  assert.equal(hoodFor(...Object.values(gridGeocode("Judah & La Playa"))), "ocean-beach");
+  assert.equal(hoodFor(...Object.values(gridGeocode("Judah & La Playa"))), "outer-sunset");
+  assert.equal(hoodFor(...Object.values(gridGeocode("Kirkham St & 10th Ave"))), "inner-sunset");
   assert.equal(gridGeocode("Clement St & 9th Ave"), null, "the Richmond reuses avenue numbers");
 });
 
-test("neighborhood labels match known places", () => {
-  assert.equal(hoodFor(37.7651, -122.4664), "inner-sunset"); // Green Apple Books on the Park
-  assert.equal(hoodFor(37.75497, -122.47237), "golden-gate-heights"); // Grandview Park
-  assert.equal(hoodFor(37.73609, -122.4786), "parkside"); // Stern Grove
-  assert.equal(hoodFor(37.76982, -122.4661), "golden-gate-park"); // Cal Academy
-  assert.equal(inDistrict(37.7749, -122.4194), false); // Civic Center
+test("the district is the Inner and Outer Sunset only", () => {
+  assert.equal(hoodFor(37.7651, -122.4664), "inner-sunset"); // Green Apple Books, 9th Ave
+  assert.equal(hoodFor(37.7632, -122.4579), "inner-sunset"); // UCSF Parnassus
+  assert.equal(hoodFor(37.7627, -122.5055), "outer-sunset"); // Black Bird Bookstore, Irving at 46th
+  assert.equal(hoodFor(37.7535, -122.509), "outer-sunset"); // Sunset Dunes at Noriega
+  assert.equal(hoodFor(37.7586, -122.4638), "inner-sunset"); // Garden for the Environment
+  assert.equal(inDistrict(37.75497, -122.47237), false); // Grandview Park, Golden Gate Heights
+  assert.equal(inDistrict(37.7419, -122.5043), false); // the Riptide, on Taraval
+  assert.equal(inDistrict(37.73609, -122.4786), false); // Stern Grove
+  assert.equal(inDistrict(37.76982, -122.4661), false); // Cal Academy, Golden Gate Park
   assert.equal(inDistrict(37.7405, -122.4655), false); // West Portal
-  assert.equal(inDistrict(37.77261, -122.46023), false); // Conservatory, north of JFK
-  assert.equal(inDistrict(37.73275, -122.50239), true); // the Zoo, south of Sloat
 });
 
-test("text test accepts Sunset ZIPs and rejects other SF ZIPs", () => {
+test("text test accepts Sunset addresses and rejects neighbors", () => {
   assert.equal(sunsetByText("1305 18th Ave, San Francisco, CA 94122"), true);
   assert.equal(sunsetByText("3321 16th St, San Francisco, CA 94114"), false);
   assert.equal(sunsetByText("Zoom"), null);
   assert.equal(sunsetByText("Sloat Pleasant Hill"), false); // another branch of a Sunset business
-  assert.equal(sunsetByText("West Portal, San Francisco, CA"), false); // a neighbor, not the Sunset
+  assert.equal(sunsetByText("West Portal, San Francisco, CA"), false);
+  assert.equal(sunsetByText("Parkside Branch Library, 1200 Taraval St"), false);
   assert.equal(sunsetByText("Irving St, Inner Sunset, San Francisco"), true);
+  assert.equal(sunsetByText("Stern Grove"), false);
 });
 
 test("classifier", () => {
