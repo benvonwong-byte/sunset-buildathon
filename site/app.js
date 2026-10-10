@@ -94,13 +94,13 @@ const words = (q) => q.toLowerCase().split(/\s+/).filter(Boolean);
 // ---------- Masthead ----------
 function renderMasthead() {
   const v = state.view;
-  $("#headline").textContent = v === "groups" ? "Sunset Groups" : v === "map" ? "Sunset Map" : "Sunset Events";
-  $("#deck").textContent =
+  $("#headline").textContent = v === "groups" ? "Neighborhood groups" : v === "map" ? "What's where" : "What's on";
+  $("#subline").textContent =
     v === "groups"
-      ? `${ORGS.length} nonprofits, neighborhood groups, congregations and public places in the Inner and Outer Sunset, and how to take part.`
+      ? `${ORGS.length} groups · Inner & Outer Sunset`
       : v === "map"
-        ? "Where things happen this week, and where the groups are."
-        : "Public events between Lincoln Way and Sloat, Stanyan and the ocean, gathered every morning.";
+        ? "Events and groups on one map"
+        : `${EVENTS.length} events · updated every morning`;
 }
 
 // ---------- Groups ----------
@@ -122,14 +122,14 @@ function renderGroups() {
 
   const list = searched.filter((o) => groupPasses(o));
   if (!list.length) {
-    $("#group-list").innerHTML = `<p class="empty">No groups match. Try a shorter search.</p>`;
+    $("#group-list").innerHTML = `<p class="empty">No match. Try fewer words.</p>`;
     return;
   }
   let html = "";
   for (const s of SECTIONS) {
     const rows = list.filter((o) => sectionOf(o).id === s.id);
     if (!rows.length) continue;
-    html += `<section class="g-section"><h2 class="sec-head"><span>${esc(s.label)}</span><span class="n">${rows.length}</span></h2>`;
+    html += `<section class="sec"><h2 class="sec-head"><span>${esc(s.label)}</span><span class="n">${rows.length}</span></h2><div class="card">`;
     for (const o of rows) {
       const n = upcomingByOrg.get(o.id)?.length ?? 0;
       const meta = hoodLabel(o.hood);
@@ -142,11 +142,11 @@ function renderGroups() {
         <div class="item-more"${state.group === o.id ? "" : " hidden"}>${state.group === o.id ? groupDetail(o) : ""}</div>
       </article>`;
     }
-    html += `</section>`;
+    html += `</div></section>`;
   }
   const noFeed = ORGS.filter((o) => !(o.feeds ?? []).length).length;
   if (!state.gq && !state.kind) {
-    html += `<div class="classified"><h2>Help wire in the rest</h2><p>${noFeed} of these groups post events only on a web page, Instagram or a flyer, so their events cannot appear here yet. Helping one set up a free public calendar is a buildathon job that needs no code.</p><a class="manicule" href="https://github.com/benvonwong-byte/sunset-buildathon/blob/main/docs/needs-a-feed.md" target="_blank" rel="noopener">See the list</a></div>`;
+    html += `<div class="nudge"><span>${noFeed} groups have no calendar we can read yet.</span><a class="pill-btn small" href="https://github.com/benvonwong-byte/sunset-buildathon/blob/main/docs/needs-a-feed.md" target="_blank" rel="noopener">Help add them</a></div>`;
   }
   $("#group-list").innerHTML = html;
 }
@@ -161,11 +161,11 @@ function groupDetail(o) {
     ${o.plugIn ? `<p class="plug">${esc(o.plugIn)}</p>` : ""}
     ${o.address ? `<p class="item-meta">${maps ? `<a href="${esc(maps)}" target="_blank" rel="noopener">${esc(o.address)}</a>` : esc(o.address)}</p>` : ""}
     <div class="links">
-      ${site ? `<a class="manicule" href="${esc(site)}" target="_blank" rel="noopener">Website ↗</a>` : ""}
-      ${n ? `<button class="manicule" data-org-events="${esc(o.id)}">${n} upcoming event${n === 1 ? "" : "s"}</button>` : ""}
-      ${Number.isFinite(o.lat) ? `<button class="manicule" data-map-group="${esc(o.id)}">On the map</button>` : ""}
-      ${evPage && evPage !== site ? `<a class="manicule" href="${esc(evPage)}" target="_blank" rel="noopener">Events page ↗</a>` : ""}
-      ${ig ? `<a class="manicule" href="${esc(ig)}" target="_blank" rel="noopener">Instagram ↗</a>` : ""}
+      ${site ? `<a class="pill-btn" href="${esc(site)}" target="_blank" rel="noopener">Website ↗</a>` : ""}
+      ${n ? `<button class="pill-btn ghost" data-org-events="${esc(o.id)}">${n} event${n === 1 ? "" : "s"}</button>` : ""}
+      ${Number.isFinite(o.lat) ? `<button class="pill-btn ghost" data-map-group="${esc(o.id)}">Map</button>` : ""}
+      ${evPage && evPage !== site ? `<a class="pill-btn ghost" href="${esc(evPage)}" target="_blank" rel="noopener">Calendar ↗</a>` : ""}
+      ${ig ? `<a class="pill-btn ghost" href="${esc(ig)}" target="_blank" rel="noopener">Instagram ↗</a>` : ""}
     </div>`;
 }
 
@@ -212,7 +212,7 @@ function renderEvents() {
 
   const org = state.org && orgById.get(state.org);
   $("#filter-note").hidden = !org;
-  $("#filter-note").innerHTML = org ? `Only events from ${esc(org.name)}. <button class="inline-link" data-clear-org>Show everyone's</button>` : "";
+  $("#filter-note").innerHTML = org ? `Only ${esc(org.name)} · <button data-clear-org>Show all</button>` : "";
 
   const list = searched.filter((e) => eventPasses(e));
   eventList = list;
@@ -226,13 +226,13 @@ function renderEvents() {
     .map(([k, evs]) => `<button class="ds-day${k === t ? " today" : ""}" data-day="${k}"><span class="w">${esc(wdFmt.format(noon(k)))}</span><span class="d">${Number(k.slice(8))}</span><span class="c">${evs.length}</span></button>`)
     .join("");
   if (!list.length) {
-    $("#thread").innerHTML = `<p class="empty">${EVENTS.length ? "Nothing matches. Try another kind of event or a shorter search." : "No listings yet. The calendar rebuilds every morning."}</p>`;
+    $("#thread").innerHTML = `<p class="empty">${EVENTS.length ? "No match. Try fewer words." : "No listings yet. Back tomorrow morning."}</p>`;
     return;
   }
   let html = "";
   for (const [k, evs] of byDay) {
-    const label = k === t ? `<span class="today">Today</span> · ${esc(longDay(k))}` : k === keyPlus(t, 1) ? `Tomorrow · ${esc(longDay(k))}` : esc(longDay(k));
-    html += `<section class="day" id="d-${k}" data-day="${k}"><h2 class="sec-head"><span>${label}</span><span class="n">${evs.length}</span></h2>${evs.map(eventRow).join("")}</section>`;
+    const label = k === t ? `<span class="today">Today</span> · ${esc(shortDay(k))}` : k === keyPlus(t, 1) ? `Tomorrow · ${esc(shortDay(k))}` : esc(longDay(k));
+    html += `<section class="sec day" id="d-${k}" data-day="${k}"><h2 class="sec-head"><span>${label}</span><span class="n">${evs.length}</span></h2><div class="card">${evs.map(eventRow).join("")}</div></section>`;
   }
   $("#thread").innerHTML = html;
   trackScroll(true);
@@ -302,18 +302,18 @@ function eventDetail(e) {
     ${img ? `<img class="ev-img" src="${esc(img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ""}
     <div class="facts">
       <span><b>When</b> ${esc(longDay(e.day))}, ${esc(timeRange(e))}</span>
-      ${where ? `<span><b>Where</b> ${esc(where)}${e.approxLocation ? " (the group's home base; check the listing)" : ""}</span>` : ""}
+      ${where ? `<span><b>Where</b> ${esc(where)}${e.approxLocation ? " (check the listing)" : ""}</span>` : ""}
       ${e.org ? `<span><b>Who</b> ${org ? `<button class="inline-link" data-show-group="${esc(org.id)}">${esc(e.org)}</button>` : esc(e.org)}</span>` : ""}
     </div>
     ${desc ? `<p class="desc">${linkify(desc)}</p>` : ""}
     <div class="links">
-      ${url ? `<a class="manicule" href="${esc(url)}" target="_blank" rel="noopener">Event page ↗</a>` : ""}
-      <a class="manicule" href="${esc(googleLink(e))}" target="_blank" rel="noopener">Add to Google Calendar</a>
-      <button class="manicule" data-ics="${esc(e.id)}">.ics</button>
-      ${Number.isFinite(e.lat) ? `<button class="manicule" data-map-event="${esc(e.id)}">On the map</button>` : ""}
-      <button class="manicule" data-share="${esc(e.id)}">Copy link</button>
+      ${url ? `<a class="pill-btn" href="${esc(url)}" target="_blank" rel="noopener">Details ↗</a>` : ""}
+      <a class="pill-btn ghost" href="${esc(googleLink(e))}" target="_blank" rel="noopener">Google Cal</a>
+      <button class="pill-btn ghost" data-ics="${esc(e.id)}">.ics</button>
+      ${Number.isFinite(e.lat) ? `<button class="pill-btn ghost" data-map-event="${esc(e.id)}">Map</button>` : ""}
+      <button class="pill-btn ghost" data-share="${esc(e.id)}">Share</button>
     </div>
-    <p class="item-meta">Listed by ${esc(e.sourceLabel ?? e.source)}</p>`;
+    <p class="item-meta">Via ${esc(e.sourceLabel ?? e.source)}</p>`;
 }
 
 function toggleEvent(id, { scroll = false } = {}) {
@@ -368,7 +368,7 @@ function initMap() {
     maxZoom: 19,
   }).addTo(map);
   if (OUTLINE) {
-    const poly = L.polygon(OUTLINE, { color: "#232320", weight: 1.5, dashArray: "4 4", fill: false, interactive: false }).addTo(map);
+    const poly = L.polygon(OUTLINE, { color: "#e3a63f", weight: 2.5, dashArray: "2 7", lineCap: "round", fill: false, interactive: false }).addTo(map);
     districtBounds = poly.getBounds();
   }
   layer = L.layerGroup().addTo(map);
@@ -377,9 +377,7 @@ function initMap() {
     el?.querySelector("[data-open-event]")?.addEventListener("click", (b) => openFromMap("events", b.currentTarget.dataset.openEvent));
     el?.querySelector("[data-open-group]")?.addEventListener("click", (b) => openFromMap("groups", b.currentTarget.dataset.openGroup));
   });
-  $("#legend").innerHTML =
-    DOMAINS.map((d) => `<span><span class="sw" style="--c:${d.color}"></span>${esc(d.label)}</span>`).join("") +
-    `<span>● event</span><span>■ group</span>`;
+  $("#legend").innerHTML = DOMAINS.map((d) => `<span><span class="sw" style="--c:${d.color}"></span>${esc(d.label)}</span>`).join("");
 }
 
 function spread(items) {
@@ -414,22 +412,22 @@ function renderMap() {
       const icon = L.divIcon({ className: "", html: `<div class="pin-org" style="--c:${colorOf(o.domains[0])}"></div>`, iconSize: [13, 13] });
       const n = upcomingByOrg.get(o.id)?.length ?? 0;
       const m = L.marker([lat, lng], { icon })
-        .bindPopup(`<span class="pt">${esc(o.name)}</span><span class="pm">${esc(sectionOf(o).label)}${n ? ` · ${n} upcoming` : ""}</span><button class="manicule" data-open-group="${esc(o.id)}">See the group</button>`)
+        .bindPopup(`<span class="pt">${esc(o.name)}</span><span class="pm">${esc(sectionOf(o).label)}${n ? ` · ${n} events` : ""}</span><button class="pill-btn small" data-open-group="${esc(o.id)}">Open</button>`)
         .addTo(layer);
       markers.set(o.id, m);
     }
-    $("#map-count").textContent = `${pins.length} of ${list.length} groups have a fixed address`;
+    $("#map-count").textContent = `${pins.length} groups on the map`;
   } else {
     const last = state.map === "today" ? t : keyPlus(t, 6);
     const list = EVENTS.filter((e) => e.day <= last || (mapFocus?.kind === "event" && mapFocus.id === e.id));
     const pins = spread(list.filter((e) => Number.isFinite(e.lat)).map((e) => ({ e, lat: e.lat, lng: e.lng })));
     for (const { e, lat, lng } of pins) {
-      const m = L.circleMarker([lat, lng], { radius: 7, color: "#232320", weight: 1.5, fillColor: colorOf(e.domain), fillOpacity: 0.95 })
-        .bindPopup(`<span class="pt">${esc(e.title)}</span><span class="pm">${esc(state.map === "today" ? "" : shortDay(e.day) + ", ")}${esc(e.allDay ? "All day" : timeLabel(e.start))}${e.venue ? " · " + esc(e.venue) : ""}</span><button class="manicule" data-open-event="${esc(e.id)}">Details</button>`)
+      const m = L.circleMarker([lat, lng], { radius: 7, color: "#ffffff", weight: 2, fillColor: colorOf(e.domain), fillOpacity: 1 })
+        .bindPopup(`<span class="pt">${esc(e.title)}</span><span class="pm">${esc(state.map === "today" ? "" : shortDay(e.day) + ", ")}${esc(e.allDay ? "All day" : timeLabel(e.start))}${e.venue ? " · " + esc(e.venue) : ""}</span><button class="pill-btn small" data-open-event="${esc(e.id)}">Open</button>`)
         .addTo(layer);
       markers.set(e.id, m);
     }
-    $("#map-count").textContent = `${list.length} events, ${pins.length} with an address`;
+    $("#map-count").textContent = `${pins.length} events on the map`;
   }
   setTimeout(() => {
     map.invalidateSize();
@@ -437,7 +435,7 @@ function renderMap() {
     if (m) {
       map.setView(m.getLatLng(), 16);
       m.openPopup();
-      if (m.setStyle) m.setStyle({ radius: 11, weight: 3 });
+      if (m.setStyle) m.setStyle({ radius: 11, weight: 3, color: "#1b1a17" });
     } else if (districtBounds) map.fitBounds(districtBounds, { padding: [6, 6] });
     mapFocus = null;
   }, 0);
@@ -478,12 +476,12 @@ function renderSources() {
   const shown = DATA.sources.filter((s) => s.kind === "aggregator" || s.kind === "feed");
   const groups = DATA.sources.filter((s) => s.kind === "org");
   const items = [
-    `<li>Group calendars: ${groups.filter((s) => s.ok).length} of ${groups.length} read</li>`,
+    `<li>Group calendars: ${groups.filter((s) => s.ok).length} of ${groups.length}</li>`,
     ...shown.map((s) => {
       const name = esc(s.label.replace(/ \((\w|-)+\)$/, ""));
       if (s.ok) return `<li>${name}: ${s.count} events</li>`;
-      if (s.count && s.lastGood) return `<li class="bad">${name}: ${s.count} events from the ${esc(shortStamp.format(new Date(s.lastGood)))} read</li>`;
-      return `<li class="bad">${name}: did not load this morning</li>`;
+      if (s.count && s.lastGood) return `<li class="bad">${name}: ${s.count} events (as of ${esc(shortStamp.format(new Date(s.lastGood)))})</li>`;
+      return `<li class="bad">${name}: did not load today</li>`;
     }),
   ];
   if (DATA.fetchedAt) items.push(`<li>Updated ${esc(stampFmt.format(new Date(DATA.fetchedAt)))}</li>`);
@@ -502,7 +500,7 @@ function setupDialogs() {
     $("#sub-google").href = "https://calendar.google.com/calendar/r?cid=" + encodeURIComponent(webcal);
   };
   sel.addEventListener("change", update);
-  $("#sub-copy").addEventListener("click", () => copy($("#sub-url").value, "Feed address copied"));
+  $("#sub-copy").addEventListener("click", () => copy($("#sub-url").value, "Link copied"));
   $("#open-subscribe").addEventListener("click", () => {
     sel.value = state.cat || "";
     update();
