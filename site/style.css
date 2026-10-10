@@ -28,7 +28,9 @@
 }
 
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top) + 76px); }
+/* --evbar is the height of the pinned search, chips and date strip on the
+   Events view; app.js measures it. */
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top) + var(--evbar, 60px) + 16px); }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 button, input, select { font: inherit; color: inherit; }
@@ -148,9 +150,18 @@ img, svg { display: block; }
 }
 
 /* ---------- Events ---------- */
+/* Search, kind chips and the date strip stay pinned under the top bar, so
+   filtering is one tap away anywhere in the list. */
+.ev-bar {
+  position: sticky; top: var(--top); z-index: 6; background: var(--paper);
+  margin: 0 calc(-1 * var(--gutter)) 4px; padding: 6px var(--gutter) 0; transition: box-shadow .2s;
+}
+.ev-bar.stuck { box-shadow: 0 8px 14px -12px rgba(27, 26, 23, .35); }
+.ev-bar .tools { margin-bottom: 0; }
+.ev-bar .chips { padding: 8px 2px 2px; }
 .date-strip {
-  position: sticky; top: var(--top); z-index: 6; display: flex; gap: 6px; overflow-x: auto; padding: 10px 2px; margin: 0 -2px 2px;
-  background: var(--paper); scrollbar-width: none;
+  display: flex; gap: 6px; overflow-x: auto; padding: 8px 2px 10px; margin: 0 -2px;
+  scrollbar-width: none;
 }
 .date-strip::-webkit-scrollbar { display: none; }
 .ds-day {
@@ -164,7 +175,7 @@ img, svg { display: block; }
 .ds-day.today .d { color: var(--mustard-ink); }
 .ds-day.focus { background: var(--ink); border-color: var(--ink); }
 .ds-day.focus .w, .ds-day.focus .d, .ds-day.focus .c { color: var(--paper); }
-.day .sec-head { position: sticky; top: calc(var(--top) + 72px); z-index: 4; background: var(--paper); }
+.day .sec-head { position: sticky; top: calc(var(--top) + var(--evbar, 72px)); z-index: 4; background: var(--paper); }
 .ev .item-row { grid-template-columns: 66px minmax(0, 1fr); }
 .t { display: flex; align-items: center; gap: 6px; padding-top: 2px; font-weight: 800; font-size: 13px; color: var(--mustard-ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .t .sw { width: 8px; height: 8px; }
@@ -245,6 +256,10 @@ dialog .close:hover { background: var(--line); }
   .hero { padding-top: 18px; }
   .hero .swoosh { margin: 4px auto 8px; }
   .item-sub { -webkit-line-clamp: 2; }
+  .ev-bar .search { height: 42px; border-radius: 14px; }
+  .ev-bar .chip { padding: 5px 11px; }
+  .ev-bar .ds-day { flex-basis: 48px; padding: 4px 0 3px; }
+  .ev-bar .ds-day .d { font-size: 16px; }
   .ev .item-row { grid-template-columns: 70px minmax(0, 1fr); column-gap: 8px; padding: 12px 14px; }
   .t { font-size: 12px; gap: 5px; }
   .t .sw { width: 7px; height: 7px; }
