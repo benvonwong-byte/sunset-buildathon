@@ -2,7 +2,7 @@
 
 Every public event we can find in San Francisco's Inner and Outer Sunset, plus a directory of the groups and places that hold them. Live at **[sunset.dearcrisis.com](https://sunset.dearcrisis.com)**, a [Dear Crisis](https://dearcrisis.com) project by Benjamin Von Wong, built for the Sunset Neighborhood Build-a-thon on 9 October 2026.
 
-This repo holds the whole project, so it can be handed over in one piece:
+This repo holds the whole project, so it can be handed over in one piece. **[HANDOFF.md](HANDOFF.md)** says what keeps the listings updating every morning without anyone's computer, and the checklist for a new steward.
 
 | Part | Address | Source |
 |---|---|---|
@@ -61,7 +61,7 @@ The share cards are drawn by `recap/tools/card.mjs` from `recap/cards/cards.json
 
 ## Refreshing from a home connection
 
-Eventbrite and a few group sites refuse GitHub's servers. When a source fails, the fetcher reuses its still-upcoming events from the last good read for up to 14 days, and the footer says so. To keep those sources current, one Mac reads every feed each morning at 5:40 AM and pushes the result before GitHub's own build:
+Eventbrite and now and then a group site refuse GitHub's servers (HANDOFF.md has the choices once no home computer runs this). When a source fails, the fetcher reuses its still-upcoming events from the last good read for up to 14 days, and the footer says so. To keep those sources current, one Mac reads every feed each morning at 5:40 AM and pushes the result before GitHub's own build:
 
 ```bash
 scripts/install-home-refresh.sh

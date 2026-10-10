@@ -1,6 +1,6 @@
 # Working in this repo
 
-Sunset Events (sunset.dearcrisis.com): a static site plus a Node fetcher, no framework, no dependencies. It also holds Sunset Idle Space (`/space/`) and the Build-a-thon recap (`recap/`, published at `/recap/` and dearcrisis.com/buildathon). Read README.md first, and `recap/README.md` before touching the recap.
+Sunset Events (sunset.dearcrisis.com): a static site plus a Node fetcher, no framework, no dependencies. It also holds Sunset Idle Space (`/space/`) and the Build-a-thon recap (`recap/`, published at `/recap/` and dearcrisis.com/buildathon). Read README.md first, `HANDOFF.md` for how it keeps running, and `recap/README.md` before touching the recap.
 
 ## Rules that the build enforces
 
