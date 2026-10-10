@@ -16,7 +16,7 @@ The Sunset Neighborhood Build-a-thon recap (9 October 2026) is built from this f
 | `tools/screenshot.mjs` | Screenshots of anything a team built, for the "Built by 5pm" cards. |
 | `../site/recap/` | The published photos (`photos/`), tool screenshots (`tools/`) and share card (`og.jpg`). |
 
-The page itself has six sections: the afternoon as a timeline with the photos from each part, one card per person at the mic, what existed by the end, the threads across all the ideas, dates people announced, and thanks.
+The page itself has six sections: the afternoon as a timeline whose steps fold open to their text and photos, one card per person at the mic, what existed by the end, the threads across all the ideas, dates people announced, and thanks.
 
 ## Making a recap, step by step
 
