@@ -336,6 +336,33 @@ function toggleEvent(id, { scroll = false } = {}) {
   if (scroll && state.event) document.getElementById("e-" + id)?.scrollIntoView({ block: "center" });
 }
 
+// The search, chips and date strip are pinned under the top bar (.ev-bar).
+// Their height feeds --evbar, which places the sticky day headings and the
+// scroll padding that day jumps and trackScroll use. The bar gets a shadow
+// once it is stuck.
+function pinEventBar() {
+  const bar = $("#ev-bar");
+  if (!bar) return;
+  const root = document.documentElement;
+  const measure = () => {
+    const h = bar.offsetHeight;
+    if (h) root.style.setProperty("--evbar", `${h}px`);
+    else root.style.removeProperty("--evbar");
+  };
+  new ResizeObserver(measure).observe(bar);
+  measure();
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      const top = parseFloat(getComputedStyle(bar).top) || 0;
+      bar.classList.toggle("stuck", bar.offsetHeight > 0 && bar.getBoundingClientRect().top <= top + 0.5 && window.scrollY > 0);
+    });
+  }, { passive: true });
+}
+
 // The date strip marks the day at the top of the list.
 let focusDay = null;
 function trackScroll(force = false) {
@@ -586,24 +613,29 @@ function wire() {
     renderMap();
   });
 
-  // Events
-  $("#e-search").addEventListener("input", debounce((e) => {
-    state.eq = e.target.value.trim();
+  // Events. A new filter from deep in the list brings the first match up
+  // under the pinned bar instead of leaving the reader near the end.
+  const refilter = () => {
     writeHash();
     renderEvents();
+    const list = $("#thread").getBoundingClientRect().top;
+    const bar = $("#ev-bar").getBoundingClientRect().bottom;
+    if (list < bar) window.scrollBy({ top: list - bar, behavior: "auto" });
+  };
+  $("#e-search").addEventListener("input", debounce((e) => {
+    state.eq = e.target.value.trim();
+    refilter();
   }));
   $("#cat-chips").addEventListener("click", (e) => {
     const b = e.target.closest("[data-cat]");
     if (!b) return;
     state.cat = b.dataset.cat;
-    writeHash();
-    renderEvents();
+    refilter();
   });
   $("#filter-note").addEventListener("click", (e) => {
     if (!e.target.closest("[data-clear-org]")) return;
     state.org = "";
-    writeHash();
-    renderEvents();
+    refilter();
   });
   $("#date-strip").addEventListener("click", (e) => {
     const b = e.target.closest("[data-day]");
@@ -709,6 +741,7 @@ async function boot() {
   // Links shared before the redesign used #event=... with no view.
   if (state.event && !new URLSearchParams(location.hash.slice(1)).get("view")) state.view = "events";
   wire();
+  pinEventBar();
   setupDialogs();
   renderSources();
   boot2();
