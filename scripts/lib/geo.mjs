@@ -153,11 +153,26 @@ const OTHER_SF_ZIPS = /\b941(0[2-9]|1[0-5789]|2[0134-9]|3[0-4]|58)\b/;
 const ELSEWHERE =
   /\b(oakland|berkeley|alameda|emeryville|el cerrito|albany|san leandro|hayward|fremont|union city|walnut creek|pleasant hill|concord|lafayette|orinda|danville|san ramon|dublin|pleasanton|livermore|daly city|colma|pacifica|south san francisco|san bruno|millbrae|burlingame|san mateo|belmont|san carlos|redwood city|menlo park|palo alto|mountain view|sunnyvale|santa clara|san jose|cupertino|sausalito|mill valley|san rafael|novato|larkspur|corte madera|tiburon|petaluma|napa|sonoma|santa cruz|boulder creek|half moon bay|rosemead|los angeles)\b/i;
 
+// Neighboring San Francisco neighborhoods. A listing that names one is not
+// in the Sunset, even when a platform rounds its pin to a point inside the
+// outline (Luma does this for hidden addresses).
+const OTHER_HOODS =
+  /\b(west portal|st\.? francis wood|forest hill|cole valley|haight|lakeshore|stonestown|laguna honda|mt\.? davidson|mount davidson|ingleside|miraloma|balboa terrace|noe valley|mission district|tenderloin|north beach|inner richmond|outer richmond|richmond district)\b/i;
+
+// True when the text names another neighborhood or city outright. Used as a
+// veto even when a listing has coordinates. ZIP codes are not used here:
+// Golden Gate Park spans 94117, 94118 and 94121, and the Zoo is 94132.
+export function namesElsewhere(text) {
+  if (!text) return false;
+  const s = String(text);
+  return (ELSEWHERE.test(s) || OTHER_HOODS.test(s)) && !/\b941(22|16)\b/.test(s);
+}
+
 // Returns true, false, or null when the text says nothing either way.
 export function sunsetByText(text) {
   if (!text) return null;
   const s = String(text);
-  if (ELSEWHERE.test(s) && !/\b941(22|16)\b/.test(s)) return false;
+  if ((ELSEWHERE.test(s) || OTHER_HOODS.test(s)) && !/\b941(22|16)\b/.test(s)) return false;
   if (/\b941(22|16)\b/.test(s)) return true;
   if (landmark(s)) return true;
   if (/\binner sunset\b|\bouter sunset\b|\bsunset district\b|\bparkside\b|golden gate heights/i.test(s)) return true;

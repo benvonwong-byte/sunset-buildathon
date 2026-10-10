@@ -1,14 +1,16 @@
-# Sunset Events
+# Sunset Groups, Map and Events
 
 Every public event we can find in San Francisco's Inner and Outer Sunset, plus a directory of the groups and places that hold them. Live at **[sunset.dearcrisis.com](https://sunset.dearcrisis.com)**, a [Dear Crisis](https://www.dearcrisis.com) project, and the starting point for a Sunset buildathon.
 
-The page has two views over the same data.
+The page has three views, each one column with one search box and one row of chips at most.
 
-**Events** is a threaded list on the left, one line per event, grouped by day the way dearcrisis.com/events reads. Click a line and its details open in place. On the right, a month calendar and a map stay pinned while you scroll and follow the day you are reading: the calendar marks it, and the map shows that day's events. Hover a line and its pin lifts; click a pin and its line opens; click a calendar day and the list jumps there. On a phone the calendar becomes a swipeable date strip and the map opens full screen from a button.
+**Groups** is the directory: nonprofits first, then volunteer groups, neighborhood groups, faith communities, city programs, schools, places and local news, A to Z within each. Every line says what the group does; tap it for how to take part, its links, its upcoming events and its pin on the map.
 
-**Groups** is the directory beside the same map: what each group does, where it is, how to show up, and whether we can read its calendar.
+**Map** shows today's events, the next seven days, or every group, with one switch. Tap a pin for a card that links to the full listing.
 
-Filters for kind of event, neighborhood, day and text apply to both, and every state is a shareable link (`#event=...`, `#view=groups`, `#org=...`).
+**Events** is one threaded list grouped by day, the way dearcrisis.com/events reads, with a strip of dates on top that follows your reading. Tap an event for details, an Add to Google Calendar link, an `.ics` file, its pin and a share link.
+
+Every state is a shareable link (`#view=events&event=...`, `#group=...`, `#view=map&map=groups`).
 
 Anyone can subscribe to the whole calendar, or one category of it, in Google Calendar, Apple Calendar or Outlook from the Subscribe button.
 

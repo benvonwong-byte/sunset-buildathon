@@ -106,6 +106,8 @@ test("text test accepts Sunset ZIPs and rejects other SF ZIPs", () => {
   assert.equal(sunsetByText("3321 16th St, San Francisco, CA 94114"), false);
   assert.equal(sunsetByText("Zoom"), null);
   assert.equal(sunsetByText("Sloat Pleasant Hill"), false); // another branch of a Sunset business
+  assert.equal(sunsetByText("West Portal, San Francisco, CA"), false); // a neighbor, not the Sunset
+  assert.equal(sunsetByText("Irving St, Inner Sunset, San Francisco"), true);
 });
 
 test("classifier", () => {

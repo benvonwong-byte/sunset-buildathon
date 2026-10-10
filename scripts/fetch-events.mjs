@@ -22,7 +22,7 @@ import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 import { get, sleep, UA } from "./lib/http.mjs";
 import { parseByFormat } from "./lib/parsers.mjs";
-import { inDistrict, hoodFor, sunsetByText } from "./lib/geo.mjs";
+import { inDistrict, hoodFor, sunsetByText, namesElsewhere } from "./lib/geo.mjs";
 import { classify } from "./lib/classify.mjs";
 import { openGeocoder } from "./lib/geocode.mjs";
 import { toPacificIso, pacificDayKey, parseLooseDate, partsIn } from "./lib/time.mjs";
@@ -116,7 +116,7 @@ async function placeOrgInstance(inst, org, scope) {
     if (g) ({ lat, lng } = g);
     else if (textSays === true) return { keep: true, lat: org.lat ?? null, lng: org.lng ?? null, approx: true };
   }
-  if (Number.isFinite(lat)) return { keep: inDistrict(lat, lng), lat, lng };
+  if (Number.isFinite(lat)) return { keep: inDistrict(lat, lng) && !namesElsewhere(location), lat, lng };
   if (!location && scope === "local") return { keep: true, lat: org.lat ?? null, lng: org.lng ?? null, approx: true };
   return { keep: scope === "local" && sunsetByText(location) !== false, lat: org.lat ?? null, lng: org.lng ?? null, approx: true };
 }
@@ -319,6 +319,7 @@ for (const [name, { events: list }] of Object.entries(bySource)) {
       lng = null;
     }
     const where = [e.venue, e.address].filter(Boolean).join(", ");
+    if (namesElsewhere(where)) continue;
     if (lat != null ? !inDistrict(lat, lng) : sunsetByText(where) !== true) continue;
     const org = matchOrg(e.org, e.venue);
     const source = e.source ?? name;

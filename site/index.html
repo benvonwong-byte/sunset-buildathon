@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Sunset Events | Dear Crisis</title>
-  <meta name="description" content="Public events in San Francisco's Inner and Outer Sunset, gathered every morning from neighborhood groups, the library, Luma, Eventbrite and Meetup, with a map of the groups and places that hold them.">
+  <title>Sunset Groups, Map and Events | Dear Crisis</title>
+  <meta name="description" content="The nonprofits and neighborhood groups of San Francisco's Inner and Outer Sunset, on a map, with every public event we can find, gathered every morning.">
   <!--ROBOTS-->
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="canonical" href="https://sunset.dearcrisis.com/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dear Crisis">
-  <meta property="og:title" content="Sunset Events">
-  <meta property="og:description" content="Public events in the Inner and Outer Sunset, gathered every morning, with a map of the groups that hold them.">
+  <meta property="og:title" content="Sunset Groups, Map and Events">
+  <meta property="og:description" content="The nonprofits and neighborhood groups of the Inner and Outer Sunset, on a map, with every public event we can find.">
   <meta property="og:url" content="https://sunset.dearcrisis.com/">
   <meta property="og:image" content="https://sunset.dearcrisis.com/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -30,8 +30,9 @@
       <a class="brand" href="https://www.dearcrisis.com"><img src="assets/pigeon.png" alt="" width="30" height="19"><span>Dear Crisis</span></a>
       <div class="views-row">
         <div class="views" role="tablist" aria-label="Views">
-          <button role="tab" class="view-tab" id="tab-events" data-view="events" aria-controls="view-events">Events</button>
           <button role="tab" class="view-tab" id="tab-groups" data-view="groups" aria-controls="view-groups">Groups</button>
+          <button role="tab" class="view-tab" id="tab-map" data-view="map" aria-controls="view-map">Map</button>
+          <button role="tab" class="view-tab" id="tab-events" data-view="events" aria-controls="view-events">Events</button>
         </div>
         <a class="view-out" href="space/">Spaces</a>
       </div>
@@ -43,52 +44,52 @@
   </nav>
 
   <header class="masthead">
-    <p class="kicker">The listings desk</p>
-    <h1 id="headline">Sunset Events</h1>
-    <p class="deck" id="deck">Public events between Lincoln Way and Sloat, Stanyan and the ocean, gathered every morning from <button class="inline-link" data-goto="groups">the groups on our map</button>, the library, Luma, Eventbrite and Meetup.</p>
+    <p class="kicker">Inner &amp; Outer Sunset, San Francisco</p>
+    <h1 id="headline">Sunset Groups</h1>
+    <p class="deck" id="deck"></p>
   </header>
 
-  <div class="controls" id="controls">
-    <div class="control-row">
-      <label class="sr-only" for="cat">Kind of event</label>
-      <select class="select" id="cat"></select>
-      <label class="sr-only" for="hood">Neighborhood</label>
-      <select class="select" id="hood"></select>
-      <label class="sr-only" for="search">Search</label>
-      <input class="search" id="search" type="search" placeholder="Search" autocomplete="off">
-      <span class="count" id="count"></span>
-    </div>
-    <div class="day-chips" id="day-chips" role="group" aria-label="Filter by day"></div>
-    <p class="filter-note" id="filter-note" hidden></p>
-  </div>
-
-  <main class="layout">
-    <section class="col-list">
-      <div id="view-events" role="tabpanel" aria-labelledby="tab-events">
-        <div class="date-strip" id="date-strip" aria-label="Jump to a day"></div>
-        <div id="thread"></div>
+  <main class="wrap">
+    <section id="view-groups" role="tabpanel" aria-labelledby="tab-groups" hidden>
+      <div class="tools">
+        <label class="sr-only" for="g-search">Search groups</label>
+        <input class="search" id="g-search" type="search" placeholder="Search groups: food pantry, cleanup, library, Chinese" autocomplete="off">
+        <div class="chips" id="kind-chips" role="group" aria-label="Kind of group"></div>
       </div>
-      <div id="view-groups" role="tabpanel" aria-labelledby="tab-groups" hidden></div>
+      <div id="group-list"></div>
     </section>
 
-    <aside class="col-side" id="side" aria-label="Calendar and map">
-      <div class="minical" id="minical"></div>
-      <div class="map-wrap">
-        <div id="map" role="region" aria-label="Map"></div>
-        <p class="map-caption" id="map-caption"></p>
+    <section id="view-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+      <div class="tools tools-row">
+        <div class="seg" id="map-mode" role="group" aria-label="What the map shows">
+          <button data-mode="today">Today</button>
+          <button data-mode="week">Next 7 days</button>
+          <button data-mode="groups">Groups</button>
+        </div>
+        <span class="count" id="map-count"></span>
       </div>
-    </aside>
-  </main>
+      <div id="map" role="region" aria-label="Map of the Sunset"></div>
+      <div class="legend" id="legend"></div>
+    </section>
 
-  <button class="map-fab" id="map-fab" aria-controls="side">Map</button>
+    <section id="view-events" role="tabpanel" aria-labelledby="tab-events" hidden>
+      <div class="tools">
+        <label class="sr-only" for="e-search">Search events</label>
+        <input class="search" id="e-search" type="search" placeholder="Search events: yoga, cleanup, storytime, music" autocomplete="off">
+        <div class="chips" id="cat-chips" role="group" aria-label="Kind of event"></div>
+      </div>
+      <div class="date-strip" id="date-strip" aria-label="Jump to a day"></div>
+      <p class="filter-note" id="filter-note" hidden></p>
+      <div id="thread"></div>
+    </section>
+  </main>
 
   <footer>
     <div class="foot-in">
       <div>
         <h2>How this works</h2>
-        <p>A script reads the public calendars of the groups on our map, the San Francisco Public Library, SF Rec &amp; Park, and the Luma, Eventbrite, Meetup and Funcheap listings for this part of the city, every morning. It keeps what falls inside the Sunset and merges anything listed twice. Times are Pacific. Dates and rooms change, so check the organizer's page before you head out.</p>
-        <p>The code is open for the buildathon: <a href="https://github.com/benvonwong-byte/sunset-buildathon">github.com/benvonwong-byte/sunset-buildathon</a>. If your group posts events somewhere we can read, <button class="inline-link" id="foot-add">tell us where</button>.</p>
-        <p class="hint">Keys: / searches, j and k move through events, Enter opens one, g switches to groups.</p>
+        <p>Every morning a script reads the public calendars of the groups listed here, the San Francisco Public Library, SF Rec &amp; Park, and the Luma, Eventbrite, Meetup and Funcheap listings for this part of the city. It keeps what falls inside the Sunset and merges anything listed twice. Times are Pacific. Check the organizer's page before you head out.</p>
+        <p>Missing a group? <button class="inline-link" id="foot-add">Tell us where it posts events</button>. The code is open for the buildathon: <a href="https://github.com/benvonwong-byte/sunset-buildathon">github.com/benvonwong-byte/sunset-buildathon</a>.</p>
       </div>
       <div>
         <h2>Sources this morning</h2>
