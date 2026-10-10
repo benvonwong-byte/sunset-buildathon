@@ -34,7 +34,13 @@ img { max-width: 100%; display: block; }
 .topbar-in { max-width: 1280px; height: 100%; margin: 0 auto; padding: 0 var(--gutter); display: flex; align-items: center; gap: 16px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--sans); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ink); }
 .brand img { width: 30px; height: auto; }
-.views { display: flex; margin: 0 auto; }
+.views-row { display: flex; margin: 0 auto; }
+.views { display: flex; }
+.view-out {
+  display: inline-flex; align-items: center; height: var(--top); padding: 0 14px; border-bottom: 3px solid transparent; text-decoration: none;
+  font-family: var(--sans); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--caption);
+}
+.view-out:hover { color: var(--ink); }
 .view-tab {
   background: none; border: 0; border-bottom: 3px solid transparent; height: var(--top); padding: 0 14px; cursor: pointer;
   font-family: var(--sans); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--caption);
@@ -273,7 +279,7 @@ dialog::backdrop { background: rgba(35, 35, 32, 0.45); }
 @media (max-width: 640px) {
   .brand span { display: none; }
   .top-actions .link-btn { display: none; }
-  .view-tab { padding: 0 10px; }
+  .view-tab, .view-out { padding: 0 10px; }
   .masthead { padding-top: 22px; }
   .search { width: 100%; order: 3; }
   .select { flex: 1 1 140px; }
@@ -286,3 +292,13 @@ dialog::backdrop { background: rgba(35, 35, 32, 0.45); }
   .sources { columns: 1; }
 }
 .map-range { height: 24px; font-size: 10.5px; padding: 0 4px; border-width: 1.5px; }
+
+/* Narrow phones: three tabs and the Add button have to fit in one bar. */
+@media (max-width: 430px) {
+  .topbar-in { gap: 10px; }
+  .view-tab, .view-out { padding: 0 6px; letter-spacing: 0.08em; }
+}
+@media (max-width: 380px) {
+  .topbar-in { gap: 8px; padding: 0 12px; }
+  .view-tab, .view-out { padding: 0 5px; font-size: 11px; letter-spacing: 0.04em; }
+}

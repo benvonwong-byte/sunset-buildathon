@@ -44,6 +44,9 @@ jobs:
 
       - name: Build the site
         run: node scripts/build.mjs
+        env:
+          # Optional. Turns on Street View photos on /space/. See .env.example.
+          GOOGLE_MAPS_BROWSER_KEY: ${{ secrets.GOOGLE_MAPS_BROWSER_KEY }}
 
       # Keep a dated record of each morning's listings in the repo. Only on
       # the schedule and manual runs, so a contributor's push is not followed

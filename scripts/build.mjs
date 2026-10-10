@@ -158,6 +158,17 @@ let html = readFileSync(join(DIST, "index.html"), "utf8");
 html = html.replaceAll("__VERSION__", version).replace("<!--ROBOTS-->", robotsMeta).replace("<!--JSONLD-->", ldTag);
 writeFileSync(join(DIST, "index.html"), html);
 
+// --- Spaces page (site/space) -------------------------------------------
+// GOOGLE_MAPS_BROWSER_KEY is optional. It is a browser key, so it ends up in
+// the page either way: restrict it in Google Cloud to this site's addresses
+// and to the Street View Static API. Without it the page shows the lot plans.
+const spacePage = join(DIST, "space/index.html");
+if (existsSync(spacePage)) {
+  const streetViewKey = process.env.GOOGLE_MAPS_BROWSER_KEY ?? "";
+  writeFileSync(join(DIST, "space/config.js"), `window.SPACE_CONFIG = ${JSON.stringify({ streetViewKey })};\n`);
+  writeFileSync(spacePage, readFileSync(spacePage, "utf8").replaceAll("__VERSION__", version).replace("<!--ROBOTS-->", robotsMeta));
+}
+
 writeFileSync(join(DIST, "CNAME"), DOMAIN + "\n");
 writeFileSync(join(DIST, ".nojekyll"), "");
 writeFileSync(join(DIST, "robots.txt"), `User-agent: *\nAllow: /\n`);
