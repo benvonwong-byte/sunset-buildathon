@@ -47,10 +47,15 @@ img, svg { display: block; }
   border-bottom: 1px solid var(--line);
 }
 .topbar-in { max-width: 1120px; height: 100%; margin: 0 auto; padding: 0 var(--gutter); display: flex; align-items: center; gap: 16px; }
-.wordmark { display: inline-flex; flex-direction: column; text-decoration: none; color: var(--ink); line-height: 1; }
-.wordmark span { font-family: var(--brush); font-size: 30px; }
-.wordmark .swoosh { width: 76px; height: 7px; margin-top: 1px; }
-.views-row { display: flex; align-items: center; gap: 6px; margin: 0 auto; }
+/* Two sites under one name: Sunset Events (groups, map, events) and
+   Sunset Spaces. The current one is ink with the mustard swoosh. */
+.sites { display: flex; align-items: flex-end; gap: 22px; margin-right: auto; }
+.site-link { display: inline-flex; flex-direction: column; text-decoration: none; color: var(--muted); line-height: 1; }
+.site-link span { font-family: var(--brush); font-size: 26px; white-space: nowrap; }
+.site-link:hover { color: var(--ink); }
+.site-link[aria-current="page"] { color: var(--ink); }
+.site-link .swoosh { width: 100%; height: 7px; margin-top: 1px; }
+.views-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 2px auto 18px; padding: 0 var(--gutter); }
 .views { display: flex; gap: 2px; background: var(--well); padding: 4px; border-radius: 14px; }
 .view-tab, .view-out {
   border: 0; background: none; padding: 7px 16px; border-radius: 10px; font-weight: 700; font-size: 14px; color: var(--ink-2); text-decoration: none;
@@ -235,6 +240,8 @@ dialog .close:hover { background: var(--line); }
   .views-row { display: none; }
   .topbar-in { justify-content: space-between; }
   .top-actions .long { display: none; }
+  .sites { gap: 14px; }
+  .site-link span { font-size: 21px; }
   .hero { padding-top: 18px; }
   .hero .swoosh { margin: 4px auto 8px; }
   .item-sub { -webkit-line-clamp: 2; }
@@ -249,7 +256,7 @@ dialog .close:hover { background: var(--line); }
   footer { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
   .toast { bottom: calc(84px + env(safe-area-inset-bottom)); }
   .tabbar {
-    display: grid; grid-template-columns: repeat(4, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100;
+    display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100;
     padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--paper) 92%, transparent);
     backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-top: 1px solid var(--line);
   }
