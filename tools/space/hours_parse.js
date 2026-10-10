@@ -207,7 +207,7 @@ function* walk(n) {
 }
 
 // houseNumber: skip entries whose own address is a different building (a hospital's page
-// listing its clinics carries the hospital's hours).
+// listing its clinics gives the hospital's own hours).
 function fromJsonLd(texts, houseNumber) {
   for (const t of texts) {
     let data;
