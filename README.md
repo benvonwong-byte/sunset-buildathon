@@ -125,7 +125,7 @@ Electoral campaign events (canvassing, phone banks, lit drops, "Yes on" and "No 
 
 ## Spaces
 
-`/space/` is a map of storefronts that are closed at a chosen hour between 9 AM and midnight, with an estimate of each one's floor space. Pick a day and time and the list shows what is closed, largest first. Open a place to see its weekly hours, a plan of its lot and building, and how the estimate was made.
+`/space/` is the anti-opening hours: a map of storefronts that are closed at the hour a group wants to meet, with an estimate of each one's floor space, so the group can ask the owner to host it while the doors are shut. The time bar (day, time, and a Week view of when the most floor space is closed) stays on screen apart from the list of spaces, and each space opens in its own drawer (a sheet on phones) with when it is closed, when to drop by and ask, a note to copy and send, its weekly hours, a plan of its lot and building, and how the estimate was made. Every time and space has its own link (`#d=4&t=38&s=node/123`).
 
 Storefronts and posted hours come from OpenStreetMap, with hours read from a business's own website where OpenStreetMap has none. Floor space comes from the SF Assessor's roll and DataSF parcels: the building's area divided by its stories, checked against the mapped footprint, less 15% for walls and stairs, and split among the businesses on the lot. Chains, banks and gas stations are left out. The data is built by hand with `tools/space` (its README has the steps) and committed as `site/space/spaces.json`.
 
