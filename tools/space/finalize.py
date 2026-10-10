@@ -53,6 +53,12 @@ elif mode == "merge":
     scraped = json.load(open(f"{S}/dl/sites/scraped.json"))
     if os.path.exists(f"{S}/dl/sites/scraped2.json"):  # rerun after the robots.txt matcher fix wins
         scraped.update(json.load(open(f"{S}/dl/sites/scraped2.json")))
+    # find_hours.js: websites from Overture and search too, applied only when the site shows
+    # this place's address or phone, a location page names its street, or OSM linked it.
+    if os.path.exists(f"{S}/dl/sites/found.json"):
+        for i, v in json.load(open(f"{S}/dl/sites/found.json")).items():
+            if v.get("status") == "hours" and v.get("verified") in ("address", "phone", "url", "osm") and scraped.get(i, {}).get("status") != "hours":
+                scraped[i] = v
     items = [{"id": i, "oh": v["oh"]} for i, v in scraped.items() if v.get("status") == "hours"]
     json.dump(items, open(f"{S}/work/hours_in2.json", "w"))
     subprocess.run(["node", os.path.join(os.path.dirname(os.path.abspath(__file__)), "eval_hours.js"), f"{S}/work/hours_in2.json", f"{S}/work/hours_out2.json"], check=True)

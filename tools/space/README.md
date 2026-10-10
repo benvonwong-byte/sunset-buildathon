@@ -47,3 +47,31 @@ python3 finalize.py $W export ../../site/space
 - `finalize.py prep` drops chains, banks and gas stations (the list is `CHAIN_NAMES` at the top of the file) and lists the places with a website but no hours.
 - `scrape_hours.js` opens each of those websites in headless Chromium, checks `robots.txt` first, and reads hours from schema.org markup or the page text (`hours_parse.js`; `node test_parse.js` runs its cases). Hours read this way are labeled on the page as coming from the business's website.
 - `finalize.py export` writes the public files. Places found only in the city's business registry are left out, since a registration can name a person at a home address.
+
+## Finding hours for places that have none
+
+Most storefronts have no hours in OpenStreetMap, and the first pass above only reads the websites OpenStreetMap links. This second pass finds more websites and reads them more closely. It works on the published `spaces.json`, so it needs neither the downloads nor a rebuild, and it only adds hours to places that have none.
+
+```bash
+W=/tmp/hours && mkdir -p $W
+pip install duckdb && npm install
+
+# 1. Where each place might post its hours: every OpenStreetMap contact tag, plus the
+#    matching place in Overture Maps (same name within 40 to 150 m), which lists websites
+#    for many shops OpenStreetMap has none for
+python3 find_candidates.py ../../site/space/spaces.json $W/candidates.json
+
+# 2. For places still without a website: a DuckDuckGo search, kept only when the result's
+#    domain contains the place's own name
+python3 search_sites.py $W/candidates.json $W/candidates_search.json
+
+# 3. Read the sites (about 45 minutes for 330 places at 6 at a time)
+node find_hours.js $W/candidates.json $W/found.json 6
+node find_hours.js $W/candidates_search.json $W/found.json 6
+
+# 4. Write the confirmed hours into the page data, then check the page
+node apply_hours.js $W/found.json ../../site/space/spaces.json
+```
+
+`find_hours.js` reads, in order: Squarespace's built-in business hours, schema.org JSON-LD and microdata, any weekly schedule in the JSON the site loads for itself (Square Online, Toast and Wix keep hours this way and draw them with script), then the page text, looking first right after the place's own address on sites that list several locations. It follows link-in-bio pages, online ordering links and up to four hours, visit, contact or location pages; checks robots.txt on every site; and records how it knows the page is about this place: the street address or phone number is on the site, a location page's address names the street, or OpenStreetMap linked it. Hours matched only by name are kept as `unverified` in `found.json` and never applied, which is what kept a doughnut chain's hours off a local donut shop. Three more kinds are held back the same way: a Monday to Friday 9 to 5 week found only in platform data, which is usually the platform's blank default; a JSON-LD entry with no address on a page that shows only this place's phone, which on a clinic list gives the parent organisation's hours; and page text that gives one day two schedules (a dealership's sales and service hours) with no address next to either. Rerun step 3 with `--retry` after improving a reader to try again the places it found nothing for; `node test_parse.js` runs the reader's cases. `apply_hours.js` never overwrites hours, so to apply an improved `found.json` start from the committed file (`git checkout site/space/spaces.json`). For a full rebuild, copy `found.json` to `dl/sites/found.json` and `finalize.py merge` picks it up.
+

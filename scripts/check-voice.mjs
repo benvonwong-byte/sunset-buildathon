@@ -175,7 +175,7 @@ function walkContent(where, v) {
 walkContent("recap/content.json", JSON.parse(readFileSync(join(ROOT, "recap/content.json"), "utf8")));
 
 // 4. Docs: paragraph by paragraph, code blocks and inline code left out
-for (const f of ["README.md", "AGENTS.md", "HANDOFF.md", "recap/README.md", ...readdirSync(join(ROOT, "docs")).map((n) => "docs/" + n)]) {
+for (const f of ["README.md", "AGENTS.md", "HANDOFF.md", "recap/README.md", "tools/space/README.md", ...readdirSync(join(ROOT, "docs")).map((n) => "docs/" + n)]) {
   if (!f.endsWith(".md")) continue;
   readFileSync(join(ROOT, f), "utf8")
     .replace(/```[\s\S]*?```/g, "")
