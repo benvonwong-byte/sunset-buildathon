@@ -138,12 +138,18 @@ function render(c, o) {
   b += `<figure class="hero">\n  <div class="frame"><img src="${A}photos/${pad(c.hero.photo)}.jpg" alt="${attr(c.hero.alt)}" width="${hero.w}" height="${hero.h}" fetchpriority="high"></div>\n`;
   b += `  <figcaption><span><span class="tm">${hero.time}</span>${c.hero.caption}</span><button class="allbtn" type="button" data-i="1">See all ${T.photos} photos</button></figcaption>\n</figure>\n\n`;
 
-  // The afternoon
-  b += `<section id="afternoon">\n${shead(c.timeline)}  <ol class="timeline">\n`;
+  // The afternoon: one fold-out row per step of the run of show. Closed, a
+  // row shows its time, title and photo count; open, the text and photos.
+  const CHEV = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  b += `<section id="afternoon">\n${shead(c.timeline)}`;
+  b += `  <div class="tlbar"><button class="tlall" type="button" id="tlall" aria-controls="timeline" aria-expanded="false">Open all steps</button></div>\n`;
+  b += `  <ol class="timeline" id="timeline">\n`;
   for (const it of c.timeline.items) {
-    b += `    <li${it.highlight ? ' class="walk"' : ""}><span class="t">${it.time}</span><div><h3>${it.title}</h3><p class="plan">${it.plan}</p><p>${it.text}</p>`;
-    if (it.photos?.length) b += `<div class="strip" role="list">${it.photos.map(thumb).join("")}</div>`;
-    b += `</div></li>\n`;
+    const n = it.photos?.length ?? 0;
+    b += `    <li${it.highlight ? ' class="walk"' : ""}><details class="step"><summary><span class="t">${it.time}</span><span class="sh"><h3>${it.title}</h3><span class="plan">${it.plan}</span></span>`;
+    b += `<span class="more">${n ? `<span class="cnt">${n} photo${n === 1 ? "" : "s"}</span>` : ""}${CHEV}</span></summary><div class="body"><p>${it.text}</p>`;
+    if (n) b += `<div class="strip" role="list">${it.photos.map(thumb).join("")}</div>`;
+    b += `</div></details></li>\n`;
   }
   b += `  </ol>\n</section>\n\n`;
 
