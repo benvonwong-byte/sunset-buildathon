@@ -1,5 +1,10 @@
-// Sunset Idle Space: storefronts in the Inner and Outer Sunset that are closed at a chosen
-// hour between 9 AM and midnight, with an estimate of their floor space.
+// Sunset Idle Space, the anti-opening hours: storefronts in the Inner and Outer Sunset that
+// are closed at a chosen hour between 9 AM and midnight, with an estimate of their floor
+// space, so a group can ask the owner to host it while the doors are shut.
+//
+// Three separate pieces: the time bar (always on screen), the list of spaces (left panel
+// on desktop, bottom sheet on phones) and one space (a drawer on desktop, its own sheet on
+// phones). Choosing a time never moves the space you are reading, and the other way round.
 // Data: spaces.json and basemap.json, made by tools/space (see tools/space/README.md).
 // Street View photos appear when the build sets a browser key in config.js.
 
@@ -103,7 +108,7 @@ function start(DATA, BASE) {
   /* ================= state ================= */
   const state = {
     day: 0, slot: 38, tab: "closed", hood: "both", cats: new Set(DEFAULT_CATS), minSq: 0, sort: "size", view: "list",
-    sel: null, listN: PAGE, whenOpen: false, filtersOpen: false,
+    sel: null, listN: PAGE, weekOpen: false, filtersOpen: false,
   };
   const byId = new Map(DATA.map(r => [r.id, r]));
   
@@ -176,23 +181,36 @@ function start(DATA, BASE) {
     zoomControl: false, attributionControl: false, minZoom: 12, maxZoom: 19, zoomSnap: 0.25, preferCanvas: true,
     maxBounds: [[by0 - 0.06, bx0 - 0.09], [by1 + 0.06, bx1 + 0.09]], maxBoundsViscosity: 0.6,
   });
-  L.control.attribution({ prefix: false, position: mq.matches ? "topright" : "bottomright" })
+  L.control.attribution({ prefix: false, position: mq.matches ? "topright" : "bottomleft" })
     .addAttribution(mq.matches
       ? '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OSM</a> · <a href="https://data.sfgov.org" target="_blank" rel="noopener">DataSF</a>'
       : 'Map & places © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> · City data: <a href="https://data.sfgov.org" target="_blank" rel="noopener">DataSF</a>')
     .addTo(map);
-  if (!mq.matches) L.control.zoom({ position: "topright" }).addTo(map);
+  if (!mq.matches) L.control.zoom({ position: "bottomright" }).addTo(map);
   map.createPane("base"); map.getPane("base").style.zIndex = 250;
   map.createPane("labels"); map.getPane("labels").style.zIndex = 350; map.getPane("labels").style.pointerEvents = "none";
   const baseR = L.canvas({ pane: "base", padding: 0.4 });
   const poiR = L.canvas({ padding: 0.4, tolerance: mq.matches ? 12 : 6 });
   
   const HOME = [[37.7335, -122.5105], [37.7675, -122.4520]];
+  const tbH = () => $("timebar").getBoundingClientRect().bottom;
+  // The part of the map nobody is covering: below the time bar, above the sheet (phone)
+  // or left of the drawer (desktop).
+  function clearArea() {
+    const detailOpen = !!state.sel;
+    if (mq.matches) {
+      const cover = detailOpen ? window.innerHeight - $("detail").getBoundingClientRect().top : $("panel").getBoundingClientRect().height;
+      return { top: tbH(), bottom: Math.max(0, cover), right: 0 };
+    }
+    // The drawer covers the map's right edge on wide screens and the list on smaller ones.
+    const m = $("map").getBoundingClientRect(), d = $("detail").getBoundingClientRect();
+    return { top: tbH(), bottom: 0, right: detailOpen && d.left > m.left + 1 ? Math.max(0, m.right - d.left) : 0 };
+  }
   let fitting = false, interacted = false;
   function fitHome() {
     fitting = true;
-    const sheet = mq.matches ? $("panel").getBoundingClientRect().height : 0;
-    map.fitBounds(HOME, mq.matches ? { paddingTopLeft: [6, 56], paddingBottomRight: [6, sheet + 6], animate: false } : { animate: false });
+    const a = clearArea();
+    map.fitBounds(HOME, { paddingTopLeft: [8, a.top + 8], paddingBottomRight: [a.right + 8, a.bottom + 8], animate: false });
     fitting = false;
   }
   map.on("zoomstart dragstart", () => { if (!fitting) interacted = true; });
@@ -297,18 +315,25 @@ function start(DATA, BASE) {
     if (state.sel) placeRing(ring, state.sel);
   }
   function focusOn(id) {
-    const r = byId.get(id), z = Math.max(map.getZoom(), 17), ll = L.latLng(r.lat, r.lon);
-    const bottom = mq.matches ? $("panel").getBoundingClientRect().height : 0, top = mq.matches ? 56 : 0;
-    const c = map.unproject(map.project(ll, z).add([0, (bottom - top) / 2]), z);
+    const r = byId.get(id), z = Math.max(map.getZoom(), 17), ll = L.latLng(r.lat, r.lon), a = clearArea();
+    // Put the place in the middle of the clear part of the map.
+    const c = map.unproject(map.project(ll, z).add([a.right / 2, (a.bottom - a.top) / 2]), z);
     interacted = true;
     map.setView(c, z, { animate: !reduceMotion });
   }
   $("recenter").onclick = () => { interacted = false; fitHome(); };
-  
+
+  /* ================= time bar height ================= */
+  // Everything below the bar (map padding, the phone sheets, the recenter button)
+  // reads --tb-h, so the Week view can open without anything else jumping.
+  const root = document.documentElement;
+  new ResizeObserver(() => { root.style.setProperty("--tb-h", Math.round(tbH()) + "px"); }).observe($("timebar"));
+  root.style.setProperty("--tb-h", Math.round(tbH()) + "px");
+
   /* ================= bottom sheet (phone) ================= */
   const panel = $("panel"), app = $("app");
   const SH = { name: "half" };
-  const sheetHeights = () => { const vh = window.innerHeight; return { peek: 138, half: Math.round(vh * 0.52), full: vh - 64 }; };
+  const sheetHeights = () => { const vh = window.innerHeight; return { peek: 132, half: Math.round(vh * 0.5), full: Math.max(260, vh - tbH() - 8) }; };
   function setSheet(name, instant) {
     if (!mq.matches) { panel.style.height = ""; return; }
     SH.name = name;
@@ -332,7 +357,7 @@ function start(DATA, BASE) {
     panel.style.height = Math.max(hs.peek, Math.min(hs.full, drag.h - dy)) + "px";
     drag.s.push({ y: e.clientY, t: e.timeStamp }); if (drag.s.length > 4) drag.s.shift();
   });
-  function endDrag(e) {
+  function endDrag() {
     if (!drag) return;
     const d = drag; drag = null; panel.style.transition = "";
     if (!d.moved) { if (d.grip) setSheet(SH.name === "peek" ? "half" : SH.name === "half" ? "full" : "half"); return; }
@@ -348,26 +373,29 @@ function start(DATA, BASE) {
   ptop.addEventListener("pointerup", endDrag);
   ptop.addEventListener("pointercancel", endDrag);
   window.addEventListener("resize", () => { setSheet(SH.name, true); });
-  
+
   /* ================= rendering ================= */
   function renderHead() {
-    $("whentxt").textContent = `${DAYS_LONG[state.day]} · ${tm(state.slot)}`;
+    $("whentxt").textContent = tm(state.slot);
     const n = parts.closed.length;
-    $("suma").innerHTML = `<b>${n}</b> ${n === 1 ? "space" : "spaces"} closed`;
-    $("sumb").textContent = `~${fmt(sqIdle)} sq ft idle · ${parts.open.length} open · ${parts.unknown.length} no hours`;
+    $("suma").innerHTML = `<b>${n}</b> ${n === 1 ? "space" : "spaces"} closed <span class="at">${DAYS_LONG[state.day]} at ${tm(state.slot)}</span>`;
+    $("sumb").textContent = `~${fmt(sqIdle)} sq ft of floor space · ${parts.open.length} open · ${parts.unknown.length} with no hours posted`;
   }
   function renderWhen() {
     [...$("days").children].forEach((b, i) => b.setAttribute("aria-pressed", String(i === state.day)));
     $("time").value = state.slot;
+    $("time").setAttribute("aria-valuetext", `${DAYS_LONG[state.day]} ${tm(state.slot)}`);
     [...$("presets").children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.d === String(state.day) && b.dataset.s === String(state.slot))));
-    if (state.whenOpen) renderHeat();
+    $("weekbtn").setAttribute("aria-expanded", String(state.weekOpen));
+    $("weekpanel").hidden = !state.weekOpen;
+    if (state.weekOpen) renderHeat();
   }
   function renderTabs() {
     const T = [["closed", "Closed"], ["open", "Open"], ["unknown", "No hours"]];
     $("tabs").innerHTML = T.map(([k, l]) => `<button class="tab" role="tab" type="button" data-k="${k}" aria-selected="${state.tab === k}">${l}<b>${parts[k].length}</b></button>`).join("");
     const note = $("tabnote");
     if (state.tab === "unknown") { note.hidden = false; note.innerHTML = "We can't tell when these are closed because no hours are posted online. If you know them, open a space and tap <b>Add hours</b>."; }
-    else if (state.tab === "open") { note.hidden = false; note.textContent = "Open at this time. Try another time to see when they go quiet."; }
+    else if (state.tab === "open") { note.hidden = false; note.textContent = "Open at this time, so a good moment to drop by and ask. Try another time to see when they close."; }
     else note.hidden = true;
   }
   function renderFilters() {
@@ -401,8 +429,8 @@ function start(DATA, BASE) {
     const more = $("more"); more.hidden = list.length <= state.listN;
     more.textContent = `Show ${Math.min(PAGE, list.length - state.listN)} more`;
   }
-  
-  /* ---- detail ---- */
+
+  /* ---- one space ---- */
   function weekSvg(r) {
     const cw = 9, ch = 15, gap = 1.2, lw = 30, cols = W1 - W0, W = lw + cols * (cw + gap), H = 7 * (ch + gap) + 16;
     let o = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly hours, 9 AM to midnight. Mustard is closed.">`;
@@ -422,9 +450,47 @@ function start(DATA, BASE) {
     if (!r.ground) return "";
     return `Ground floor is about ${fmt(r.ground)} sq ft${r.share > 1 ? `, split ${r.share} ways` : ""}, less 15% for walls and stairs.`;
   }
+  // When a closed spell started: walk back from (d, s) while the place stays closed.
+  function closedSince(r, d, s) {
+    const at = d * 48 + s;
+    for (let k = 1; k < 336; k++) { const i = (at - k + 336) % 336; if (r.w[i] !== "0") { const j = (i + 1) % 336; return { d: Math.floor(j / 48), s: j % 48 }; } }
+    return null;
+  }
+  const dayTime = (p) => `${DAYS_LONG[p.d]} ${tm(p.s)}`;
+  // The window to ask in, and the window the group could use, at the chosen time.
+  function outreach(r) {
+    if (!r.w) return { rows: [["Hours", "Not posted online"], ["Drop by", "Check the place's own listing first"]], day: null, from: null };
+    const st = statusAt(r, state.day, state.slot);
+    let closedFrom, reopen, openFrom, openUntil;
+    if (st === "closed") {
+      closedFrom = closedSince(r, state.day, state.slot);
+      reopen = nextFlip(r, state.day, state.slot, "1");
+      openFrom = reopen;
+      openUntil = reopen && nextFlip(r, reopen.d, reopen.s, "0");
+    } else {
+      closedFrom = nextFlip(r, state.day, state.slot, "0");
+      reopen = closedFrom && nextFlip(r, closedFrom.d, closedFrom.s, "1");
+      openFrom = { d: state.day, s: state.slot, now: true };
+      openUntil = closedFrom;
+    }
+    const rows = [];
+    if (st === "closed") {
+      rows.push(["Closed", !reopen ? "All week, by its posted hours" : closedFrom ? `${dayTime(closedFrom)} to ${dayTime(reopen)}` : `until ${dayTime(reopen)}`]);
+      if (openFrom) rows.push(["Drop by", openUntil ? `${dayTime(openFrom)} to ${openUntil.d === openFrom.d ? tm(openUntil.s) : dayTime(openUntil)}` : dayTime(openFrom)]);
+    } else {
+      rows.push(["Closes", !closedFrom ? "Never, by its posted hours" : reopen ? `${dayTime(closedFrom)} to ${dayTime(reopen)}` : `${dayTime(closedFrom)}, for the rest of the week`]);
+      rows.push(["Drop by", closedFrom ? `Now, until ${whenText(closedFrom, state.day)}` : "Any time it's open"]);
+    }
+    return { rows, day: closedFrom ? DAYS_LONG[closedFrom.d] : null, from: closedFrom ? tm(closedFrom.s) : null };
+  }
+  function noteText(r, o) {
+    const when = o.day ? `on ${o.day}s from ${o.from}` : "in the hours you're closed";
+    return `Hi! I'm a neighbor in the Sunset and I help organize small community gatherings. ${r.n} looks to be closed ${when}. Would you be open to a group using the space then, once a month to start? We'd keep it small, leave it as we found it, and work around your schedule.`;
+  }
+  const shareUrl = () => location.href.split("#")[0] + "#" + hashFor(true);
   function renderDetail() {
     const r = byId.get(state.sel); if (!r) return;
-    const s = statusInfo(r), idle = idleHours(r);
+    const s = statusInfo(r), idle = idleHours(r), o = outreach(r);
     const slides = [];
     if (SV_KEY) slides.push(`<div class="slide sv"><img src="https://maps.googleapis.com/maps/api/streetview?size=640x400&location=${r.lat},${r.lon}&fov=80&source=outdoor&return_error_code=true&key=${encodeURIComponent(SV_KEY)}" alt="Street View near ${esc(r.n)}"><span class="slidecap">Google Street View</span></div>`);
     if (r.ph) slides.push(`<div class="slide"><img src="${esc(r.ph)}" alt="Storefront of ${esc(r.n)}" loading="lazy"></div>`);
@@ -432,7 +498,7 @@ function start(DATA, BASE) {
     const link = (href, icon, text, cls = "") => `<a class="act ${cls}" href="${esc(href)}" target="_blank" rel="noopener">${ic(icon, 17)}${text}</a>`;
     const q = encodeURIComponent(`${r.n} ${r.a || ""} San Francisco`.trim());
     const acts = [
-      link(`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${r.lat},${r.lon}`, "eye", "Street View", "primary"),
+      link(`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${r.lat},${r.lon}`, "eye", "Street View"),
       link(`https://www.google.com/maps/search/?api=1&query=${q}`, "pin", "Google Maps"),
     ];
     if (r.web && /^https?:\/\//.test(r.web)) acts.push(link(r.web, "globe", "Website"));
@@ -458,17 +524,26 @@ function start(DATA, BASE) {
         <div class="slides" id="slides">${slides.join("")}</div>
         ${slides.length > 1 ? `<div class="dots" id="dots">${slides.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}
       </div>
-      <div class="dmain">
+      <div class="dhead">
         <h2 class="dname">${esc(r.n)}</h2>
         <p class="dsub">${esc(cap(r.t))}${r.a ? " · " + esc(r.a) : ""} · ${r.h === "i" ? "Inner" : "Outer"} Sunset</p>
         ${r.est ? `<div class="dsize"><span class="num">~${fmt(r.est)}</span><span class="unit">sq ft</span><span class="badge2 ${r.conf}">${r.conf === "good" ? "Good estimate" : "Rough estimate"}</span></div>` : ""}
         <p class="dwhy">${esc(whyText(r))}</p>
       </div>
+      <section class="ask" aria-label="Ask to use this space">
+        <h3>Ask to use it</h3>
+        <dl class="when">${o.rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
+        <p class="msg" id="msg">${esc(noteText(r, o))}</p>
+        <div class="row">
+          <button class="act primary" type="button" data-copy="note">Copy this note</button>
+          <button class="act" type="button" data-copy="link">Copy link to this space</button>
+        </div>
+      </section>
       <div class="acts">${acts.join("")}</div>
-      ${r.w ? `<section class="sec wk"><p class="h4">Weekly availability</p>${weekSvg(r)}
+      ${r.w ? `<section class="sec wk"><p class="h4">When it's closed</p>${weekSvg(r)}
         <div class="key"><span><i style="background:var(--mustard)"></i>Closed</span><span><i style="background:var(--open)"></i>Open</span><span>Tap a square to check another time</span></div>
-        <p style="margin-top:10px">Closed <b>${idle}</b> of 105 hours a week between 9 AM and midnight${r.est ? `, about <b>${fmt(idle * r.est)}</b> idle sq-ft-hours` : ""}.</p></section>
-      <section class="sec"><p class="h4">Hours</p><div class="hrows">${rows.map((t, i) => `<div class="hrow ${i === state.day ? "today" : ""}"><span>${DAYS[i]}</span><span class="${t === "Closed" ? "cl" : ""}">${esc(t)}</span></div>`).join("")}</div></section>` : ""}
+        <p style="margin-top:10px">Closed <b>${idle}</b> of 105 hours a week between 9 AM and midnight${r.est ? `, about <b>${fmt(idle * r.est)}</b> sq-ft-hours a group could use` : ""}.</p></section>
+      <section class="sec"><p class="h4">Opening hours</p><div class="hrows">${rows.map((t, i) => `<div class="hrow ${i === state.day ? "today" : ""}"><span>${DAYS[i]}</span><span class="${t === "Closed" ? "cl" : ""}">${esc(t)}</span></div>`).join("")}</div></section>` : ""}
       <section class="sec"><p class="h4">About the space</p><dl class="facts">${facts.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl></section>
       <section class="sec src">${srcNote}</section>`;
     const sl = $("slides"), dots = $("dots");
@@ -479,8 +554,8 @@ function start(DATA, BASE) {
     $("dpos").textContent = i < 0 ? `${list.length} in list` : `${i + 1} of ${list.length}`;
     $("prev").disabled = $("next").disabled = !list.length;
   }
-  
-  /* ---- heatmap (tap or drag to pick a time) ---- */
+
+  /* ---- week heatmap (tap or drag to pick a time) ---- */
   const HC = { cw: 10, ch: 14, gap: 1.2, lw: 32, bottom: 14 };
   let heatMatrix = [], heatMax = 1;
   function renderHeat() {
@@ -488,7 +563,7 @@ function start(DATA, BASE) {
     for (const r of base) if (r.w) for (let d = 0; d < 7; d++) for (let s = W0; s < W1; s++) if (r.w[d * 48 + s] === "0") heatMatrix[d][s - W0] += r.est || 0;
     heatMax = Math.max(1, ...heatMatrix.flat());
     const { cw, ch, gap, lw, bottom } = HC, cols = W1 - W0, W = lw + cols * (cw + gap) - gap, H = 7 * (ch + gap) - gap + bottom;
-    let o = `<svg viewBox="0 0 ${W} ${H}" id="heatsvg" role="img" aria-label="Idle floor space by day and half hour">`;
+    let o = `<svg viewBox="0 0 ${W} ${H}" id="heatsvg" role="img" aria-label="Closed floor space by day and half hour">`;
     for (let d = 0; d < 7; d++) {
       const y = d * (ch + gap);
       o += `<text x="0" y="${y + ch - 3.5}">${DAYS[d]}</text>`;
@@ -513,41 +588,78 @@ function start(DATA, BASE) {
   $("heat").addEventListener("pointerdown", e => { heatDown = true; $("heat").setPointerCapture(e.pointerId); heatPick(e); });
   $("heat").addEventListener("pointermove", e => { if (heatDown) heatPick(e); });
   ["pointerup", "pointercancel"].forEach(t => $("heat").addEventListener(t, () => { heatDown = false; }));
-  
+
+  /* ================= links: #d=4&t=38&s=node/123 ================= */
+  function hashFor(withSel) {
+    const p = new URLSearchParams({ d: state.day, t: state.slot });
+    if (withSel && state.sel) p.set("s", state.sel);
+    return p.toString();
+  }
+  function writeHash() { history.replaceState(null, "", "#" + hashFor(true)); }
+  function readHash() {
+    const p = new URLSearchParams(location.hash.slice(1));
+    const d = +p.get("d"), t = +p.get("t");
+    let set = false;
+    if (p.has("d") && d >= 0 && d < 7) { state.day = d; set = true; }
+    if (p.has("t") && t >= W0 && t < W1) { state.slot = t; set = true; }
+    return { set, sel: byId.has(p.get("s")) ? p.get("s") : null };
+  }
+
   /* ================= actions ================= */
-  function showList() { $("listview").hidden = false; $("detailview").hidden = true; panel.dataset.mode = "list"; }
-  let listScroll = 0;
+  const detail = $("detail");
   function select(id, o = {}) {
-    const body = $("body");
-    if (!state.sel) listScroll = body.scrollTop;
+    const was = state.sel;
     state.sel = id;
     const i = list.findIndex(r => r.id === id); if (i >= state.listN) state.listN = Math.ceil((i + 1) / PAGE) * PAGE;
-    $("listview").hidden = true; $("detailview").hidden = false; panel.dataset.mode = "detail";
-    renderDetail(); body.scrollTop = 0;
-    placeRing(ring, id); focusOnAfterLayout(id);
-    if (mq.matches) { if (SH.name === "peek" || (SH.name === "full" && o.fromMap)) setSheet("half"); setWhen(false, true); }
+    detail.hidden = false; app.classList.add("has-detail");
+    renderDetail(); $("dscroll").scrollTop = 0;
+    renderList();
+    placeRing(ring, id); placeRing(hoverRing, null);
+    if (mq.matches) setWeek(false);
+    else if (o.fromMap) document.querySelector(`.card[data-id="${CSS.escape(id)}"]`)?.scrollIntoView({ block: "nearest" });
+    if (!was) map.invalidateSize({ pan: false });
+    focusOnAfterLayout(id);
+    writeHash();
   }
-  function focusOnAfterLayout(id) { requestAnimationFrame(() => setTimeout(() => focusOn(id), mq.matches ? 120 : 0)); }
+  function focusOnAfterLayout(id) { requestAnimationFrame(() => setTimeout(() => focusOn(id), 60)); }
   function deselect() {
+    const id = state.sel;
     state.sel = null; placeRing(ring, null);
-    showList(); renderList();
-    $("body").scrollTop = listScroll;
+    detail.hidden = true; app.classList.remove("has-detail");
+    renderList();
+    document.querySelector(`.card[data-id="${CSS.escape(id || "")}"]`)?.focus({ preventScroll: true });
+    writeHash();
   }
   function step(dir) {
     if (!list.length) return;
     let i = list.findIndex(r => r.id === state.sel);
     i = i < 0 ? (dir > 0 ? 0 : list.length - 1) : (i + dir + list.length) % list.length;
-    select(list[i].id);
+    select(list[i].id, { fromMap: true });
   }
-  function setWhen(open, silent) {
-    state.whenOpen = open;
-    $("whenpanel").hidden = !open;
-    $("whenbtn").setAttribute("aria-expanded", String(open));
-    if (open) { renderHeat(); if (mq.matches && !silent) setSheet("full"); }
-    else if (mq.matches && !silent && SH.name === "full" && !state.sel) setSheet("half");
+  // Phones: opening the Week view lowers the list to its peek, and closing it puts it back.
+  let sheetBeforeWeek = null;
+  function setWeek(open) {
+    if (state.weekOpen === open) return;
+    state.weekOpen = open;
+    if (mq.matches && !state.sel) {
+      if (open) { sheetBeforeWeek = SH.name; setSheet("peek"); }
+      else if (sheetBeforeWeek) { setSheet(sheetBeforeWeek); sheetBeforeWeek = null; }
+    }
+    renderWhen();
+    // Keep the district in view in whatever the bar and sheet leave uncovered.
+    if (mq.matches && !interacted) setTimeout(fitHome, 340);
   }
   function clearFilters() { state.hood = "both"; state.cats = new Set(DEFAULT_CATS); state.minSq = 0; state.listN = PAGE; update(); }
-  
+  let toastTimer = null;
+  function toast(text) {
+    const t = $("toast"); t.textContent = text; t.classList.add("on");
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("on"), 1800);
+  }
+  async function copy(text, done) {
+    try { await navigator.clipboard.writeText(text); toast(done); }
+    catch { window.prompt("Copy this:", text); }
+  }
+
   /* ================= wiring ================= */
   DAYS.forEach((d, i) => { const b = document.createElement("button"); b.type = "button"; b.className = "day"; b.textContent = d; b.setAttribute("aria-label", DAYS_LONG[i]); b.onclick = () => { state.day = i; update(); }; $("days").appendChild(b); });
   PRESETS.forEach(([t, d, s]) => { const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = t; b.dataset.d = d; b.dataset.s = s; b.onclick = () => { state.day = d; state.slot = s; update(); }; $("presets").appendChild(b); });
@@ -556,12 +668,13 @@ function start(DATA, BASE) {
   SIZES.forEach(([v, l]) => { const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.dataset.v = v; b.textContent = l; b.onclick = () => { state.minSq = v; state.listN = PAGE; update(); }; $("sizes").appendChild(b); });
   $("time").addEventListener("input", e => { state.slot = +e.target.value; update(); });
   $("nowbtn").onclick = () => { setNow(); update(); };
-  $("whenbtn").onclick = () => setWhen(!state.whenOpen);
-  $("whendone").onclick = () => setWhen(false);
+  $("weekbtn").onclick = () => setWeek(!state.weekOpen);
+  $("weekclose").onclick = () => setWeek(false);
+  map.on("click", () => { if (state.weekOpen && mq.matches) setWeek(false); });
   $("filterbtn").onclick = () => { state.filtersOpen = !state.filtersOpen; renderFilters(); };
   $("clear").onclick = clearFilters;
   $("hood").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { state.hood = b.dataset.v; state.listN = PAGE; update(); } });
-  $("tabs").addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) { state.tab = b.dataset.k; state.listN = PAGE; $("body").scrollTop = 0; update(); } });
+  $("tabs").addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) { state.tab = b.dataset.k; state.listN = PAGE; update(); } });
   $("sort").onchange = e => { state.sort = e.target.value; state.listN = PAGE; update(); };
   $("vlist").onclick = () => { state.view = "list"; update(); };
   $("vgrid").onclick = () => { state.view = "grid"; update(); };
@@ -575,28 +688,37 @@ function start(DATA, BASE) {
   $("back").onclick = deselect;
   $("prev").onclick = () => step(-1);
   $("next").onclick = () => step(1);
-  $("dbody").addEventListener("click", e => { const c = e.target.closest(".wcell"); if (c) { state.day = +c.dataset.d; state.slot = +c.dataset.s; update(); } });
+  $("dbody").addEventListener("click", e => {
+    const c = e.target.closest(".wcell"); if (c) { state.day = +c.dataset.d; state.slot = +c.dataset.s; update(); return; }
+    const b = e.target.closest("[data-copy]"); if (!b) return;
+    if (b.dataset.copy === "note") copy($("msg").textContent, "Note copied");
+    else copy(shareUrl(), "Link copied");
+  });
   document.addEventListener("keydown", e => {
     if (e.target.closest("input, select, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (state.sel) { if (e.key === "ArrowRight") { step(1); e.preventDefault(); } else if (e.key === "ArrowLeft") { step(-1); e.preventDefault(); } else if (e.key === "Escape") deselect(); }
-    else if (e.key === "Escape" && state.whenOpen) setWhen(false);
+    if (e.key === "Escape") { if (state.weekOpen) setWeek(false); else if (state.sel) deselect(); return; }
+    if (state.sel) { if (e.key === "ArrowRight") { step(1); e.preventDefault(); } else if (e.key === "ArrowLeft") { step(-1); e.preventDefault(); } }
   });
-  
+
   /* ================= update loop ================= */
   function update() {
     compute();
     renderHead(); renderWhen(); renderTabs(); renderFilters();
-    if (state.sel) renderDetail(); else renderList();
+    renderList();
+    if (state.sel) renderDetail();
     styleMarkers();
+    writeHash();
   }
-  
-  setNow();
+
+  const fromLink = readHash();
+  if (!fromLink.set) setNow();
   update();
   setSheet("half", true);
   fitHome();
   syncStreetLabels();
+  if (fromLink.sel) select(fromLink.sel);
 
   // handle for tests and the console
-  window.__space = { state, update, select, setSheet, markers, map, DATA, idleHours, SH,
+  window.__space = { state, update, select, deselect, setSheet, setWeek, markers, map, DATA, idleHours, SH,
     get list() { return list; }, get parts() { return parts; }, get base() { return base; } };
 }

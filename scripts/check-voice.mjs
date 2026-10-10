@@ -154,11 +154,14 @@ for (const o of orgs) for (const f of ORG_FIELDS) checkProse(`data/orgs.json ${o
 const domains = JSON.parse(readFileSync(join(ROOT, "data/domains.json"), "utf8"));
 for (const d of domains) for (const f of DOMAIN_FIELDS) checkProse(`data/domains.json ${d.id}.${f}`, d[f]);
 
-// 2. Page copy: the visible text of index.html
-const html = readFileSync(join(ROOT, "site/index.html"), "utf8")
-  .replace(/<(script|style)[\s\S]*?<\/\1>/g, "")
-  .replace(/<[^>]+>/g, "\n");
-html.split(/\n+/).forEach((line) => line.trim() && checkProse("site/index.html", line.trim()));
+// 2. Page copy: the visible text of the events page and the Idle Space page
+for (const page of ["site/index.html", "site/space/index.html"]) {
+  readFileSync(join(ROOT, page), "utf8")
+    .replace(/<(script|style)[\s\S]*?<\/\1>/g, "")
+    .replace(/<[^>]+>/g, "\n")
+    .split(/\n+/)
+    .forEach((line) => line.trim() && checkProse(page, line.trim()));
+}
 
 // 3. The Build-a-thon recap: every string in recap/content.json, tags
 // stripped. Speakers' own words get the same rules; trim a quote rather than

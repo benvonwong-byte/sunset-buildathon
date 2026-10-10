@@ -118,6 +118,8 @@ for (const d of domains) {
 const version = createHash("sha1")
   .update(readFileSync(join(ROOT, "site/app.js")))
   .update(readFileSync(join(ROOT, "site/style.css")))
+  .update(readFileSync(join(ROOT, "site/space/space.js")))
+  .update(readFileSync(join(ROOT, "site/space/space.css")))
   .update(String(events.fetchedAt))
   .digest("hex")
   .slice(0, 10);
@@ -260,7 +262,7 @@ writeFileSync(join(DIST, "events/index.html"), eventsHtml);
 // the page either way: restrict it in Google Cloud to this site's addresses
 // and to the Street View Static API. Without it the page shows the lot plans.
 const SPACE_URL = `${BASE}space/`;
-const SPACE_DESC = "Storefronts in San Francisco's Inner and Outer Sunset that are closed at a given hour between 9 AM and midnight, with an estimate of how much floor space each one holds.";
+const SPACE_DESC = "The anti-opening hours: storefronts in San Francisco's Inner and Outer Sunset that are closed at the hour your group wants to meet, with how much floor space each one has, so you can ask the owner to host.";
 const spacePage = join(DIST, "space/index.html");
 let spaceCount = 0;
 if (existsSync(spacePage)) {
@@ -306,7 +308,7 @@ if (existsSync(flyerPage)) writeFileSync(flyerPage, fill(readFileSync(flyerPage,
 const PAGES = [
   { url: BASE, title: "Sunset Events", desc: "the directory of groups, the map and the event list", daily: true },
   { url: EVENTS_URL, title: "What's on in the Sunset", desc: "every upcoming public event, by day", daily: true },
-  { url: SPACE_URL, title: "Sunset Idle Space", desc: "storefronts closed at a chosen hour, with estimated floor space", daily: false },
+  { url: SPACE_URL, title: "Sunset Idle Space", desc: "the anti-opening hours: storefronts closed at the hour a group wants to meet, with estimated floor space and a note to send the owner", daily: false },
 ];
 const today = (events.fetchedAt ?? new Date().toISOString()).slice(0, 10);
 writeFileSync(
