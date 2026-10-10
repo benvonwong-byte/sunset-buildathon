@@ -1,12 +1,25 @@
 # Working in this repo
 
-Sunset Events (sunset.dearcrisis.com): a static site plus a Node fetcher, no framework, no dependencies. Read README.md first.
+Sunset Events (sunset.dearcrisis.com): a static site plus a Node fetcher, no framework, no dependencies. It also holds Sunset Idle Space (`/space/`) and the Build-a-thon recap (`recap/`, published at `/recap/` and dearcrisis.com/buildathon). Read README.md first, and `recap/README.md` before touching the recap.
 
 ## Rules that the build enforces
 
 - `npm run gate` must pass. It runs `scripts/check-voice.mjs` (em dashes, banned verbs and stock machine-writing words; the list is in the script) over the group blurbs, the page copy, the scripts and the docs, and `scripts/check-data.mjs` over `data/orgs.json`.
 - Adding a new prose field to `data/orgs.json`? Add its name to `ORG_FIELDS` in `scripts/check-voice.mjs` in the same commit, or the gate never reads it.
 - Adding a feed format? Add a parser in `scripts/lib/parsers.mjs`, then the format name to `FORMATS` in `scripts/check-data.mjs`.
+- `npm run build` ends with `scripts/check-preview.mjs`: every page in its `PAGES` list needs a title, a description, a canonical link, og and twitter tags, robots and geo tags, JSON-LD that parses, and a drawn 1200x630 JPEG share card under 280,000 bytes. A new page goes in that list in the same commit.
+
+## Every page and every summary ships its share card
+
+Von's rule, 2026-10-10, after a recap went live with a cropped photo as its WhatsApp preview: anything that summarises an event, and any page someone will share, is not done until it has a drawn card in the house layout (masthead panel beside a photo, dearcrisis.com and the pigeon in the footer; `recap/tools/card.mjs` draws it), one or two plain sentences of description, og:image width, height and alt, a canonical link and JSON-LD. Never a cropped photo as the card.
+
+## The recap
+
+- Words and photo choices live in `recap/content.json`; the look lives in `recap/template.html`. Edit the content, never the rendered HTML.
+- Counts are computed, never typed: chips, bars, the screen split, "Showing all N dreams", the photo count.
+- The thread chips sit directly above the dream cards. Anything placed between them makes the filters look broken.
+- A name not caught gets a plain descriptive name and `nameNotCaught`. Never guess a name or a pronoun.
+- Quotes are the speaker's words, never invented. No transcript, album link, side conversation or personal contact detail in this repo.
 
 ## House voice for anything published
 

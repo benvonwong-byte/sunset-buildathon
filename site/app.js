@@ -73,18 +73,24 @@ const sectionOf = (o) => SECTIONS.find((s) => s.kinds.includes(o.kind)) ?? SECTI
 
 // ---------- State (mirrored in the URL hash) ----------
 const VIEWS = ["groups", "map", "events"];
+// The view a page opens on: groups at the root, events at /events/ (the build
+// sets data-view on that copy). Paths resolve from this file, not the page,
+// so the same code runs one folder down.
+const HOME = VIEWS.includes(document.documentElement.dataset.view) ? document.documentElement.dataset.view : "groups";
+const here = (path) => new URL(path, import.meta.url).href;
+const shareLink = (id) => `${here("events/")}#event=${id}`;
 const state = { view: "groups", gq: "", kind: "", eq: "", cat: "", org: "", event: "", group: "", map: "week" };
 const KEYS = ["gq", "kind", "eq", "cat", "org", "event", "group", "map"];
 const DEFAULTS = { map: "week" };
 
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
-  state.view = VIEWS.includes(p.get("view")) ? p.get("view") : "groups";
+  state.view = VIEWS.includes(p.get("view")) ? p.get("view") : HOME;
   for (const k of KEYS) state[k] = p.get(k) ?? DEFAULTS[k] ?? "";
 }
 function writeHash() {
   const p = new URLSearchParams();
-  if (state.view !== "groups") p.set("view", state.view);
+  if (state.view !== HOME) p.set("view", state.view);
   for (const k of KEYS) if (state[k] && state[k] !== DEFAULTS[k]) p.set(k, state[k]);
   const h = p.toString();
   history.replaceState(null, "", h ? "#" + h : location.pathname + location.search);
@@ -268,7 +274,7 @@ function googleLink(e) {
     action: "TEMPLATE",
     text: e.title,
     dates: e.allDay ? `${gcalDate(e.start, true)}/${gcalDate(e.start, true, 1)}` : `${gcalDate(e.start)}/${gcalDate(endOf(e))}`,
-    details: `${e.url ?? ""}\n\nFrom ${location.origin}${location.pathname}#view=events&event=${e.id}`,
+    details: `${e.url ?? ""}\n\nFrom ${shareLink(e.id)}`,
     location: whereText(e),
     ctz: TZ,
   });
@@ -493,7 +499,7 @@ function setupDialogs() {
   const sel = $("#sub-cat");
   sel.innerHTML = `<option value="">Everything</option>` + DOMAINS.map((d) => `<option value="${d.id}">${esc(d.label)} only</option>`).join("");
   const update = () => {
-    const https = new URL(sel.value ? `sunset-${sel.value}.ics` : "sunset.ics", location.href).href;
+    const https = here(sel.value ? `sunset-${sel.value}.ics` : "sunset.ics");
     const webcal = https.replace(/^https?:/, "webcal:");
     $("#sub-url").value = https;
     $("#sub-webcal").href = webcal;
@@ -617,7 +623,7 @@ function wire() {
       return;
     }
     const share = e.target.closest("[data-share]");
-    if (share) return copy(`${location.origin}${location.pathname}#view=events&event=${share.dataset.share}`, "Link copied");
+    if (share) return copy(shareLink(share.dataset.share), "Link copied");
     const m = e.target.closest("[data-map-event]");
     if (m) return showOnMap("event", m.dataset.mapEvent);
     const g = e.target.closest("[data-show-group]");
@@ -669,7 +675,7 @@ function boot2() {
 async function boot() {
   const [ev, orgs, domains, geo] = await Promise.all(
     ["data/events.json", "data/orgs.json", "data/domains.json", "data/geo.json"].map((u) =>
-      fetch(u, { cache: "no-cache" })
+      fetch(here(u), { cache: "no-cache" })
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null)
     )

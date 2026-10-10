@@ -1,0 +1,1354 @@
+{
+  "slug": "buildathon",
+  "page": {
+    "title": "Sunset Neighborhood Build-a-thon · Dear Crisis",
+    "description": "Recap of the Sunset Neighborhood Build-a-thon, Oct 9, 2026, at Sunset Village Music Hall: 23 dreams for the Outer Sunset, a walk to the ocean, and what neighbors built by 5pm.",
+    "canonical": "https://dearcrisis.com/buildathon",
+    "shareTitle": "Sunset Neighborhood Build-a-thon",
+    "shareDescription": "23 dreams for the Outer Sunset, a singing walk to the ocean, and what neighbors built by 5pm. Photos, every pitch, and what comes next.",
+    "shareImageAlt": "Share card for the Neighborhood Build-a-thon recap, 9 October 2026, Sunset Village Music Hall, San Francisco, beside a photo of the welcome sign going up on the hall's door.",
+    "published": "2026-10-10T04:15:00Z",
+    "modified": "2026-10-10T05:00:00Z",
+    "headline": "Sunset Neighborhood Build-a-thon recap",
+    "summary": "23 dreams for the Outer Sunset, a singing walk to the ocean, and what neighbors built by 5pm, with photos of every pitch.",
+    "keywords": "Outer Sunset, San Francisco, neighborhood, build-a-thon, SF Tech Week, Sunset Social Club, Relational Tech Project, community"
+  },
+  "event": {
+    "name": "Sunset Neighborhood Build-a-thon",
+    "description": "Neighbors pitched dreams for the Outer Sunset, formed teams, walked to the ocean together and built the first version of each project: a flyer, a landing page, an outreach plan or working software.",
+    "start": "2026-10-09T14:00:00-07:00",
+    "end": "2026-10-09T18:00:00-07:00",
+    "url": "https://luma.com/tzyvkp9j",
+    "venue": {
+      "name": "Sunset Village Music Hall",
+      "street": "4114 Judah St",
+      "locality": "San Francisco",
+      "region": "CA",
+      "postalCode": "94122",
+      "country": "US",
+      "lat": 37.7605,
+      "lng": -122.5061
+    },
+    "organizers": [
+      {
+        "name": "Sunset Social Club",
+        "url": "https://luma.com/sunsetsocialclub"
+      },
+      {
+        "name": "Relational Tech Project",
+        "url": "https://relationaltechproject.org"
+      }
+    ],
+    "photo": 16
+  },
+  "masthead": {
+    "pre": "Sunset Social Club &times; Relational Tech Project &middot; SF Tech Week",
+    "title": [
+      "Neighborhood",
+      "Build-a-thon"
+    ],
+    "when": "Friday, Oct 9 &middot; 2&ndash;6pm",
+    "where": "Sunset Village Music Hall &middot; 4114&nbsp;Judah&nbsp;St",
+    "lede": "Neighbors and Tech Week visitors brought 23 dreams for the Outer Sunset to the mic, walked to the ocean together, and came back to build. By 5pm there were two working websites, a new-neighbor welcome page, a privacy circle on Signal, and a date for a December open mic.",
+    "facts": [
+      [
+        157,
+        "going"
+      ],
+      [
+        23,
+        "dreams shared"
+      ],
+      [
+        5,
+        "shares at 5pm"
+      ],
+      [
+        1,
+        "walk to the ocean"
+      ],
+      [
+        69,
+        "photos"
+      ]
+    ],
+    "hosts": "Hosted by Josh Nesbit and Anna Spisak &middot; <a href=\"https://luma.com/tzyvkp9j\" target=\"_blank\" rel=\"noopener\">Event page on Luma</a>"
+  },
+  "hero": {
+    "photo": 16,
+    "alt": "A full room for dream sharing: Josh Nesbit at the mic, the run of show on the screen, neighbors at tables",
+    "caption": "Josh Nesbit walks a full room through the afternoon."
+  },
+  "timeline": {
+    "label": "How it ran",
+    "title": "The afternoon",
+    "intro": "The flyer called it a commencement, not a competition. Times on the left come from the slide on the screen that day; the photo timestamps show when each part actually happened.",
+    "items": [
+      {
+        "time": "2:00",
+        "title": "Doors, coffee and pastries",
+        "plan": "On the flyer 2:00 &middot; in the photos 1:59 to 2:28",
+        "text": "The welcome sign went up on the door, snacks went out, and neighbors and Tech Week visitors found their first conversations.",
+        "photos": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "time": "2:15",
+        "title": "Dreams for the neighborhood",
+        "plan": "On the slide 2:15 &middot; in the photos 2:34 to 3:15",
+        "text": "Josh opened for Sunset Social Club and the Relational Tech Project, then handed the mic to anyone with a dream, neighbors first. Each person made a sign with one or two words so teammates could find them. Twenty-three people spoke, and each one's photo is on their card below.",
+        "photos": [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          24,
+          25,
+          27,
+          49
+        ]
+      },
+      {
+        "time": "2:45",
+        "title": "Form teams",
+        "plan": "On the slide 2:45 &middot; in the photos 3:23",
+        "text": "People found the dreams that tugged at them and introduced themselves to the folks who had shared.",
+        "photos": [
+          50,
+          51
+        ]
+      },
+      {
+        "time": "3:00",
+        "title": "Walk to the ocean and back",
+        "plan": "On the slide 3:00 &middot; in the photos 3:35 to 3:38",
+        "text": "Dominic led a singing procession straight down Judah to a big breath at the water. Teammates got to know each other on the way back and pointed out where their project would live in daily life.",
+        "photos": [
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60
+        ],
+        "highlight": true
+      },
+      {
+        "time": "3:30",
+        "title": "Build together",
+        "plan": "On the slide 3:30 &middot; in the photos 4:56 to 4:57",
+        "text": "Teams worked on the first thing each project needed: a flyer, a landing page, an outreach plan, a first working version of software.",
+        "photos": [
+          61,
+          62,
+          63,
+          64
+        ]
+      },
+      {
+        "time": "5:00",
+        "title": "Share, celebrate, eat",
+        "plan": "On the slide 5:00 &middot; in the photos 5:06 to 5:44",
+        "text": "District 4 Supervisor Alan Wong came by to speak, then five teams showed what they had, over food from Sunset spots.",
+        "photos": [
+          65,
+          66,
+          67,
+          68,
+          69
+        ]
+      },
+      {
+        "time": "6:30",
+        "title": "Four local bands",
+        "plan": "On the slide 6pm &middot; announced at the mic for 6:30",
+        "text": "The hall turned over for live music."
+      }
+    ]
+  },
+  "dreams": {
+    "label": "2:15 &middot; In speaking order",
+    "title": "Dreams at the mic",
+    "intro": "One card per voice. Names are spelled as heard; where a name wasn't caught, the card says so. Photos are matched to speakers by speaking order and the camera's timestamps. The tag in the corner shows whether the idea needs a screen.",
+    "threads": [
+      {
+        "id": "news",
+        "chip": "Know what's on",
+        "bar": "Know what's on nearby",
+        "names": "Big sign, sidewalk news, welcome packets, play today, art maps, neighborhood happenings, CitySync"
+      },
+      {
+        "id": "meet",
+        "chip": "Meet neighbors",
+        "bar": "Meet your neighbors",
+        "names": "Circling, Hey There Neighbor, welcome packets, play today, tea, third space"
+      },
+      {
+        "id": "arts",
+        "chip": "Music, art &amp; books",
+        "bar": "Music, art and books",
+        "names": "Second Century Books, open mic, variety show, memory cards, art maps, art parties"
+      },
+      {
+        "id": "learn",
+        "chip": "Teach &amp; learn",
+        "bar": "Teach and learn",
+        "names": "Circling, privacy circle, tea and kung fu, play shops"
+      },
+      {
+        "id": "space",
+        "chip": "Share space &amp; stuff",
+        "bar": "Share space and stuff",
+        "names": "Dog stations, gear swap, shared yards, third space"
+      },
+      {
+        "id": "play",
+        "chip": "Games &amp; play",
+        "bar": "Games and play",
+        "names": "Dunes games, scavenger hunts, memory cards"
+      }
+    ],
+    "cards": [
+      {
+        "threads": [
+          "space"
+        ],
+        "photo": 18,
+        "sign": "Dog stations",
+        "name": "Jackie",
+        "role": "Neighbor &middot; first to the mic, with an idea two weeks old",
+        "summary": "Little dog toilet stations all over the neighborhood: enclosed, well drained, stocked with bags, and cute. Neighbors could host one in a front yard like a little free library, and a scent cue would draw dogs to use them.",
+        "quote": "Instead of \"no dogs here,\" it'd be more like, please, dog, come here.",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "news"
+        ],
+        "photo": 19,
+        "sign": "Big sign",
+        "name": "The Bulletin Board Neighbor",
+        "nameNotCaught": true,
+        "role": "Idea from a 20-minute talk with Tom, who opened the hall",
+        "summary": "A big sign in the right spot that answers two questions: what's going on in the neighborhood, and how do we reach each other, including the link to the neighborhood WhatsApp. Behind it, a small physical network for getting flyers out, and a big bulletin board.",
+        "quote": "A little community sort of physical messaging network, like a way to send out flyers.",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "meet",
+          "learn"
+        ],
+        "photo": 21,
+        "sign": "Circling",
+        "name": "Justin",
+        "role": "Moved over from the Inner Richmond two months ago",
+        "summary": "Authentic relating and circling: nonviolent communication and T-group structure in a small group, slowing down to say what you feel, the story you're making, what your body is doing, and what you want right now. Justin offered to teach the language, and was the clearest voice for less tech, pointing to New York's Summer of Lud, a week in Tompkins Square Park promoted with flyers tucked into library books.",
+        "quote": "What's it like to be you right now with me?",
+        "ask": "a few people to circle with",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "arts"
+        ],
+        "photo": 22,
+        "sign": "Second Century Books",
+        "name": "Yongbin",
+        "role": "43rd &amp; Judah &middot; moved here a year ago with family and a two-year-old",
+        "summary": "San Francisco has 44 bookstores and the Outer Sunset has one. Second Century Books will stock by a single rule, kept secret for anyone who wants to join. It starts as one bookshelf in a cafe or gallery, then a second, then a third.",
+        "quote": "The Outer Sunset deserves more bookstores.",
+        "ask": "a cafe or gallery for shelf one, and co-conspirators",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "news"
+        ],
+        "photo": 26,
+        "inset": 27,
+        "sign": "Sidewalk news",
+        "name": "Julia Gitis",
+        "role": "Good Neighbor Lab &middot; West Portal, \"Sunset adjacent\"",
+        "summary": "Last February San Francisco removed its last print newspaper rack from public sidewalks. Julia brought a prototype board that puts community information back out there, curated for the Sunset with upcoming events, resources and neighbors' pets, mostly by the Sunset Beacon, with Lincoln High's student paper. A citywide pilot of 5 to 10 boards is forming, and the Sunset makes a strong case for one.",
+        "quote": "I had this idea of putting community information back on public sidewalks.",
+        "ask": "the right Sunset intersection, and feedback on the prototype",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "meet"
+        ],
+        "photo": 28,
+        "sign": "Hey There Neighbor",
+        "name": "Rosa",
+        "role": "Builder of <a href=\"https://heythereneighbor.com\" target=\"_blank\" rel=\"noopener\">heythereneighbor.com</a> &middot; wants a sidewalk board in SoMa",
+        "summary": "Sign up in about a minute with your location and interests. It shows who nearby shares them, pairs you for 10-minute chats, and spots groups waiting to happen, like 20 neighbors who all love board games. Rosa pictures it in a welcome kit: meet three people in an easy short format and get the lay of the land.",
+        "quote": "There might be someone that you have everything in common with and they live a block away, and you otherwise just never find out.",
+        "format": "digital"
+      },
+      {
+        "threads": [
+          "meet",
+          "news"
+        ],
+        "photo": 29,
+        "sign": "Welcome packets",
+        "name": "The Lower Haight Editor",
+        "nameNotCaught": true,
+        "role": "Runs a print magazine in the Lower Haight",
+        "summary": "An explicit welcome for people who just moved in, like one seen in Minnesota: how to get a parking permit, where to walk for groceries, every corner store nearby. In a city this transient it could be as simple as a link every landlord hands new tenants, ideally kept up by the city.",
+        "quote": "Wouldn't it be nice if in this very transient city, the people that move here have a very direct way.",
+        "format": "digital"
+      },
+      {
+        "threads": [
+          "arts"
+        ],
+        "photo": 30,
+        "sign": "Open mic",
+        "name": "Dominic",
+        "role": "Musician &middot; surfs here, so feels local",
+        "summary": "A regular open mic at the music hall. Dominic brings a songbook: pick a song and play it together. In a room wary of screens, a pitch for the oldest technology there is. Dominic also led the singing walk to the ocean.",
+        "quote": "Maybe the oldest technology, just sound.",
+        "ask": "local musicians and a regular night",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "arts"
+        ],
+        "photo": 32,
+        "sign": "Variety show",
+        "name": "Vanessa VerLee",
+        "role": "Musician &middot; two weeks out of ear surgery",
+        "summary": "The long-running VV Variety Show has always lived in the Mission. In February it comes to the Sunset. The rule: performers do something outside their comfort zone, something that scares and excites them. The plan is to bring it here at least once or twice a year.",
+        "quote": "So I'm going to start doing it here at least once or twice a year, maybe more often.",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "play"
+        ],
+        "photo": 33,
+        "sign": "Dunes games",
+        "name": "The Game Maker",
+        "nameNotCaught": true,
+        "role": "Arrived with prototypes on a phone",
+        "summary": "Three games, from screen to tactile: a Sunset Dunes arcade cabinet in the spirit of Dig Dug with save-the-dunes messaging, an infinite tabletop Scrabble that many people keep adding to and that never ends, and Spot It-style matching cards drawn from icons around the Dunes, to hand out to kids.",
+        "quote": "I prefer not having to pass a freeway.",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "play"
+        ],
+        "photo": 34,
+        "sign": "Scavenger hunts",
+        "name": "Jonas",
+        "role": "Lower Haight",
+        "summary": "Thirty scavenger hunts in the past two years, plus a platform for running them: birthday parties, corporate events, and helping others throw their own. Favorite tasks include crushing a watermelon between your thighs and singing with a street musician.",
+        "ask": "partners to throw hunts with",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "play",
+          "arts"
+        ],
+        "photo": 35,
+        "sign": "Memory cards",
+        "name": "The Russian River Visitor",
+        "nameNotCaught": true,
+        "role": "Came down from the Russian River area",
+        "summary": "A party game on the mechanics of Cards Against Humanity, except every card is a video: a piece of the neighborhood's history, or a person who meant something to the community. Players pick what they think the judge will love, and the room watches the winning video together on a shared screen.",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "news",
+          "meet"
+        ],
+        "photo": 36,
+        "sign": "Play today",
+        "name": "The Activity Finder",
+        "nameNotCaught": true,
+        "role": "Visitor, not from the area",
+        "summary": "Open one view and see every community nearby by day: free martial arts, a soccer game today, volleyball. And the reverse: post what you want to start, a jam session or a training partner, so others who want the same can join and a group forms within a day or two, no gym membership required.",
+        "quote": "I want to play soccer today.",
+        "format": "digital"
+      },
+      {
+        "threads": [
+          "arts",
+          "news"
+        ],
+        "photo": 37,
+        "sign": "Art treasure maps",
+        "name": "Jawno Okhiulu",
+        "role": "Artist and musician &middot; lives in the Castro",
+        "summary": "Studio work gets lonely, and the best ideas come from playing together in person. Jawno's artist cultural hub wants to map the city so artists know where to make, play and present, and neighbors can find art that helps them grieve and imagine. Maybe an app; maybe treasure maps on Muni, BART and buses showing where artists are making things nearby.",
+        "quote": "Play is done best, at least for me, together.",
+        "ask": "people to brainstorm and jam with",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "learn"
+        ],
+        "photo": 39,
+        "sign": "Privacy circle",
+        "name": "Gina",
+        "role": "Senior &middot; helps every generation with their tech",
+        "summary": "Gina has helped seniors, families and the staff of wealthy tech households with privacy and security, and saw the same blind spots everywhere: everyone alone at home, trying to keep up with AI, Google and Facebook. The proposal: small-group gatherings plus one-on-one help, so neighbors cover each other's blind spots.",
+        "quote": "We don't have to do this alone.",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "learn",
+          "meet"
+        ],
+        "photo": 40,
+        "inset": 25,
+        "sign": "Tea &amp; kung fu",
+        "name": "Ethan Holtzman",
+        "role": "Born and raised in the Outer Sunset &middot; recent college grad",
+        "summary": "The tea and martial arts practitioner behind the pop-up tea house in the room. Weekly tea sessions at rotating locations, with a list of hosts and guests, because creative flow only comes when people feel safe. Ethan studies with Sifu Wayne Huey, whose Tai Chi group meets almost every day at 6.",
+        "quote": "Kung fu actually just translates to skill, and we all have so many skills.",
+        "ask": "tea hosts and fellow tea drinkers",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "learn"
+        ],
+        "photo": 41,
+        "sign": "Play shops",
+        "name": "Vanessa VerLee",
+        "role": "Back at the mic for a second idea &middot; zines at Blackbird Books",
+        "summary": "Vanessa is also a somatic coach whose zines sell at Blackbird, the neighborhood's only bookstore. The play shops take the work out of healing, with quick practices that bring people out of fight or flight. The idea is to pair that with other people's expertise and co-host sessions.",
+        "ask": "co-hosts with a skill to share, and places to hold sessions",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "space"
+        ],
+        "photo": 42,
+        "sign": "Gear swap",
+        "name": "The Gear Swapper",
+        "nameNotCaught": true,
+        "role": "Walking distance from the hall &middot; partner Jim has lived here 20+ years",
+        "summary": "Anyone else have 15 surfboards, 20 fins or 20 backpacks in the garage? A neighborhood gear swap, with whatever's left going to an outdoor nonprofit or a mega garage sale that raises money for Sunset Social Club.",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "arts"
+        ],
+        "photo": 43,
+        "sign": "Art parties",
+        "name": "Q",
+        "role": "31st Avenue &middot; four years in the Sunset",
+        "summary": "Art shows turned out to be the most social rooms in town, so Q started adding a DJ. The next art party is in SoMa on the 14th, and the December one may come to the Sunset.",
+        "quote": "Best neighborhood in San Francisco by a long shot.",
+        "ask": "two more artists for the 14th, and a Sunset host for 3 to 4 artists in December",
+        "format": "analog"
+      },
+      {
+        "threads": [
+          "news"
+        ],
+        "photo": 44,
+        "sign": "Neighborhood happenings",
+        "name": "Ben",
+        "role": "Outer Sunset for 26 years &middot; KALW Public Media, 91.7",
+        "summary": "KALW just moved to the Warfield Commons at 6th and Market, where SoMa, the Tenderloin and Mid-Market meet. Not one giant Bay Area calendar, but a listing tied to a place: a QR code on a building, near the city's \"It all starts here\" signs, that shows what's happening right around it, for neighbors and for people heading to the big venues. Inspired by Josh's Outer Sunset.today.",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "news"
+        ],
+        "photo": 46,
+        "sign": "CitySync",
+        "name": "Nathan",
+        "role": "Founder, CitySync",
+        "summary": "A platform to scale collective action: a shared standard that local builders, nonprofits and local governments can plug into to coordinate peer to peer. Pilots start in Berkeley and Mexico City, then local governments.",
+        "ask": "neighborhood builders with a project to plug in",
+        "format": "digital"
+      },
+      {
+        "threads": [
+          "space"
+        ],
+        "photo": 47,
+        "sign": "Shared yards",
+        "name": "Meredith",
+        "role": "Richmond District",
+        "summary": "The west side is full of backyards their owners or tenants barely use, and full of people with no outdoor space at all. Meredith waited three years for a community garden plot. The idea: a way for people with a yard to open it to a neighbor, for gardening or whatever they need.",
+        "format": "both"
+      },
+      {
+        "threads": [
+          "space",
+          "meet"
+        ],
+        "photo": 48,
+        "sign": "Third space",
+        "name": "Mary",
+        "role": "The Sunset for 20+ years",
+        "summary": "A drop-in third space that's always there, not only for events. Not a bar built around alcohol, a cafe where everyone sits alone, or a coworking room, but a place where you know it's welcome to walk up to anyone. Like your living room, full of people you haven't met yet.",
+        "format": "analog"
+      }
+    ],
+    "othersLabel": "Hosts and other voices",
+    "others": [
+      {
+        "photo": 13,
+        "sign": "Someone on every block",
+        "name": "Josh Nesbit",
+        "role": "Host &middot; co-steward of the Relational Tech Project",
+        "summary": "Opened for Sunset Social Club, started a few months ago as a free way for neighbors to self-organize. Co-founder Sandi couldn't make it and sent love. The Relational Tech Project believes we can build what we need together, which takes sharing dreams for a place, time together in person, and building for one particular neighborhood.",
+        "quote": "Every single person in the Sunset knows someone on every block here, that you feel like reciprocity in the air when you walk through the neighborhood.",
+        "host": true
+      },
+      {
+        "photo": 65,
+        "sign": "A Sunset first",
+        "name": "Alan Wong",
+        "role": "District 4 Supervisor &middot; came by to speak",
+        "summary": "The Sunset's supervisor came by during build time to speak. After two or three Tech Week events downtown, Alan Wong was glad to find one in the Sunset, thanked the Relational Tech Project, Sunset Social Club, Good Neighbor Lab and Sunset Village Music Hall, and named ideas taking shape around the room: a babysitting co-op, a walking club, a mahjong class.",
+        "quote": "It's just really interesting seeing everybody come out here and do this and have this little community here during Tech Week."
+      },
+      {
+        "sign": "Lost laptop",
+        "name": "The Small Business Advisor",
+        "nameNotCaught": true,
+        "role": "\"Not an ideas person, a missing computer person\"",
+        "summary": "Asked the room whether anyone had picked up a MacBook by mistake. The work laptop, full of business ideas, turned up within a minute.",
+        "quote": "I knew this would work. Crowdsourcing works."
+      }
+    ]
+  },
+  "built": {
+    "label": "5:00 &middot; Shares",
+    "title": "Built by 5pm",
+    "intro": "Three hours after the walk, five teams came back to the mic.",
+    "cards": [
+      {
+        "title": "Two Sunset tools",
+        "by": "Benjamin Von Wong &middot; Dear Crisis community",
+        "summary": "Two problems kept coming up in the dreams. It's hard to see everything happening nearby, and it's hard to find a place to gather. Both now have a working first version.",
+        "tools": [
+          {
+            "name": "Sunset Events",
+            "url": "{site}events/",
+            "shot": "tools/events.jpg",
+            "alt": "Sunset Events: the What's on list, with day tabs and category chips above the day's events",
+            "text": "Every public event in the Inner and Outer Sunset, gathered each morning from the groups' own calendars plus Luma, Eventbrite, Meetup, the library, Rec and Park and more. Browse it as a directory of groups, a map, or a day-by-day list, and subscribe in your own calendar app. Adapted from a tool first built for New York.",
+            "linkText": "Open Sunset Events"
+          },
+          {
+            "name": "Sunset Idle Space",
+            "url": "{site}space/",
+            "shot": "tools/space.jpg",
+            "alt": "Sunset Idle Space: a map of the Sunset with closed storefronts as mustard dots sized by floor space, beside a list of the largest",
+            "text": "The reverse of Google Maps: which storefronts are closed, when, and how much floor space they hold, with banks and chains left out. Want to host something Wednesday at 6pm? Find a closed space, then ask the owner. It copies the flyer's look.",
+            "linkText": "Open Sunset Idle Space"
+          }
+        ],
+        "wide": true
+      },
+      {
+        "photo": 68,
+        "title": "Polyphonic",
+        "by": "Dominic and Ren",
+        "date": "Thursday, Dec 10 &middot; Sunset Village Music Hall",
+        "quote": "Polyphonic. It means many voices. It means many genres, many ages.",
+        "bullets": [
+          "An open mic for music and spoken word, with the hall's upright piano rolled out.",
+          "Art tables for crafts while you listen.",
+          "Everyone who raised a hand for music is invited to play."
+        ]
+      },
+      {
+        "photo": 69,
+        "title": "New neighbor welcome",
+        "by": "The Lower Haight Editor, Renee and team",
+        "bullets": [
+          "A short form about your household, including kids and their ages, so families can find each other.",
+          "A custom page with only the resources that apply to you, like the best grocery stores nearby.",
+          "A personal note from a neighbor with their contact info, and an invitation to an upcoming event.",
+          "Launching in the Lower Haight first."
+        ],
+        "ask": {
+          "label": "Looking for",
+          "text": "a Sunset partner to launch it here"
+        }
+      },
+      {
+        "title": "Hey There Neighbor, next",
+        "by": "Rosa",
+        "quote": "Not everyone's gonna be Josh, but how do you get people incrementally a little bit farther up that scale of connection?",
+        "bullets": [
+          "Sweeten the first meeting with local businesses: a 10-minute chat with a neighbor earns a slice of pizza or a froyo.",
+          "Referrals, and easy ways to start a group around a hobby, like martial arts.",
+          "Small, steady nudges that move people a step along the scale from knowing nobody toward knowing everybody."
+        ],
+        "ask": {
+          "label": "Try it",
+          "text": "<a href=\"https://heythereneighbor.com\" target=\"_blank\" rel=\"noopener\">heythereneighbor.com</a>, and ask Rosa for a sticker"
+        }
+      },
+      {
+        "title": "Privacy circle",
+        "by": "Gina and four neighbors",
+        "bullets": [
+          "A Signal group is live, planning gatherings that break into small groups for each other's blind spots.",
+          "Josh introduced Gina to Andrew Broderick of the SF Tech Council, who offered more resources to share.",
+          "First tip: on Signal you can use a username instead of your phone number, and change it whenever you like."
+        ]
+      }
+    ]
+  },
+  "threads": {
+    "label": "Across all 23 dreams",
+    "title": "Threads",
+    "intro": "Each dream is tagged with one or two threads, so the counts add up to more than 23.",
+    "barsTitle": "What the dreams were about",
+    "screenTitle": "Does it need a screen?",
+    "formats": {
+      "analog": "Open mic, tea, circling, a gear swap, a bookshelf, dog stations, a third space.",
+      "both": "A screen helps, but the point is in person: sidewalk boards, QR codes on buildings, art maps, game cards.",
+      "digital": "Hey There Neighbor, the welcome page, the activity finder, CitySync."
+    },
+    "findings": [
+      {
+        "lead": "The biggest gap is local information you can see.",
+        "text": "Seven dreams describe the same missing layer: what's happening on this block, posted where people walk. By 5pm one version existed, the Sunset events tool."
+      },
+      {
+        "lead": "The space exists; access doesn't.",
+        "text": "Backyards, storefronts after hours, a drop-in living room, tea anywhere. Sunset Idle Space now maps the storefronts."
+      },
+      {
+        "lead": "Meeting people needs a front door.",
+        "text": "Two of the five shares were about the first hello: a welcome page for people who just moved in, and Hey There Neighbor's 10-minute chats."
+      },
+      {
+        "lead": "At a Tech Week event, most dreams don't need tech.",
+        "text": "Eleven of 23 need no screen at all. Justin said it out loud: less tech, more connection."
+      }
+    ]
+  },
+  "next": {
+    "label": "Mark your calendar",
+    "title": "What's next",
+    "intro": "Dates as announced in the room. Check with the organizer before you go.",
+    "items": [
+      {
+        "when": "Sat, Oct 10",
+        "title": "The neighborhood's first rave",
+        "text": "Put on by Amanda, a friend of the hall."
+      },
+      {
+        "when": "Sun, Oct 11",
+        "title": "A theater performance",
+        "text": "At Sunset Village Music Hall."
+      },
+      {
+        "when": "Most days &middot; 6pm",
+        "title": "Tai Chi with Sifu Wayne Huey",
+        "text": "Ask Ethan Holtzman where the group meets."
+      },
+      {
+        "when": "The 14th",
+        "title": "Q's art party in SoMa",
+        "text": "Two artist spots still open."
+      },
+      {
+        "when": "Thu, Dec 10",
+        "title": "Polyphonic open mic",
+        "text": "Sunset Village Music Hall, with Dominic and Ren."
+      },
+      {
+        "when": "December",
+        "title": "An art party in the Sunset",
+        "text": "If Q finds a host for 3 to 4 artists."
+      },
+      {
+        "when": "February",
+        "title": "VV Variety Show comes to the Sunset",
+        "text": "Vanessa VerLee's comfort-zone stretching show, its first time out of the Mission."
+      },
+      {
+        "when": "Oct 2027",
+        "title": "The next Build-a-thon",
+        "text": "Same time next year, Josh promised. Someone shouted for monthly, and Josh said let's do it."
+      }
+    ]
+  },
+  "thanks": {
+    "label": "With gratitude",
+    "title": "Thanks",
+    "closing": "\"I want to be on everybody's team. So just treat me that way.\"",
+    "closingNote": "Josh, closing the dream sharing. If you shared something, hold on to it, and follow up with Josh.",
+    "credits": [
+      "<b>Sunset Social Club</b>, host, and co-founder Sandi Harder, there in spirit.",
+      "<b>Relational Tech Project</b>, co-organizer, with hosts Josh Nesbit and Anna Spisak.",
+      "<b>Good Neighbor Lab</b>, partner, and Julia Gitis for bringing the sidewalk board.",
+      "<b>Sunset Village Music Hall</b>, and Tom, for opening the space.",
+      "<b>SF Tech Week</b>, for sending people out to the ocean.",
+      "<b>Dominic</b>, for the song down Judah, and everyone brave enough to take the mic."
+    ]
+  },
+  "footer": "Written from the event recording and the <a href=\"https://luma.com/tzyvkp9j\" target=\"_blank\" rel=\"noopener\">Luma page</a>. Quotes are lightly cleaned from an automatic transcript.",
+  "footerLine": "Neighborhood Build-a-thon &middot; Outer Sunset &middot; Oct 9, 2026",
+  "photos": [
+    {
+      "n": 1,
+      "time": "1:59 pm",
+      "caption": "Hanging the welcome sign at the hall's front door",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 2,
+      "time": "1:59 pm",
+      "caption": "Setting out supplies before doors",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 3,
+      "time": "2:12 pm",
+      "caption": "Comparing notes on a phone",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 4,
+      "time": "2:12 pm",
+      "caption": "Coffee, pastries and first hellos",
+      "w": 1191,
+      "h": 1800
+    },
+    {
+      "n": 5,
+      "time": "2:28 pm",
+      "caption": "The room filling up",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 6,
+      "time": "2:28 pm",
+      "caption": "Talking over snacks before the program",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 7,
+      "time": "2:28 pm",
+      "caption": "A table getting to know each other",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 8,
+      "time": "2:34 pm",
+      "caption": "Filming Josh's welcome from the back of the room",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 9,
+      "time": "2:34 pm",
+      "caption": "Josh Nesbit opens the afternoon",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 10,
+      "time": "2:34 pm",
+      "caption": "Listening to the welcome",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 11,
+      "time": "2:34 pm",
+      "caption": "A neighbor films from the middle of the room",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 12,
+      "time": "2:35 pm",
+      "caption": "Smiles at the tables",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 13,
+      "time": "2:36 pm",
+      "caption": "Josh lays out the plan",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.45,
+        0.42,
+        0.55
+      ]
+    },
+    {
+      "n": 14,
+      "time": "2:37 pm",
+      "caption": "The run of show on the screen",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 15,
+      "time": "2:37 pm",
+      "caption": "The run of show on the presenter's laptop",
+      "w": 1191,
+      "h": 1800
+    },
+    {
+      "n": 16,
+      "time": "2:39 pm",
+      "caption": "A full room for dream sharing",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 17,
+      "time": "2:40 pm",
+      "caption": "Jackie pitches dog stations",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 18,
+      "time": "2:41 pm",
+      "caption": "Jackie, first to the mic",
+      "w": 1191,
+      "h": 1800,
+      "crop": [
+        0.45,
+        0.4,
+        0.8
+      ]
+    },
+    {
+      "n": 19,
+      "time": "2:42 pm",
+      "caption": "The Bulletin Board Neighbor pitches a big sign",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.5,
+        0.3,
+        0.5
+      ]
+    },
+    {
+      "n": 20,
+      "time": "2:42 pm",
+      "caption": "Justin on circling",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 21,
+      "time": "2:43 pm",
+      "caption": "Justin on less tech and more connection",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.58,
+        0.42,
+        0.55
+      ]
+    },
+    {
+      "n": 22,
+      "time": "2:45 pm",
+      "caption": "Yongbin on Second Century Books",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.62,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 23,
+      "time": "2:47 pm",
+      "caption": "Julia Gitis on putting news back on the sidewalk",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 24,
+      "time": "2:48 pm",
+      "caption": "Listening in",
+      "w": 1191,
+      "h": 1800
+    },
+    {
+      "n": 25,
+      "time": "2:48 pm",
+      "caption": "The tea tray at the pop-up tea house",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.45,
+        0.5,
+        0.9
+      ]
+    },
+    {
+      "n": 26,
+      "time": "2:48 pm",
+      "caption": "Julia Gitis at the mic",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.53,
+        0.4,
+        0.5
+      ]
+    },
+    {
+      "n": 27,
+      "time": "2:49 pm",
+      "caption": "The sidewalk board prototype, googly-eyed Golden Gate on top",
+      "w": 1191,
+      "h": 1800,
+      "crop": [
+        0.5,
+        0.42,
+        0.95
+      ]
+    },
+    {
+      "n": 28,
+      "time": "2:50 pm",
+      "caption": "Rosa on Hey There Neighbor",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.62,
+        0.4,
+        0.5
+      ]
+    },
+    {
+      "n": 29,
+      "time": "2:51 pm",
+      "caption": "The Lower Haight Editor on welcome packets",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.68,
+        0.4,
+        0.55
+      ]
+    },
+    {
+      "n": 30,
+      "time": "2:52 pm",
+      "caption": "Dominic pitches an open mic",
+      "w": 1191,
+      "h": 1800,
+      "crop": [
+        0.5,
+        0.4,
+        0.95
+      ]
+    },
+    {
+      "n": 31,
+      "time": "2:53 pm",
+      "caption": "Dominic with the guitar",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 32,
+      "time": "2:53 pm",
+      "caption": "Vanessa VerLee on bringing the VV Variety Show to the Sunset",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.57,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 33,
+      "time": "2:54 pm",
+      "caption": "The Game Maker on Sunset Dunes games",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.6,
+        0.36,
+        0.5
+      ]
+    },
+    {
+      "n": 34,
+      "time": "2:56 pm",
+      "caption": "Jonas on scavenger hunts",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.65,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 35,
+      "time": "2:57 pm",
+      "caption": "The Russian River Visitor on a video memory game",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.75,
+        0.4,
+        0.5
+      ]
+    },
+    {
+      "n": 36,
+      "time": "2:58 pm",
+      "caption": "The Activity Finder on seeing what's on today",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.6,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 37,
+      "time": "3:00 pm",
+      "caption": "Jawno Okhiulu asks the artists in the room to raise a hand",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.38,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 38,
+      "time": "3:02 pm",
+      "caption": "Gina on privacy circles",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 39,
+      "time": "3:02 pm",
+      "caption": "Gina at the mic",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.53,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 40,
+      "time": "3:05 pm",
+      "caption": "Ethan Holtzman on tea and kung fu",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.38,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 41,
+      "time": "3:07 pm",
+      "caption": "Vanessa VerLee, back for a second idea: play shops",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.65,
+        0.38,
+        0.5
+      ]
+    },
+    {
+      "n": 42,
+      "time": "3:08 pm",
+      "caption": "The Gear Swapper on a neighborhood gear swap",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.73,
+        0.36,
+        0.5
+      ]
+    },
+    {
+      "n": 43,
+      "time": "3:09 pm",
+      "caption": "Q on art parties",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.55,
+        0.4,
+        0.5
+      ]
+    },
+    {
+      "n": 44,
+      "time": "3:09 pm",
+      "caption": "Ben from KALW on neighborhood happenings",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.45,
+        0.4,
+        0.65
+      ]
+    },
+    {
+      "n": 45,
+      "time": "3:10 pm",
+      "caption": "Ben from KALW at the mic",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 46,
+      "time": "3:12 pm",
+      "caption": "Nathan on CitySync",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.47,
+        0.4,
+        0.5
+      ]
+    },
+    {
+      "n": 47,
+      "time": "3:13 pm",
+      "caption": "Meredith on shared yards",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.42,
+        0.4,
+        0.5
+      ]
+    },
+    {
+      "n": 48,
+      "time": "3:14 pm",
+      "caption": "Mary on a drop-in third space",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.5,
+        0.36,
+        0.5
+      ]
+    },
+    {
+      "n": 49,
+      "time": "3:15 pm",
+      "caption": "Josh closes dream sharing",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 50,
+      "time": "3:23 pm",
+      "caption": "Teams forming before the walk",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 51,
+      "time": "3:23 pm",
+      "caption": "Heading out toward the ocean",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 52,
+      "time": "3:35 pm",
+      "caption": "At the water",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 53,
+      "time": "3:35 pm",
+      "caption": "Dominic leads a song on the beach",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 54,
+      "time": "3:35 pm",
+      "caption": "Out on the sand by the dunes",
+      "w": 1191,
+      "h": 1800
+    },
+    {
+      "n": 55,
+      "time": "3:35 pm",
+      "caption": "Singing on the beach",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 56,
+      "time": "3:36 pm",
+      "caption": "Dominic keeps playing at the shore",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 57,
+      "time": "3:36 pm",
+      "caption": "Teammates talking at the shore",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 58,
+      "time": "3:36 pm",
+      "caption": "Taking in the ocean",
+      "w": 1191,
+      "h": 1800
+    },
+    {
+      "n": 59,
+      "time": "3:36 pm",
+      "caption": "Jawno and teammates on the sand",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 60,
+      "time": "3:38 pm",
+      "caption": "Talking on the sand",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 61,
+      "time": "4:56 pm",
+      "caption": "Build time at the tables",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 62,
+      "time": "4:57 pm",
+      "caption": "Heads down on a project",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 63,
+      "time": "4:57 pm",
+      "caption": "Laptops out, plans forming",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 64,
+      "time": "4:57 pm",
+      "caption": "A team laughing it through",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 65,
+      "time": "5:06 pm",
+      "caption": "Supervisor Alan Wong speaks during build time",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.52,
+        0.4,
+        0.55
+      ]
+    },
+    {
+      "n": 66,
+      "time": "5:07 pm",
+      "caption": "Supervisor Alan Wong speaks to a room still building",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 67,
+      "time": "5:32 pm",
+      "caption": "Dominic hands the mic to the youngest voice in the room",
+      "w": 1800,
+      "h": 1191
+    },
+    {
+      "n": 68,
+      "time": "5:32 pm",
+      "caption": "“What would you say?”",
+      "w": 1191,
+      "h": 1800,
+      "crop": [
+        0.5,
+        0.45,
+        0.95
+      ]
+    },
+    {
+      "n": 69,
+      "time": "5:44 pm",
+      "caption": "The Lower Haight Editor and a teammate share the new-neighbor welcome page",
+      "w": 1800,
+      "h": 1191,
+      "crop": [
+        0.5,
+        0.4,
+        0.75
+      ]
+    }
+  ]
+}

@@ -23,6 +23,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # Let search engines index the site (see scripts/build.mjs).
+      INDEX: "1"
+      # The address canonical links and share images point at. Delete this line
+      # once sunset.dearcrisis.com is set under Settings, Pages, Custom domain.
+      SITE_URL: https://benvonwong-byte.github.io/sunset-buildathon/
     steps:
       - uses: actions/checkout@v7
 
@@ -47,6 +53,9 @@ jobs:
         env:
           # Optional. Turns on Street View photos on /space/. See .env.example.
           GOOGLE_MAPS_BROWSER_KEY: ${{ secrets.GOOGLE_MAPS_BROWSER_KEY }}
+
+      - name: Check share cards and search text
+        run: node scripts/check-preview.mjs
 
       # Keep a dated record of each morning's listings in the repo. Only on
       # the schedule and manual runs, so a contributor's push is not followed

@@ -1,0 +1,32 @@
+[
+  {
+    "out": "site/recap/og.jpg",
+    "series": "SF Tech Week &middot; Outer Sunset",
+    "kind": "Recap",
+    "title": ["Neighborhood", "Build-a-thon"],
+    "titleSize": 92,
+    "dateline": ["9 October 2026", "Sunset Village Music Hall, San Francisco"],
+    "footer": "dearcrisis.com/buildathon",
+    "panel": "recap/cards/recap-panel.jpg"
+  },
+  {
+    "out": "site/assets/og-events.jpg",
+    "series": "Inner &amp; Outer Sunset &middot; SF",
+    "kind": "Updated daily",
+    "title": ["Sunset", "Events"],
+    "dateline": ["Every public event, every morning", "Groups, map and calendar feeds"],
+    "footer": "A Dear Crisis project",
+    "panel": "recap/cards/events-panel.jpg",
+    "panelRule": true
+  },
+  {
+    "out": "site/assets/og-space.jpg",
+    "series": "Inner &amp; Outer Sunset &middot; SF",
+    "kind": "Live map",
+    "title": ["Sunset", "Idle Space"],
+    "dateline": ["Which storefronts are closed, and when", "With estimated floor space"],
+    "footer": "A Dear Crisis project",
+    "panel": "recap/cards/space-panel.jpg",
+    "panelRule": true
+  }
+]
