@@ -317,10 +317,10 @@
   },
   {
     "id": "comhaltas-ceolto-iri-e-ireann-cooley-keegan-branch",
-    "name": "Comhaltas Ceolt\u00f3ir\u00ed \u00c9ireann, Cooley-Keegan Branch",
+    "name": "Comhaltas Ceoltóirí Éireann, Cooley-Keegan Branch",
     "url": "https://sfcooleykeegancce.org/",
-    "what": "Irish traditional music and dance group that holds seasonal c\u00e9il\u00ed dances, set dance workshops and youth music events at the Irish Cultural Center.",
-    "plugIn": "Come to a Sunday c\u00e9il\u00ed at the Irish Cultural Center, 6:30 to 9:30 pm (members $15, others $20), or join as a member.",
+    "what": "Irish traditional music and dance group that holds seasonal céilí dances, set dance workshops and youth music events at the Irish Cultural Center.",
+    "plugIn": "Come to a Sunday céilí at the Irish Cultural Center, 6:30 to 9:30 pm (members $15, others $20), or join as a member.",
     "kind": "nonprofit",
     "domains": [
       "art-culture",
@@ -338,7 +338,7 @@
         "url": "https://calendar.google.com/calendar/ical/3jpg6045cupkmi2od2hvtfljhk%40group.calendar.google.com/public/basic.ics"
       }
     ],
-    "evidence": "https://sfcooleykeegancce.org/events/events.html (c\u00e9il\u00eds Feb 1 and Mar 22, 2026 at UICC) ; 2026 membership forms"
+    "evidence": "https://sfcooleykeegancce.org/events/events.html (céilís Feb 1 and Mar 22, 2026 at UICC) ; 2026 membership forms"
   },
   {
     "id": "community-living-campaign-inner-sunset-connector-program",
@@ -2206,8 +2206,8 @@
     "id": "seventh-avenue-presbyterian-church",
     "name": "Seventh Avenue Presbyterian Church",
     "url": "https://www.seventhavenuechurch.org/",
-    "what": "Presbyterian church in the Inner Sunset with Sunday worship, online Taiz\u00e9 prayer, a music program, spiritual direction and classes.",
-    "plugIn": "Join Sunday worship at 10 am in person or on Zoom, or the online Taiz\u00e9 service on the first and third Wednesday at 7:30 pm.",
+    "what": "Presbyterian church in the Inner Sunset with Sunday worship, online Taizé prayer, a music program, spiritual direction and classes.",
+    "plugIn": "Join Sunday worship at 10 am in person or on Zoom, or the online Taizé service on the first and third Wednesday at 7:30 pm.",
     "kind": "faith",
     "domains": [
       "wellbeing",
@@ -2723,7 +2723,7 @@
         "disabled": true
       }
     ],
-    "evidence": "https://sunsetmercantilesf.com/ (Diwali at the farmers market 2026-11-08, D\u00eda de los Muertos 2026-11-01, Holidays on Taraval 2026-12-11)"
+    "evidence": "https://sunsetmercantilesf.com/ (Diwali at the farmers market 2026-11-08, Día de los Muertos 2026-11-01, Holidays on Taraval 2026-12-11)"
   },
   {
     "id": "sunset-ministry",
@@ -3001,7 +3001,7 @@
     "name": "United Irish Cultural Center",
     "url": "https://irishcentersf.org/",
     "what": "Irish community center at 45th Ave and Sloat with a ballroom, hosting music, Irish language classes, genealogy help and festivals.",
-    "plugIn": "Join the Saturday Seisi\u00fan, take an Irish language class, or come to a concert, film night or the Green Fest block party.",
+    "plugIn": "Join the Saturday Seisiún, take an Irish language class, or come to a concert, film night or the Green Fest block party.",
     "kind": "nonprofit",
     "domains": [
       "art-culture",
@@ -3035,7 +3035,7 @@
         "disabled": true
       }
     ],
-    "evidence": "https://irishcentersf.org/events/ (Saturday Seisi\u00fan 2026-10-17, Patrick Ball Celtic harp 2026-10-23)"
+    "evidence": "https://irishcentersf.org/events/ (Saturday Seisiún 2026-10-17, Patrick Ball Celtic harp 2026-10-23)"
   },
   {
     "id": "versus-games",
