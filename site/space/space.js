@@ -286,9 +286,21 @@ function start(DATA, BASE) {
   const markers = new Map();
   const layerUnknown = L.layerGroup().addTo(map), layerOpen = L.layerGroup().addTo(map), layerClosed = L.layerGroup().addTo(map);
   const radiusOf = r => r.est ? Math.max(4.5, Math.min(17, 2.5 + Math.sqrt(r.est) / 7.5)) : 4.5;
+  // On a mouse or trackpad, hovering a dot shows the place's name, size and whether it is
+  // closed at the chosen time. Touch screens skip it: a tap opens the space.
+  const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const tipHtml = r => {
+    const s = statusInfo(r);
+    return `<b>${esc(r.n)}</b><span>${r.est ? `~${fmt(r.est)} sq ft · ` : ""}${esc(s.text)}</span>`;
+  };
   DATA.forEach(r => {
     const m = L.circleMarker([r.lat, r.lon], { renderer: poiR, radius: radiusOf(r), bubblingMouseEvents: false });
     m.on("click", () => select(r.id, { fromMap: true }));
+    if (canHover) {
+      m.bindTooltip(() => tipHtml(r), { direction: "top", className: "sptip", opacity: 1 });
+      m.on("mouseover", () => { if (r.id !== state.sel) placeRing(hoverRing, r.id); });
+      m.on("mouseout", () => placeRing(hoverRing, null));
+    }
     markers.set(r.id, m);
   });
   const ring = L.circleMarker([0, 0], { renderer: poiR, radius: 12, color: "#1b1a17", weight: 2.5, fill: false, interactive: false });
@@ -313,6 +325,8 @@ function start(DATA, BASE) {
       }
     }
     if (state.sel) placeRing(ring, state.sel);
+    // Keep each name just above its dot, whatever size the dot is now.
+    if (canHover) for (const r of base) { const m = markers.get(r.id), t = m.getTooltip(); if (t) t.options.offset = [0, -(m.getRadius() + 3)]; }
   }
   function focusOn(id) {
     const r = byId.get(id), z = Math.max(map.getZoom(), 17), ll = L.latLng(r.lat, r.lon), a = clearArea();
@@ -683,8 +697,20 @@ function start(DATA, BASE) {
     if (e.target.closest("[data-act=clear]")) return clearFilters();
     const c = e.target.closest(".card"); if (c) select(c.dataset.id);
   });
-  $("cards").addEventListener("pointerover", e => { if (mq.matches) return; const c = e.target.closest(".card"); placeRing(hoverRing, c && c.dataset.id !== state.sel ? c.dataset.id : null); });
-  $("cards").addEventListener("pointerleave", () => placeRing(hoverRing, null));
+  // Hovering a card rings its dot and shows its name on the map.
+  let tipOpen = null;
+  const showCardTip = id => {
+    if (tipOpen && tipOpen !== id) markers.get(tipOpen)?.closeTooltip();
+    tipOpen = id;
+    const m = id && markers.get(id);
+    if (m && canHover && map.hasLayer(m)) m.openTooltip();
+  };
+  $("cards").addEventListener("pointerover", e => {
+    if (mq.matches) return;
+    const c = e.target.closest(".card"), id = c && c.dataset.id !== state.sel ? c.dataset.id : null;
+    placeRing(hoverRing, id); showCardTip(id);
+  });
+  $("cards").addEventListener("pointerleave", () => { placeRing(hoverRing, null); showCardTip(null); });
   $("back").onclick = deselect;
   $("prev").onclick = () => step(-1);
   $("next").onclick = () => step(1);
