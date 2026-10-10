@@ -176,7 +176,7 @@ function walk(dir) {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) {
       if (!SKIP_DIRS.has(name)) walk(p);
-    } else if (/\.(js|mjs|css|yml|yaml|html)$/.test(name) && !p.endsWith("check-voice.mjs")) {
+    } else if (/\.(js|mjs|css|yml|yaml|html|sh)$/.test(name) && !p.endsWith("check-voice.mjs")) {
       readFileSync(p, "utf8").split("\n").forEach((line, i) => checkCode(`${relative(ROOT, p)}:${i + 1}`, line));
     }
   }

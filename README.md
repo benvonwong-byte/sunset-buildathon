@@ -41,6 +41,16 @@ npm run dev        # build dist/ and serve it at http://localhost:4321
 
 `npm run gate` runs the language gate and the data check. `npm run build` runs both before building, so copy that breaks the house rules cannot deploy.
 
+## Refreshing from a home connection
+
+Eventbrite and a few group sites refuse GitHub's servers. When a source fails, the fetcher reuses its still-upcoming events from the last good read for up to 14 days, and the footer says so. To keep those sources current, one Mac reads every feed each morning at 5:40 AM and pushes the result before GitHub's own build:
+
+```bash
+scripts/install-home-refresh.sh
+```
+
+It installs a launch agent (`com.dearcrisis.sunset-refresh`) that runs `scripts/home-refresh.sh` from its own clone in `~/.sunset-refresh`, commits only the data files, and logs to `/tmp/dc-sunset-refresh.*.log`. The install script prints how to run it at once and how to remove it.
+
 ## Add a group
 
 Add an entry to `data/orgs.json`:
