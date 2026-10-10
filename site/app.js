@@ -387,6 +387,7 @@ function renderMinical() {
 // ---------- Map ----------
 let map = null;
 let layer = null;
+let districtBounds = null;
 const markers = new Map();
 
 function initMap() {
@@ -398,7 +399,8 @@ function initMap() {
   }).addTo(map);
   if (OUTLINE) {
     const poly = L.polygon(OUTLINE, { color: "#232320", weight: 1.5, dashArray: "4 4", fill: false, interactive: false }).addTo(map);
-    map.fitBounds(poly.getBounds(), { padding: [6, 6] });
+    districtBounds = poly.getBounds();
+    map.fitBounds(districtBounds, { padding: [6, 6] });
   } else map.setView([37.7525, -122.4865], 13.5);
   layer = L.layerGroup().addTo(map);
   map.on("popupopen", (ev) => {
@@ -572,6 +574,7 @@ function showOrg(id) {
 // ---------- Views ----------
 function setView(v) {
   state.view = v;
+  document.body.classList.toggle("view-groups", v === "groups");
   for (const t of $$(".view-tab")) t.setAttribute("aria-selected", String(t.dataset.view === v));
   $("#view-events").hidden = v !== "events";
   $("#view-groups").hidden = v !== "groups";
@@ -587,7 +590,12 @@ function render() {
     renderMinical();
     renderGroups();
   }
-  if (map) setTimeout(() => map.invalidateSize(), 0);
+  // The map changes size when the calendar shows or hides; frame the district again.
+  if (map)
+    setTimeout(() => {
+      map.invalidateSize();
+      if (districtBounds) map.fitBounds(districtBounds, { padding: [6, 6] });
+    }, 0);
 }
 function refilter() {
   writeHash();
@@ -600,7 +608,13 @@ function refilter() {
 function openMapSheet() {
   document.body.classList.add("map-open");
   $("#map-fab").textContent = "List";
-  setTimeout(() => map?.invalidateSize(), 0);
+  // The map was laid out while hidden at zero size; size and frame it now.
+  setTimeout(() => {
+    if (!map) return;
+    map.invalidateSize();
+    if (districtBounds) map.fitBounds(districtBounds, { padding: [6, 6] });
+    if (state.event && markers.has(state.event)) pinFor(state.event, { pan: true, popup: true });
+  }, 0);
 }
 function closeMapSheet() {
   if (!document.body.classList.contains("map-open")) return;

@@ -101,6 +101,12 @@ img { max-width: 100%; display: block; }
   display: flex; flex-direction: column; gap: 14px; min-height: 520px;
 }
 
+/* Groups: no calendar, so a wider, shorter map that frames the district */
+@media (min-width: 1001px) {
+  body.view-groups .layout { grid-template-columns: minmax(0, 1fr) 560px; }
+  body.view-groups .col-side { height: min(calc(100vh - var(--top) - 32px), 620px); }
+}
+
 /* ---------- Thread (the list) ---------- */
 .day { margin-bottom: 26px; }
 .day-head {
@@ -119,7 +125,7 @@ img { max-width: 100%; display: block; }
 .ev-row:hover, .ev.hot .ev-row { background: var(--grey); }
 .ev.open .ev-row { background: var(--grey); }
 .ev.kfocus .ev-row { outline: 2px solid var(--red); outline-offset: -2px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); align-self: center; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); align-self: start; margin-top: 5px; }
 .t { font-family: var(--sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--red); white-space: nowrap; }
 .ev-title { font-family: var(--serif); font-weight: 700; font-size: 15px; color: var(--ink); line-height: 1.35; }
 .ev-org { font-family: var(--serif); font-weight: 400; color: var(--caption); }
@@ -245,7 +251,7 @@ dialog::backdrop { background: rgba(35, 35, 32, 0.45); }
   .layout { grid-template-columns: minmax(0, 1fr); padding-top: 12px; }
   .col-side {
     position: fixed; inset: var(--top) 0 0 0; height: auto; min-height: 0; z-index: 1050; background: var(--paper);
-    padding: 10px var(--gutter) 16px; display: none;
+    padding: 10px var(--gutter) calc(76px + env(safe-area-inset-bottom)); display: none;
   }
   body.map-open .col-side { display: flex; }
   body.map-open { overflow: hidden; }
@@ -279,6 +285,7 @@ dialog::backdrop { background: rgba(35, 35, 32, 0.45); }
 @media (max-width: 640px) {
   .brand span { display: none; }
   .top-actions .link-btn { display: none; }
+  .top-actions .long { display: none; }
   .view-tab, .view-out { padding: 0 10px; }
   .masthead { padding-top: 22px; }
   .search { width: 100%; order: 3; }
