@@ -169,17 +169,6 @@ if (existsSync(spacePage)) {
   writeFileSync(spacePage, readFileSync(spacePage, "utf8").replaceAll("__VERSION__", version).replace("<!--ROBOTS-->", robotsMeta));
 }
 
-// --- /flyer/: a parallel copy of the main page --------------------------
-// The flyer redesign at its own address, with its own copy of the data, so
-// it can be shared and reviewed apart from the main link (and a browser that
-// cached an older main page still sees the new look here).
-const FLYER = join(DIST, "flyer");
-mkdirSync(FLYER, { recursive: true });
-for (const name of ["app.js", "style.css", "assets", "data", "sunset.ics", ...domains.map((d) => `sunset-${d.id}.ics`)]) {
-  cpSync(join(DIST, name), join(FLYER, name), { recursive: true });
-}
-writeFileSync(join(FLYER, "index.html"), html.replaceAll('href="space/"', 'href="../space/"'));
-
 writeFileSync(join(DIST, "CNAME"), DOMAIN + "\n");
 writeFileSync(join(DIST, ".nojekyll"), "");
 writeFileSync(join(DIST, "robots.txt"), `User-agent: *\nAllow: /\n`);

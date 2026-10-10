@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sunset: groups, map, events</title>
+  <meta name="description" content="The nonprofits and neighborhood groups of San Francisco's Inner and Outer Sunset, on a map, with every public event we can find, gathered every morning.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="canonical" href="https://sunset.dearcrisis.com/flyer/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dear Crisis">
+  <meta property="og:title" content="Sunset: groups, map, events">
+  <meta property="og:description" content="The nonprofits and neighborhood groups of the Inner and Outer Sunset, on a map, with every public event we can find.">
+  <meta property="og:url" content="https://sunset.dearcrisis.com/">
+  <meta property="og:image" content="https://sunset.dearcrisis.com/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" type="text/calendar" title="Sunset events (ICS)" href="../sunset.ics">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Figtree:wght@400;500;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css?v=flyer1">
+  
+</head>
+<body>
+  <nav class="topbar" id="topbar" aria-label="Site">
+    <div class="topbar-in">
+      <a class="wordmark" href="./" aria-label="Sunset, home"><span>Sunset</span><svg class="swoosh" viewBox="0 0 190 10" preserveAspectRatio="none" aria-hidden="true"><path d="M3 4 C 50 1.5, 120 3.5, 187 2.5"/><path d="M6 8 C 60 6.5, 130 8, 184 6.5"/></svg></a>
+      <div class="views-row">
+        <div class="views" role="tablist" aria-label="Views">
+          <button role="tab" class="view-tab" id="tab-groups" data-view="groups" aria-controls="view-groups">Groups</button>
+          <button role="tab" class="view-tab" id="tab-map" data-view="map" aria-controls="view-map">Map</button>
+          <button role="tab" class="view-tab" id="tab-events" data-view="events" aria-controls="view-events">Events</button>
+        </div>
+        <a class="view-out" href="../space/">Spaces</a>
+      </div>
+      <div class="top-actions">
+        <button class="ghost-btn" id="open-subscribe" aria-label="Subscribe to the calendar"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="long">Subscribe</span></button>
+        <button class="pill-btn" id="open-add">+ Add<span class="long">a group</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1 id="headline">Neighborhood groups</h1>
+    <svg class="swoosh" viewBox="0 0 190 10" preserveAspectRatio="none" aria-hidden="true"><path d="M3 4 C 50 1.5, 120 3.5, 187 2.5"/><path d="M6 8 C 60 6.5, 130 8, 184 6.5"/></svg>
+    <p class="typed" id="subline"></p>
+  </header>
+
+  <main class="wrap">
+    <section id="view-groups" role="tabpanel" aria-labelledby="tab-groups" hidden>
+      <div class="tools">
+        <label class="sr-only" for="g-search">Search groups</label>
+        <input class="search" id="g-search" type="search" placeholder="Search groups" autocomplete="off">
+        <div class="chips" id="kind-chips" role="group" aria-label="Kind of group"></div>
+      </div>
+      <div id="group-list"></div>
+    </section>
+
+    <section id="view-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+      <div class="tools tools-row">
+        <div class="seg" id="map-mode" role="group" aria-label="What the map shows">
+          <button data-mode="today">Today</button>
+          <button data-mode="week">This week</button>
+          <button data-mode="groups">Groups</button>
+        </div>
+        <span class="count" id="map-count"></span>
+      </div>
+      <div class="map-card"><div id="map" role="region" aria-label="Map of the Sunset"></div></div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <section id="view-events" role="tabpanel" aria-labelledby="tab-events" hidden>
+      <div class="tools">
+        <label class="sr-only" for="e-search">Search events</label>
+        <input class="search" id="e-search" type="search" placeholder="Search events" autocomplete="off">
+        <div class="chips" id="cat-chips" role="group" aria-label="Kind of event"></div>
+      </div>
+      <div class="date-strip" id="date-strip" aria-label="Jump to a day"></div>
+      <p class="filter-note" id="filter-note" hidden></p>
+      <div id="thread"></div>
+    </section>
+  </main>
+
+  <footer>
+    <svg class="houses" viewBox="0 0 1200 100" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"><path d="M5.0,96.7 L5.1,44.2 L28.1,43.4 L26.3,37.8 L102.2,38.1 L101.8,44.1 L125.0,44.3 L124.2,95.0"/><path d="M28.6,53.4 L43.7,53.2 L43.4,68.1 L29.8,68.1 L30.0,53.1"/><path d="M86.6,53.3 L99.5,54.5 L100.5,68.3 L86.4,68.1 L87.0,53.9"/><path d="M21.1,73.7 L69.2,73.3 L70.3,95.1 L19.7,96.0 L19.8,73.9"/><path d="M84.1,96 L82.9,81.0 Q90.1,71.7 98.8,80.8 L98.9,96"/><path d="M124.7,95.6 L123.7,26.0 L270.7,25.1 L269.1,95.5"/><path d="M152.2,36.5 L166.8,36.2 L167.6,49.9 L153.7,50.9 L152.9,37.0"/><path d="M226.5,36.2 L240.8,35.4 L240.3,50.5 L226.6,50.9 L226.8,35.3"/><path d="M141.3,73.5 L202.0,73.8 L203.0,96.5 L142.6,96.4 L141.3,73.4"/><path d="M219.4,96 L219.6,81.3 Q226.3,72.7 233.7,80.5 L233.6,96"/><path d="M275.0,96.4 L274.0,26.3 L392.4,25.0 L392.9,96.6"/><path d="M298.3,35.8 L311.4,35.1 L311.9,49.0 L296.6,49.4 L296.9,35.6"/><path d="M353.4,34.9 L367.6,35.1 L368.1,49.0 L355.2,50.3 L353.6,35.5"/><path d="M287.8,73.7 L336.9,74.8 L338.8,95.9 L288.1,95.1 L287.3,73.7"/><path d="M351.4,96 L352.6,80.3 Q357.8,73.0 365.9,80.2 L366.0,96"/><path d="M392.8,96.4 L391.5,37.7 L537.3,38.6 L538.1,96.6"/><path d="M423.5,64.7 L425.2,48.8 L439.5,45.7 L491.7,44.4 L505.9,47.7 L504.8,63.0 L423.6,63.5"/><path d="M452.3,48.0 L451.8,64.0"/><path d="M479.2,48.0 L477.8,62.4"/><path d="M408.9,73.3 L470.2,74.3 L471.7,96.7 L409.5,96.3 L410.2,73.1"/><path d="M488.7,96 L489.3,81.6 Q495.9,72.0 501.7,81.6 L502.0,96"/><path d="M465.7,33.0 L464.8,13.8"/><path d="M466.0,14.5 L474.3,17.2 L464.2,22.9"/><path d="M543.1,96.3 L541.7,26.1 L645.2,24.9 L647.0,96.3"/><path d="M563.8,35.9 L577.6,36.7 L576.2,49.5 L562.3,49.4 L563.0,35.5"/><path d="M611.0,35.2 L626.1,35.7 L625.1,50.2 L612.1,49.8 L612.1,36.0"/><path d="M554.6,74.1 L597.1,73.9 L597.5,94.9 L555.1,95.3 L554.4,74.5"/><path d="M610.8,96 L610.3,81.0 Q617.8,72.6 623.8,81.1 L624.1,96"/><path d="M646.1,96.6 L646.9,49.9 L662.8,50.0 L662.6,44.4 L721.3,44.1 L721.4,51.0 L738.4,50.8 L739.0,95.5"/><path d="M665.4,60.7 L677.6,59.2 L678.3,73.1 L663.8,73.1 L664.8,60.6"/><path d="M706.5,59.2 L720.1,60.4 L718.8,74.8 L706.6,73.4 L706.6,59.8"/><path d="M682.8,79.1 L701.9,77.3 L701.0,96.0 L682.4,95.3 L682.4,78.5"/><path d="M738.4,95.7 L738.0,25.5 L760.3,25.1 L760.2,19.4 L835.6,19.1 L834.3,26.9 L855.3,26.6 L856.7,96.8"/><path d="M762.6,35.8 L775.7,36.0 L775.6,49.6 L761.1,50.7 L760.9,36.9"/><path d="M817.9,34.9 L831.5,35.5 L832.6,49.4 L817.9,49.2 L817.3,37.1"/><path d="M752.0,74.9 L802.0,73.0 L802.2,97.0 L753.2,95.5 L751.5,75.0"/><path d="M816.2,96 L815.9,80.4 Q822.8,72.4 829.4,81.7 L831.0,96"/><path d="M856.1,95.3 L855.9,51.0 L947.1,50.7 L947.9,96.0"/><path d="M874.2,60.0 L888.8,61.1 L888.1,74.7 L874.9,74.3 L874.2,59.7"/><path d="M914.6,59.2 L928.7,60.5 L929.1,73.3 L914.7,74.8 L916.4,60.4"/><path d="M892.3,77.4 L910.7,77.9 L910.4,95.9 L892.3,97.0 L893.8,78.1"/><path d="M947.3,95.6 L947.1,37.5 L964.9,37.4 L965.2,31.1 L1024.1,31.2 L1023.6,37.8 L1039.6,38.3 L1039.1,97.0"/><path d="M965.6,48.9 L981.0,48.2 L981.0,62.5 L966.4,61.5 L966.7,47.2"/><path d="M1008.3,48.5 L1021.6,47.8 L1022.0,62.0 L1008.5,62.6 L1007.8,48.7"/><path d="M958.0,74.4 L998.3,74.5 L998.7,96.3 L958.1,95.0 L959.3,75.0"/><path d="M1008.4,96 L1008.6,80.0 Q1014.7,72.1 1022.2,80.5 L1022.6,96"/><path d="M1040.1,96.5 L1039.9,26.7 L1067.0,25.4 L1066.8,19.4 L1160.0,19.9 L1160.5,25.1 L1186.9,25.5 L1185.0,96.3"/><path d="M1072.3,51.6 L1072.5,36.4 L1087.1,32.2 L1139.1,33.0 L1154.9,35.1 L1153.3,52.0 L1072.6,51.5"/><path d="M1099.8,35.6 L1101.0,51.1"/><path d="M1125.7,34.1 L1126.0,50.5"/><path d="M1056.6,74.0 L1119.9,75.1 L1118.6,96.9 L1058.5,95.1 L1056.6,74.5"/><path d="M1135.8,96 L1136.1,81.2 Q1143.6,71.5 1149.5,80.7 L1150.4,96"/><path d="M-0.2,95.2 L1201.0,96.4"/></g></svg>
+    <div class="foot-in">
+      <p class="made">Made for the Neighborhood Build-a-thon</p>
+      <p class="typed">Oct 9 · Sunset Village Music Hall</p>
+      <p class="hosts">Hosted by Relational Tech Project, Sunset Social Club and SF Tech Week. A <a href="https://www.dearcrisis.com">Dear Crisis</a> project.</p>
+      <p class="foot-links"><button class="inline-link" id="foot-add">Add a group</button> · <a href="../space/">Spaces</a> · <a href="https://github.com/benvonwong-byte/sunset-buildathon">Code</a> · <a href="https://www.dearcrisis.com/events">NYC events</a></p>
+      <details class="sources-box">
+        <summary>Where the events come from</summary>
+        <p>Read every morning from group calendars, the library, Rec &amp; Park, Luma, Eventbrite, Meetup and Funcheap. Check the organizer's page before you go.</p>
+        <ul class="sources" id="sources"></ul>
+      </details>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Views">
+    <button class="view-tab" data-view="groups"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 13.6c2.4-.3 4.3 1.3 5 4.4"/></svg><span>Groups</span></button>
+    <button class="view-tab" data-view="map"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6z"/><path d="M9 4v14M15 6v14"/></svg><span>Map</span></button>
+    <button class="view-tab" data-view="events"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Events</span></button>
+    <a class="view-out" href="../space/"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg><span>Spaces</span></a>
+  </nav>
+
+  <dialog id="subscribe-dialog" aria-labelledby="sub-title">
+    <button class="close" data-close aria-label="Close">&times;</button>
+    <h2 id="sub-title">Sunset events in your calendar</h2>
+    <p>Subscribe once. New events show up on their own.</p>
+    <select class="select" id="sub-cat" aria-label="Which events"></select>
+    <input class="feed-url" id="sub-url" readonly aria-label="Feed address">
+    <div class="actions">
+      <a class="pill-btn" id="sub-webcal" href="#">Apple or Outlook</a>
+      <a class="pill-btn ghost" id="sub-google" href="#" target="_blank" rel="noopener">Google</a>
+      <button class="pill-btn ghost" id="sub-copy">Copy link</button>
+    </div>
+  </dialog>
+
+  <dialog id="add-dialog" aria-labelledby="add-title">
+    <button class="close" data-close aria-label="Close">&times;</button>
+    <h2 id="add-title">Add your group</h2>
+    <p>Send the link to your group's calendar: Google Calendar, Luma, Meetup, Eventbrite, or any <code>.ics</code> feed. Its events then show up here every day.</p>
+    <p>Only on Instagram? Send that too.</p>
+    <div class="actions">
+      <a class="pill-btn" href="https://github.com/benvonwong-byte/sunset-buildathon/issues/new?template=add-group.yml" target="_blank" rel="noopener">Open a request</a>
+      <a class="pill-btn ghost" href="mailto:hi@vonwong.com?subject=Sunset%3A%20add%20our%20group">Email us</a>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p class="noscript">This page needs JavaScript. The listings are at <a href="../data/events.json">data/events.json</a> and the calendar feed at <a href="../sunset.ics">sunset.ics</a>.</p></noscript>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <script type="module" src="app.js?v=flyer1"></script>
+</body>
+</html>
