@@ -2,7 +2,7 @@
   "name": "sunset-buildathon",
   "version": "0.1.0",
   "private": true,
-  "description": "The Sunset Calendar: every public event in San Francisco's Inner and Outer Sunset, plus the groups behind them. sunset.dearcrisis.com",
+  "description": "Sunset Events, Sunset Idle Space and the Sunset Build-a-thon recap: every public event in San Francisco's Inner and Outer Sunset, the groups behind them, and the kit that made the recap. sunset.dearcrisis.com",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -11,10 +11,12 @@
     "fetch": "node scripts/fetch-events.mjs",
     "geocode": "node scripts/geocode-orgs.mjs",
     "gate": "node scripts/check-voice.mjs && node scripts/check-data.mjs && node --test tests/*.test.mjs",
-    "build": "node scripts/check-voice.mjs && node scripts/check-data.mjs && node scripts/build.mjs",
+    "build": "node scripts/check-voice.mjs && node scripts/check-data.mjs && node scripts/build.mjs && node scripts/check-preview.mjs",
     "dev": "node scripts/build.mjs && node scripts/serve.mjs dist 4321",
     "all": "npm run geocode && npm run fetch && npm run tasks && npm run build",
     "tasks": "node scripts/needs-feed.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "recap:doc": "node recap/render.mjs doc",
+    "recap:cards": "node recap/tools/card.mjs"
   }
 }

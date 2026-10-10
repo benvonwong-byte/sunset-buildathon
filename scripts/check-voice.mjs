@@ -4,8 +4,8 @@
 // DearCrisis/scripts/check-voice.mjs (October 2026); update them from there
 // rather than editing them here.
 //
-// Prose (group blurbs, category blurbs, the page copy, the README and docs)
-// gets every rule. Code and comments get the two that apply everywhere: no
+// Prose (group blurbs, category blurbs, the page copy, the recap's
+// content.json, the README and docs) gets every rule. Code and comments get the two that apply everywhere: no
 // em dashes, and no forms of the banned verb. A word in quotation marks is
 // a mention, not a use, so the rule docs can name it.
 //
@@ -160,8 +160,19 @@ const html = readFileSync(join(ROOT, "site/index.html"), "utf8")
   .replace(/<[^>]+>/g, "\n");
 html.split(/\n+/).forEach((line) => line.trim() && checkProse("site/index.html", line.trim()));
 
-// 3. Docs: paragraph by paragraph, code blocks and inline code left out
-for (const f of ["README.md", "AGENTS.md", ...readdirSync(join(ROOT, "docs")).map((n) => "docs/" + n)]) {
+// 3. The Build-a-thon recap: every string in recap/content.json, tags
+// stripped. Speakers' own words get the same rules; trim a quote rather than
+// rewrite it if one ever trips the gate.
+const SKIP_KEYS = new Set(["url", "canonical", "start", "end", "published", "modified", "shot", "out", "panel", "slug", "format", "threads", "id"]);
+function walkContent(where, v) {
+  if (typeof v === "string") return checkProse(where, v.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&middot;/g, "·").replace(/&nbsp;/g, " ").replace(/&ndash;/g, "-"));
+  if (Array.isArray(v)) return v.forEach((x, i) => walkContent(`${where}[${i}]`, x));
+  if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) if (!SKIP_KEYS.has(k)) walkContent(`${where}.${k}`, x);
+}
+walkContent("recap/content.json", JSON.parse(readFileSync(join(ROOT, "recap/content.json"), "utf8")));
+
+// 4. Docs: paragraph by paragraph, code blocks and inline code left out
+for (const f of ["README.md", "AGENTS.md", "recap/README.md", ...readdirSync(join(ROOT, "docs")).map((n) => "docs/" + n)]) {
   if (!f.endsWith(".md")) continue;
   readFileSync(join(ROOT, f), "utf8")
     .replace(/```[\s\S]*?```/g, "")
@@ -169,7 +180,7 @@ for (const f of ["README.md", "AGENTS.md", ...readdirSync(join(ROOT, "docs")).ma
     .forEach((p) => checkProse(f, p.replace(/`[^`]*`/g, "x")));
 }
 
-// 4. Everything else that people read: scripts, styles, workflow, page code
+// 5. Everything else that people read: scripts, styles, workflow, page code
 const SKIP_DIRS = new Set(["node_modules", "dist", ".git", "data", "docs"]);
 function walk(dir) {
   for (const name of readdirSync(dir)) {
@@ -187,4 +198,4 @@ if (problems.length) {
   console.error(`check-voice: ${problems.length} problem(s)\n` + problems.map((p) => "  " + p).join("\n"));
   process.exit(1);
 }
-console.log(`check-voice: clean (${orgs.length} groups, ${domains.length} categories, page copy, docs, scripts)`);
+console.log(`check-voice: clean (${orgs.length} groups, ${domains.length} categories, page copy, recap, docs, scripts)`);

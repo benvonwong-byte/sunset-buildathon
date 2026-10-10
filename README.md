@@ -1,6 +1,16 @@
 # Sunset Groups, Map and Events
 
-Every public event we can find in San Francisco's Inner and Outer Sunset, plus a directory of the groups and places that hold them. Live at **[sunset.dearcrisis.com](https://sunset.dearcrisis.com)**, a [Dear Crisis](https://www.dearcrisis.com) project, and the starting point for a Sunset buildathon.
+Every public event we can find in San Francisco's Inner and Outer Sunset, plus a directory of the groups and places that hold them. Live at **[sunset.dearcrisis.com](https://sunset.dearcrisis.com)**, a [Dear Crisis](https://dearcrisis.com) project by Benjamin Von Wong, built for the Sunset Neighborhood Build-a-thon on 9 October 2026.
+
+This repo holds the whole project, so it can be handed over in one piece:
+
+| Part | Address | Source |
+|---|---|---|
+| **Sunset Events**: groups, map and every public event | `/`, and `/events/` for the event list | `site/`, `scripts/`, `data/` |
+| **Sunset Idle Space**: storefronts closed at a chosen hour, with floor space | `/space/` | `site/space/`, `tools/space/` |
+| **The Build-a-thon recap**: every pitch, the photos, what got built | `/recap/` and [dearcrisis.com/buildathon](https://dearcrisis.com/buildathon) | `recap/` (with its own [handoff guide](recap/README.md)), `site/recap/` |
+
+Every page ships a drawn share card for WhatsApp, Signal and iMessage, a canonical link, geo tags and JSON-LD; the site also publishes `sitemap.xml`, `robots.txt` and `llms.txt`. `scripts/check-preview.mjs` fails the build if a page loses any of it.
 
 The page has three views, each one column with one search box and one row of chips at most.
 
@@ -41,7 +51,13 @@ npm run fetch      # read every feed into data/events.json (a minute or two)
 npm run dev        # build dist/ and serve it at http://localhost:4321
 ```
 
-`npm run gate` runs the language gate and the data check. `npm run build` runs both before building, so copy that breaks the house rules cannot deploy.
+`npm run gate` runs the language gate and the data check. `npm run build` runs both before building and checks every share card after, so copy that breaks the house rules cannot deploy.
+
+## Address, search and share previews
+
+`scripts/build.mjs` writes every canonical link, share image, sitemap entry and calendar link against `SITE_URL`, which defaults to `https://sunset.dearcrisis.com/`. Until that domain is set in the repo's **Settings, Pages, Custom domain** (with a CNAME record for `sunset` pointing at `benvonwong-byte.github.io`), the deploy sets `SITE_URL` to the github.io address so link previews load. Once the domain works, delete the `SITE_URL` line in `.github/workflows/deploy.yml`. `INDEX=1` in the same file lets search engines index the site.
+
+The share cards are drawn by `recap/tools/card.mjs` from `recap/cards/cards.json`: one for Sunset Events (`site/assets/og-events.jpg`), one for Sunset Idle Space (`og-space.jpg`) and one for the recap. `/events/` is the same app as the home page, opened on the event list, so the list has a plain address to share.
 
 ## Refreshing from a home connection
 
