@@ -103,6 +103,8 @@ function normText(t) {
     .replace(/(?<![a-z])(mon|tues?|wed|thu(?:rs?)?|fri|sat|sun)\.(?=\s|-|:|,)/g, '$1')
     // "Saturday · today" and "Monday (today)" in hours widgets
     .replace(/(?<![a-z])(monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun)\s*(?:[·•\-|(]\s*)?today\)?/g, '$1')
+    // "Saturdays 10 am - 5 pm"
+    .replace(/(?<![a-z])(mon|tues|wednes|thurs|fri|satur|sun)days(?![a-z])/g, '$1day')
     // "open 7 days a week", "seven days" and "everyday" mean daily
     .replace(/(?<![a-z])(?:open\s+)?(?:7|seven)\s+days(?:\s+a\s+week)?(?![a-z])/g, 'daily');
 }
@@ -189,14 +191,20 @@ function specToPer(specs) {
 function fromOhStrings(vals) {
   const per = Array(7).fill(null).map(() => []);
   let any = false;
-  for (const raw of Array.isArray(vals) ? vals : [vals]) {
-    const full = { mo: 'mon', tu: 'tue', we: 'wed', th: 'thu', fr: 'fri', sa: 'sat', su: 'sun' };
-    const txt = normText(String(raw)).trim().replace(/(?<![a-z])(mo|tu|we|th|fr|sa|su)(?![a-z])/g, x => full[x]);
-    const m = txt.match(new RegExp(`^(${DAYSPEC})\\s+(\\d{1,2}:\\d{2})\\s*-\\s*(\\d{1,2}:\\d{2})$`));
+  // One rule per string or several split by ";", each with one or more time ranges:
+  // "Sa-Su 12:00-15:00,17:00-23:00".
+  const rules = (Array.isArray(vals) ? vals : [vals]).flatMap(v => String(v).split(';'));
+  const full = { mo: 'mon', tu: 'tue', we: 'wed', th: 'thu', fr: 'fri', sa: 'sat', su: 'sun' };
+  const ONE = '\\d{1,2}:\\d{2}\\s*-\\s*\\d{1,2}:\\d{2}';
+  for (const raw of rules) {
+    const txt = normText(raw).trim().replace(/(?<![a-z])(mo|tu|we|th|fr|sa|su)(?![a-z])/g, x => full[x]);
+    const m = txt.match(new RegExp(`^(${DAYSPEC})\\s+(${ONE}(?:\\s*,\\s*${ONE})*)$`));
     if (!m) continue;
     const days = expandDays(m[1]);
-    const a = m[2].split(':'), b = m[3].split(':');
-    for (const d of days) { per[d].push([+a[0] * 60 + +a[1], (+b[0] * 60 + +b[1]) || 1440]); any = true; }
+    for (const r of m[2].match(new RegExp(ONE, 'g'))) {
+      const [a, b] = r.split('-').map(x => x.trim().split(':'));
+      for (const d of days) { per[d].push([+a[0] * 60 + +a[1], (+b[0] * 60 + +b[1]) || 1440]); any = true; }
+    }
   }
   return any ? per : null;
 }
@@ -218,7 +226,8 @@ function fromJsonLd(texts, houseNumber) {
       let per = null;
       if (n.openingHoursSpecification) per = specToPer(n.openingHoursSpecification);
       if (!per && n.openingHours) per = fromOhStrings(n.openingHours);
-      if (per && sane(per)) return { oh: toOsm(per), snippet: 'schema.org JSON-LD' };
+      // here: the entry names this building, not just the organisation behind it.
+      if (per && sane(per)) return { oh: toOsm(per), snippet: 'schema.org JSON-LD', here: !!(houseNumber && street) };
     }
   }
   return null;

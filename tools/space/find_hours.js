@@ -224,7 +224,10 @@ async function findPlace(browser, rec) {
       // Platforms fill a blank schedule with Monday to Friday 9 to 5; from page data alone
       // that is more likely the default than the owner's hours.
       const template = r.hit && r.hit.src === 'page data' && /^Mo 09:00-17:00; Tu 09:00-17:00; We 09:00-17:00; Th 09:00-17:00; Fr 09:00-17:00; Sa off; Su off$/.test(r.hit.oh);
-      if (r.hit && verified && !template) return { status: 'hours', ...r.hit, verified, tried };
+      // A clinic list can show this place's phone beside a JSON-LD entry for the parent
+      // organisation with no address: those are the organisation's hours.
+      const parent = r.hit && r.hit.src === 'json-ld' && !r.hit.here && verified === 'phone';
+      if (r.hit && verified && !template && !parent) return { status: 'hours', ...r.hit, verified, tried };
       if (r.hit && !fallback) fallback = { status: 'unverified', ...r.hit, verified: 'name', tried };
     }
     if (fallback) return fallback;

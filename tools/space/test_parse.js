@@ -31,3 +31,6 @@ console.log('json list', JSON.stringify(fromAnyJson([{ location: { business_hour
 console.log('json wix', JSON.stringify(fromAnyJson([{ businessSchedule: { periods: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'].map(d => ({ openDay: d, openTime: '10:00', closeDay: d, closeTime: '18:00' })) } }])?.oh));
 console.log('json noise', JSON.stringify(fromAnyJson([{ shipping: { monday: true, tuesday: true, wednesday: true, thursday: true, friday: true } }])?.oh ?? null));
 console.log('jsonld other address', JSON.stringify(fromJsonLd([JSON.stringify({ '@type': 'Hospital', address: { streetAddress: '845 Jackson St' }, openingHours: ['Mo-Su 09:00-17:00'] })], '2407') ?? null));
+console.log('jsonld split day', JSON.stringify(fromJsonLd([JSON.stringify({ '@type': 'Restaurant', address: { streetAddress: '1420 Irving St' }, openingHours: ['Mo-Fr 17:00-23:00', 'Sa-Su 12:00-15:00,17:00-23:00'] })], '1420')));
+console.log('jsonld no address', JSON.stringify(fromJsonLd([JSON.stringify({ '@type': 'Hospital', openingHours: ['Mo,Tu,We,Th,Fr,Sa,Su 09:00-17:00'] })], '2407')));
+console.log('plural days', JSON.stringify(fromText('Hours: Tuesday - Friday 10 am - 4 pm Saturdays 10 am - 5 pm Sunday and Monday closed')?.oh));
