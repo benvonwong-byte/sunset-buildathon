@@ -34,3 +34,5 @@ console.log('jsonld other address', JSON.stringify(fromJsonLd([JSON.stringify({ 
 console.log('jsonld split day', JSON.stringify(fromJsonLd([JSON.stringify({ '@type': 'Restaurant', address: { streetAddress: '1420 Irving St' }, openingHours: ['Mo-Fr 17:00-23:00', 'Sa-Su 12:00-15:00,17:00-23:00'] })], '1420')));
 console.log('jsonld no address', JSON.stringify(fromJsonLd([JSON.stringify({ '@type': 'Hospital', openingHours: ['Mo,Tu,We,Th,Fr,Sa,Su 09:00-17:00'] })], '2407')));
 console.log('plural days', JSON.stringify(fromText('Hours: Tuesday - Friday 10 am - 4 pm Saturdays 10 am - 5 pm Sunday and Monday closed')?.oh));
+console.log('several schedules', JSON.stringify(fromText('Sales Hours: Mon - Sat | 8:30 am - 8:00 pm | Sun | 10:00 am - 8:00 pm | Parts Hours: | Mon - Fri | 7:00 am - 7:00 pm | Sat | 7:00 am - 6:00 pm | Sun | 10:00 am - 4:00 pm')?.several));
+console.log('one schedule', JSON.stringify(fromText('Hours: Mon - Fri 9am - 5pm | Sat 10am - 2pm | Sun closed')?.several));

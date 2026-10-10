@@ -139,7 +139,7 @@ function fromText(raw) {
     const ctx = text.slice(Math.max(0, c.start - 60), c.start);
     if (BAD_CONTEXT.test(ctx)) continue;
     const per = Array(7).fill(null);
-    let prevEnd = c.start, meal = false;
+    let prevEnd = c.start, meal = false, again = false;
     for (const it of c.items) {
       // Days listed again under "Brunch" or "Lunch" add hours; listed again otherwise
       // (summer hours, a second location), the first listing stands.
@@ -147,6 +147,7 @@ function fromText(raw) {
       for (const d of it.days) {
         if (per[d] === null) per[d] = it.ranges;
         else if (meal) per[d] = mergeRanges(per[d].concat(it.ranges));
+        else if (JSON.stringify(per[d]) !== JSON.stringify(it.ranges)) again = true;
       }
       prevEnd = it.end;
     }
@@ -154,7 +155,7 @@ function fromText(raw) {
     if (covered < 5) continue;
     const near = /(hours|open|opening)/.test(text.slice(Math.max(0, c.start - 120), c.start)) ? 3 : 0;
     const score = covered + near;
-    if (!best || score > best.score) best = { per, score, covered, snippet: text.slice(c.start, c.end).slice(0, 220) };
+    if (!best || score > best.score) best = { per, score, covered, again, snippet: text.slice(c.start, c.end).slice(0, 220) };
   }
   if (!best) return null;
   const per = best.per.map(x => x === null ? [] : x.slice());
@@ -166,7 +167,9 @@ function fromText(raw) {
     for (const it of c.items) for (const d of it.days) per[d] = mergeRanges(per[d].concat(it.ranges));
   }
   if (!sane(per)) return null;
-  return { oh: toOsm(per), snippet: best.snippet };
+  // several: the same block gives a day two different schedules (sales and service, two
+  // locations, summer hours), so which one is this place's is a guess.
+  return { oh: toOsm(per), snippet: best.snippet, several: best.again };
 }
 
 function specToPer(specs) {

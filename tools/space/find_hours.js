@@ -227,7 +227,9 @@ async function findPlace(browser, rec) {
       // A clinic list can show this place's phone beside a JSON-LD entry for the parent
       // organisation with no address: those are the organisation's hours.
       const parent = r.hit && r.hit.src === 'json-ld' && !r.hit.here && verified === 'phone';
-      if (r.hit && verified && !template && !parent) return { status: 'hours', ...r.hit, verified, tried };
+      // Page text with two schedules for the same day and no address to pick between them.
+      const several = r.hit && r.hit.src === 'text' && r.hit.several;
+      if (r.hit && verified && !template && !parent && !several) return { status: 'hours', ...r.hit, verified, tried };
       if (r.hit && !fallback) fallback = { status: 'unverified', ...r.hit, verified: 'name', tried };
     }
     if (fallback) return fallback;
