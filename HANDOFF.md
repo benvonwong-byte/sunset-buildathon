@@ -1,6 +1,6 @@
 # Handing over Sunset Events
 
-Sunset Events ([/events/](https://benvonwong-byte.github.io/sunset-buildathon/events/)) rebuilds itself every morning on GitHub's servers. Nobody's laptop has to stay on, and there is no server to rent: GitHub Actions reads the feeds and GitHub Pages serves the site, both free for a public repository. A laptop only ever covered Eventbrite, which refuses GitHub's servers, and the steps below say what to do about it.
+Sunset Events ([sunset.dearcrisis.com/events/](https://sunset.dearcrisis.com/events/)) rebuilds itself every morning on GitHub's servers. Nobody's laptop has to stay on, and there is no server to rent: GitHub Actions reads the feeds and GitHub Pages serves the site, both free for a public repository. A laptop only ever covered Eventbrite, which refuses GitHub's servers, and the steps below say what to do about it.
 
 ## What runs, and where
 
@@ -39,7 +39,7 @@ Do these before Von's laptop stops refreshing.
 2. **Make sure failure emails reach them.** GitHub emails a failed daily run only to the person who created the workflow, or the last person who changed its `cron:` line. The new steward should change the minute in the `cron:` line of `.github/workflows/deploy.yml` (for example `17` to `19`) and push it, so the emails come to them.
 3. **Confirm it runs.** The Actions tab should show a green "Refresh listings and deploy" run every morning, and Settings, Pages should show "GitHub Actions" as the source.
 4. **Know the 60-day rule.** GitHub pauses scheduled workflows in a public repository after 60 days with no repository activity. To restart it: Actions, "Refresh listings and deploy", Enable workflow. Any push also counts as activity.
-5. **Set the custom domain** (optional): Settings, Pages, Custom domain, `sunset.dearcrisis.com`, then delete the `SITE_URL` line in `.github/workflows/deploy.yml`. The README has the details.
+5. **The custom domain is set.** Since 17 October 2026 the site is at `https://sunset.dearcrisis.com` (Settings, Pages, Custom domain, with HTTPS enforced), and the github.io address redirects there. It depends on a Cloudflare DNS record in the dearcrisis.com zone: CNAME `sunset` to `benvonwong-byte.github.io`, DNS only. Whoever controls dearcrisis.com must keep that record; if the repo moves to another account, point the record at the new owner's github.io address.
 6. **Decide on Eventbrite** (the section above), and if someone takes over the home refresh, have them install it before Von removes the laptop job.
 7. **Von removes the laptop job** with:
 

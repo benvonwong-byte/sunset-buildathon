@@ -55,7 +55,7 @@ npm run dev        # build dist/ and serve it at http://localhost:4321
 
 ## Address, search and share previews
 
-`scripts/build.mjs` writes every canonical link, share image, sitemap entry and calendar link against `SITE_URL`, which defaults to `https://sunset.dearcrisis.com/`. Until that domain is set in the repo's **Settings, Pages, Custom domain** (with a CNAME record for `sunset` pointing at `benvonwong-byte.github.io`), the deploy sets `SITE_URL` to the github.io address so link previews load. Once the domain works, delete the `SITE_URL` line in `.github/workflows/deploy.yml`. `INDEX=1` in the same file lets search engines index the site.
+`scripts/build.mjs` writes every canonical link, share image, sitemap entry and calendar link against `SITE_URL`, which defaults to `https://sunset.dearcrisis.com/`. The domain is set in the repo's **Settings, Pages, Custom domain**, with a CNAME record for `sunset` pointing at `benvonwong-byte.github.io` (DNS only) in Cloudflare, and HTTPS is enforced. A fork or a moved repo without that domain should set `SITE_URL` in `.github/workflows/deploy.yml` to its own github.io address so link previews load. `INDEX=1` in the same file lets search engines index the site.
 
 The share cards are drawn by `recap/tools/card.mjs` from `recap/cards/cards.json`: one for Sunset Events (`site/assets/og-events.jpg`), one for Sunset Idle Space (`og-space.jpg`) and one for the recap. `/events/` is the same app as the home page, opened on the event list, so the list has a plain address to share.
 

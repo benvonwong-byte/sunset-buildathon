@@ -26,9 +26,6 @@ jobs:
     env:
       # Let search engines index the site (see scripts/build.mjs).
       INDEX: "1"
-      # The address canonical links and share images point at. Delete this line
-      # once sunset.dearcrisis.com is set under Settings, Pages, Custom domain.
-      SITE_URL: https://benvonwong-byte.github.io/sunset-buildathon/
     steps:
       - uses: actions/checkout@v7
 
